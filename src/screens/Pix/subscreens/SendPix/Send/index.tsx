@@ -5,11 +5,15 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import BackButton from "../../../../components/BackButton";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import BackButton from "../../../../../components/BackButton";
 import { ArrowRightIcon } from "phosphor-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
+
 export default function SendPix() {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
     <>
       <View style={styles.screen}>
@@ -26,7 +30,7 @@ export default function SendPix() {
               placeholder="Digite a chave pix de quem receberá..."
               placeholderTextColor="#0d1b2a"
             ></TextInput>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("PixValue")}>
               <ArrowRightIcon size={40} color="#0d1b2a" />
             </TouchableOpacity>
           </View>
@@ -45,7 +49,7 @@ export default function SendPix() {
                   <Text style={styles.key}>
                     Chave: <Text style={styles.keyName}>123.456.789-10</Text>
                   </Text>
-                  <Text style={styles.bank}>Banco Nigger </Text>
+                  <Text style={styles.bank}>Banco Nigger</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>

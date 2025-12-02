@@ -95,7 +95,6 @@ export const styles = StyleSheet.create({
   },
 
   cardRecent: {
-    backgroundColor: "#ffffff40",
     padding: 20,
     borderRadius: 12,
   },
@@ -112,5 +111,34 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     color: "green",
+  },
+  serviceButton: {
+    alignItems: "center",
+    textAlign: "center",
+    flexDirection: "column",
+    marginRight: 15,
+  },
+  serviceCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  services: {
+    width: "100%",
+    marginTop: 30,
+  },
+  serviceName: {
+    marginTop: 10,
+    fontSize: 15,
+    fontWeight: "500",
+    alignSelf: "center",
+  },
+  pixIcon: {
+    resizeMode: "center",
+    height: 50,
+    width: 50,
   },
 });

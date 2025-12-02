@@ -1,4 +1,6 @@
 import { View, ScrollView, Text, TouchableOpacity, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import {
@@ -13,6 +15,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [hideBalance, setHideBalance] = useState(true);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
     <View style={styles.screen}>
@@ -68,7 +71,10 @@ export default function Home() {
           showsHorizontalScrollIndicator={false}
           style={styles.services}
         >
-          <TouchableOpacity style={styles.serviceButton}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Pix")}
+            style={styles.serviceButton}
+          >
             <LinearGradient
               colors={["#f0f7ff", "#d6eaff"]}
               start={{ x: 0, y: 0 }}

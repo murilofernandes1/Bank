@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
 
   content: {
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 100,
     paddingBottom: 80,
     alignItems: "center",
   },
@@ -41,7 +41,10 @@ export const styles = StyleSheet.create({
   },
 
   receiver: {
-    fontSize: 16,
+    fontSize: 18,
+    opacity: 0.7,
     color: "#1b263b",
   },
+  counter: {},
+  expired: { color: "red", fontWeight: "700", marginTop: 10 },
 });

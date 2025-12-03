@@ -36,7 +36,10 @@ export default function Pix() {
               </LinearGradient>
               <Text style={styles.serviceName}>Enviar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.serviceButton}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ReceiveValue")}
+              style={styles.serviceButton}
+            >
               <LinearGradient
                 colors={["#f0f7ff", "#d6eaff"]}
                 start={{ x: 0, y: 0 }}

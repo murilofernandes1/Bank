@@ -31,14 +31,13 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 400,
     opacity: 0.7,
+    color: "#f0f7ff",
   },
   value: {
     fontSize: 25,
     fontWeight: 600,
+    color: "#f0f7ff",
   },
-  name: { fontSize: 25, fontWeight: 500 },
-  bank: { fontSize: 15, fontWeight: 400, opacity: 0.7 },
-  send: {
-    marginTop: 100,
-  },
+  name: { fontSize: 25, fontWeight: 500, color: "#f0f7ff" },
+  bank: { fontSize: 15, fontWeight: 400, opacity: 0.7, color: "#f0f7ff" },
 });

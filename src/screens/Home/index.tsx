@@ -24,7 +24,6 @@ export default function Home() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/*SESSÃO DE HEADER*/}
         <View style={styles.top}>
           <View style={styles.header}>
             <Text style={styles.greeting}>
@@ -37,11 +36,10 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-        {/*SESSÃO DE SALDO DO USUARIO*/}
         <LinearGradient
-          colors={["#f0f7ff", "#cfe4ff", "#9fcaff"]}
+          colors={["#0d1b2a", "#1b263b", "#415a77"]}
           start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
+          end={{ x: 1, y: 1 }}
           style={styles.balance}
         >
           <View style={styles.balanceContainer}>
@@ -58,12 +56,11 @@ export default function Home() {
             <Feather
               name={hideBalance ? "eye" : "eye-off"}
               size={30}
-              color="#0d1b2a"
+              color="#e0f2ff"
             />
           </TouchableOpacity>
         </LinearGradient>
 
-        {/*SESSÃO DE SERVIÇOS*/}
         <Text style={styles.section}>Serviços</Text>
 
         <ScrollView
@@ -76,55 +73,57 @@ export default function Home() {
             style={styles.serviceButton}
           >
             <LinearGradient
-              colors={["#f0f7ff", "#d6eaff"]}
+              colors={["#0d1b2a", "#1b263b", "#415a77"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.serviceCircle}
             >
               <Image
-                source={require("../../assets/pixLogo.png")}
+                source={require("../../assets/newPixLogo.png")}
                 style={styles.pixIcon}
                 resizeMode="contain"
               />
             </LinearGradient>
             <Text style={styles.serviceName}>Área Pix</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.serviceButton}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PayPix")}
+            style={styles.serviceButton}
+          >
             <LinearGradient
-              colors={["#f0f7ff", "#d6eaff"]}
+              colors={["#0d1b2a", "#1b263b", "#415a77"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.serviceCircle}
             >
-              <BarcodeIcon size={40} color="#0d1b2a" />
+              <BarcodeIcon size={40} color="#e0f2ff" />
             </LinearGradient>
             <Text style={styles.serviceName}>Pagar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.serviceButton}>
             <LinearGradient
-              colors={["#f0f7ff", "#d6eaff"]}
+              colors={["#0d1b2a", "#1b263b", "#415a77"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.serviceCircle}
             >
-              <ReceiptIcon size={40} color="#0d1b2a" />
+              <ReceiptIcon size={40} color="#e0f2ff" />
             </LinearGradient>
             <Text style={styles.serviceName}>Extrato</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.serviceButton}>
             <LinearGradient
-              colors={["#f0f7ff", "#d6eaff"]}
+              colors={["#0d1b2a", "#1b263b", "#415a77"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.serviceCircle}
             >
-              <ChartLineUpIcon size={40} color="#0d1b2a" />
+              <ChartLineUpIcon size={40} color="#e0f2ff" />
             </LinearGradient>
             <Text style={styles.serviceName}>Investimentos</Text>
           </TouchableOpacity>
         </ScrollView>
 
-        {/*SESSÃO DE PAGAMENTOS PENDENTES*/}
         <Text style={styles.section}>Pagamentos pendentes</Text>
 
         <ScrollView
@@ -135,7 +134,7 @@ export default function Home() {
           {[1, 2, 3].map((i) => (
             <LinearGradient
               key={i}
-              colors={["#f0f7ff", "#d6eaff"]}
+              colors={["#0d1b2a", "#1b263b", "#415a77"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.card}
@@ -143,21 +142,20 @@ export default function Home() {
           ))}
         </ScrollView>
 
-        {/*SESSÃO DE TRANSAÇÕES RECENTES */}
         <Text style={styles.section}>Transações recentes</Text>
 
         <View style={styles.recentTransactions}>
           {[1, 2].map((i) => (
             <LinearGradient
               key={i}
-              colors={["#f0f7ff", "#cfe4ff", "#9fcaff"]}
+              colors={["#0d1b2a", "#1b263b", "#415a77"]}
               start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.cardRecent}
+              end={{ x: 1, y: 1 }}
+              style={styles.cardRecentItem}
             >
-              <ArrowsLeftRightIcon size={32} color="#000" weight="bold" />
+              <ArrowsLeftRightIcon size={32} color="#e0f2ff" weight="bold" />
 
-              <View style={{ flex: 1 }}>
+              <View style={styles.transactionInfo}>
                 <Text style={styles.titleTransaction}>
                   {i === 1 ? "Pix para Fulano" : "Pix de Ciclano"}
                 </Text>

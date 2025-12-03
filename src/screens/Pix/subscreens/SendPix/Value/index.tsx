@@ -1,18 +1,22 @@
-import { View, Text, ScrollView } from "react-native";
-import BackButton from "../../../../../components/BackButton";
-import { styles } from "./styles";
-import GradientButton from "../../../../../components/GlobalButton";
-import CurrencyInput from "react-native-currency-input";
+import { View, ScrollView, Text } from "react-native";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useState } from "react";
+
+import BackButton from "../../../../../components/BackButton";
+import GradientButton from "../../../../../components/GlobalButton";
+import CurrencyInput from "react-native-currency-input";
+
+import { styles } from "./styles";
 
 export default function PixValue() {
   const [value, setValue] = useState<number | null>(null);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   return (
     <View style={styles.screen}>
       <BackButton />
+
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={styles.content}
@@ -20,26 +24,22 @@ export default function PixValue() {
       >
         <Text style={styles.header}>Digite o valor da transferência</Text>
 
-        <View style={styles.inputContainer}>
-          <CurrencyInput
-            value={value}
-            onChangeValue={setValue}
-            prefix="R$ "
-            delimiter="."
-            separator=","
-            precision={2}
-            style={styles.valueInput}
-            placeholder="R$ 0,00"
-            keyboardType="numeric"
-          />
-        </View>
+        <CurrencyInput
+          value={value}
+          onChangeValue={setValue}
+          prefix="R$ "
+          delimiter="."
+          separator=","
+          precision={2}
+          style={styles.valueInput}
+          placeholder="R$ 0,00"
+          keyboardType="numeric"
+        />
 
-        <View style={styles.send}>
-          <GradientButton
-            title="Continuar"
-            onPress={() => navigation.navigate("ConfirmPix")}
-          />
-        </View>
+        <GradientButton
+          title="Continuar"
+          onPress={() => navigation.navigate("ConfirmPix", { value })}
+        />
       </ScrollView>
     </View>
   );

@@ -16,24 +16,23 @@ export default function ConfirmPix() {
         >
           <Text style={styles.header}>Você vai enviar</Text>
           <LinearGradient
-            colors={["#f0f7ff", "#cfe4ff", "#9fcaff"]}
+            colors={["#0d1b2a", "#1b263b", "#415a77"]}
             start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
+            end={{ x: 1, y: 1 }}
             style={styles.card}
           >
             <Text style={styles.value}>R$ 0,10</Text>
             <Text style={styles.method}>Via saldo da conta</Text>
-            <ArrowDownIcon style={styles.arrow} size={15} color="#0d1b2a" />
+            <ArrowDownIcon style={styles.arrow} size={15} color="#f0f7ff" />
 
             <Text style={styles.name}>Kelverlyson Silva Santos</Text>
             <Text style={styles.bank}>Banco Nigger</Text>
           </LinearGradient>
-          <View style={styles.send}>
-            <GradientButton
-              title="Enviar transferência"
-              onPress={() => console.log("clicou")}
-            />
-          </View>
+
+          <GradientButton
+            title="Enviar transferência"
+            onPress={() => console.log("clicou")}
+          />
         </ScrollView>
       </View>
     </>

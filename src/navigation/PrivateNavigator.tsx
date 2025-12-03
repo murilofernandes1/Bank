@@ -6,6 +6,9 @@ import ConfirmPix from "../screens/Pix/subscreens/SendPix/Confirm";
 import PixValue from "../screens/Pix/subscreens/SendPix/Value/index";
 import ReceiveValue from "../screens/Pix/subscreens/Receive/Value";
 import QR from "../screens/Pix/subscreens/Receive/QR";
+import PixKey from "../screens/Pix/subscreens/Keys/index";
+import ChoosedKey from "../screens/Pix/subscreens/Keys/ChoosedKey";
+import PayPix from "../screens/Pay";
 const Stack = createStackNavigator();
 export type RootStackParamList = {
   QR: {
@@ -28,6 +31,10 @@ export default function PrivateNavigator() {
       <Stack.Screen name="ConfirmPix" component={ConfirmPix} />
       <Stack.Screen name="ReceiveValue" component={ReceiveValue} />
       <Stack.Screen name="QR" component={QR} />
+      <Stack.Screen name="Keys" component={PixKey} />
+      <Stack.Screen name="ChoosedKey" component={ChoosedKey} />
+      {/* PAY SCREENS */}
+      <Stack.Screen name="PayPix" component={PayPix} />
     </Stack.Navigator>
   );
 }

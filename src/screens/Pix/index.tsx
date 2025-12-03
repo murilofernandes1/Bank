@@ -27,12 +27,12 @@ export default function Pix() {
               style={styles.serviceButton}
             >
               <LinearGradient
-                colors={["#f0f7ff", "#d6eaff"]}
+                colors={["#0d1b2a", "#1b263b", "#415a77"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.serviceCircle}
               >
-                <ArrowUpIcon size={40} color="#0d1b2a" />
+                <ArrowUpIcon size={40} color="#e0f2ff" />
               </LinearGradient>
               <Text style={styles.serviceName}>Enviar</Text>
             </TouchableOpacity>
@@ -41,23 +41,26 @@ export default function Pix() {
               style={styles.serviceButton}
             >
               <LinearGradient
-                colors={["#f0f7ff", "#d6eaff"]}
+                colors={["#0d1b2a", "#1b263b", "#415a77"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.serviceCircle}
               >
-                <ArrowDownIcon size={40} color="#0d1b2a" />
+                <ArrowDownIcon size={40} color="#e0f2ff" />
               </LinearGradient>
               <Text style={styles.serviceName}>Receber</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.serviceButton}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Keys")}
+              style={styles.serviceButton}
+            >
               <LinearGradient
-                colors={["#f0f7ff", "#d6eaff"]}
+                colors={["#0d1b2a", "#1b263b", "#415a77"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.serviceCircle}
               >
-                <KeyIcon size={40} color="#0d1b2a" />
+                <KeyIcon size={40} color="#e0f2ff" />
               </LinearGradient>
               <Text style={styles.serviceName}>Chaves Pix</Text>
             </TouchableOpacity>

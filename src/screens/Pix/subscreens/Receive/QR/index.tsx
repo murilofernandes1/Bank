@@ -11,7 +11,7 @@ import QRCode from "react-native-qrcode-svg";
 import { RootStackParamList } from "../../../../../navigation/PrivateNavigator";
 import { useEffect, useState } from "react";
 
-export default function QR<QrTypes>() {
+export default function QR() {
   const navigation = useNavigation<NavigationProp<any>>();
   const route = useRoute<RouteProp<RootStackParamList, "QR">>();
   const { value } = route.params;

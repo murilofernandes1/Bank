@@ -54,14 +54,14 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#1b263b",
+    color: "#e0f2ff",
     opacity: 0.8,
   },
 
   number: {
     fontSize: 28,
     fontWeight: "700",
-    color: "#1b263b",
+    color: "#e0f2ff",
     marginTop: 8,
   },
 
@@ -69,7 +69,6 @@ export const styles = StyleSheet.create({
     marginTop: 50,
     fontSize: 20,
     fontWeight: "700",
-    color: "#0d1b2a",
   },
 
   pendents: {
@@ -94,24 +93,38 @@ export const styles = StyleSheet.create({
     marginTop: 25,
   },
 
-  cardRecent: {
+  cardRecentItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 20,
     borderRadius: 12,
+    marginBottom: 15,
   },
+
+  transactionInfo: {
+    flex: 1,
+    marginHorizontal: 15,
+  },
+
   titleTransaction: {
     fontSize: 18,
     fontWeight: "500",
+    color: "#e0f2ff",
   },
+
   exitValue: {
     fontSize: 18,
-    fontWeight: "500",
-    color: "red",
+    fontWeight: "700",
+    color: "#ff6b6b",
   },
+
   entryValue: {
     fontSize: 18,
     fontWeight: "700",
-    color: "green",
+    color: "#4ade80",
   },
+
   serviceButton: {
     alignItems: "center",
     textAlign: "center",
@@ -140,5 +153,6 @@ export const styles = StyleSheet.create({
     resizeMode: "center",
     height: 50,
     width: 50,
+    color: "#e0f2ff",
   },
 });

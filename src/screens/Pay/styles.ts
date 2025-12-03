@@ -19,13 +19,24 @@ export const styles = StyleSheet.create({
     marginBottom: 40,
   },
 
-  valueInput: {
-    width: "100%",
-    backgroundColor: "#fff",
+  optionCard: {
+    marginBottom: 20,
     borderRadius: 12,
+    overflow: "hidden",
+  },
+
+  optionGradient: {
+    flexDirection: "row",
+    alignItems: "center",
     padding: 20,
-    fontSize: 32,
-    color: "#0d1b2a",
-    marginBottom: 50,
+    borderRadius: 12,
+    justifyContent: "flex-start",
+    gap: 15,
+  },
+
+  optionText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#e0f2ff",
   },
 });

@@ -65,6 +65,23 @@ export const styles = StyleSheet.create({
     marginTop: 8,
   },
 
+  inlineCard: {
+    marginTop: 20,
+  },
+
+  inlineCardGradient: {
+    padding: 20,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  inlineCardText: {
+    color: "#e0f2ff",
+    fontSize: 18,
+    fontWeight: "700",
+  },
+
   section: {
     marginTop: 50,
     fontSize: 20,
@@ -87,6 +104,7 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
   },
+
   recentTransactions: {
     flexDirection: "column",
     gap: 20,
@@ -131,28 +149,106 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
     marginRight: 15,
   },
+
   serviceCircle: {
     width: 100,
     height: 100,
     borderRadius: 50,
-
     justifyContent: "center",
     alignItems: "center",
   },
+
   services: {
     width: "100%",
     marginTop: 30,
   },
+
   serviceName: {
     marginTop: 10,
     fontSize: 15,
     fontWeight: "500",
     alignSelf: "center",
   },
+
   pixIcon: {
     resizeMode: "center",
     height: 50,
     width: 50,
     color: "#e0f2ff",
+  },
+
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  cardModal: {
+    width: "80%",
+    borderRadius: 12,
+    overflow: "hidden",
+  },
+
+  cardGradient: {
+    padding: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  cardText: {
+    color: "#e0f2ff",
+    fontSize: 22,
+    fontWeight: "700",
+  },
+
+  modalOverlay: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modalOutside: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+  },
+
+  modalCard: {
+    width: "100%",
+    padding: 25,
+    borderRadius: 16,
+    backgroundColor: "#1b263b",
+  },
+
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#e0f2ff",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+
+  modalContent: {
+    alignItems: "center",
+    gap: 10,
+  },
+
+  cardNumber: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#e0f2ff",
+  },
+
+  cardName: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: "#e0f2ff",
+    opacity: 0.8,
   },
 });

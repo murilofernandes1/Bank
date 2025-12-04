@@ -1,5 +1,5 @@
 import { View, ScrollView, Text, TouchableOpacity, Alert } from "react-native";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../../components/BackButton";
 import { LinearGradient } from "expo-linear-gradient";
 import { QrCodeIcon, PencilSimpleIcon } from "phosphor-react-native";
 import { useNavigation } from "@react-navigation/native";

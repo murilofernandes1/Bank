@@ -105,44 +105,6 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
 
-  recentTransactions: {
-    flexDirection: "column",
-    gap: 20,
-    marginTop: 25,
-  },
-
-  cardRecentItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 20,
-    borderRadius: 12,
-    marginBottom: 15,
-  },
-
-  transactionInfo: {
-    flex: 1,
-    marginHorizontal: 15,
-  },
-
-  titleTransaction: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#e0f2ff",
-  },
-
-  exitValue: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#ff6b6b",
-  },
-
-  entryValue: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#4ade80",
-  },
-
   serviceButton: {
     alignItems: "center",
     textAlign: "center",

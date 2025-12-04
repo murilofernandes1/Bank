@@ -10,7 +10,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ArrowRightIcon } from "phosphor-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import BackButton from "../../../../../components/BackButton";
+import BackButton from "../../../../../../components/BackButton";
 import { styles } from "./styles";
 
 export default function SendPix() {

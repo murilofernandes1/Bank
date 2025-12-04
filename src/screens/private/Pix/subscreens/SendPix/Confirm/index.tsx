@@ -1,9 +1,9 @@
 import { View, Text, ScrollView } from "react-native";
-import BackButton from "../../../../../components/BackButton";
+import BackButton from "../../../../../../components/BackButton";
 import { styles } from "./styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { ArrowDownIcon } from "phosphor-react-native";
-import GradientButton from "../../../../../components/GlobalButton";
+import GradientButton from "../../../../../../components/GlobalButton";
 export default function ConfirmPix() {
   return (
     <>

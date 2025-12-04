@@ -1,5 +1,5 @@
 import { View, ScrollView, Text } from "react-native";
-import BackButton from "../../../../../components/BackButton";
+import BackButton from "../../../../../../components/BackButton";
 import { styles } from "./styles";
 import {
   useRoute,
@@ -8,7 +8,7 @@ import {
   NavigationProp,
 } from "@react-navigation/native";
 import QRCode from "react-native-qrcode-svg";
-import { RootStackParamList } from "../../../../../navigation/PrivateNavigator";
+import { RootStackParamList } from "../../../../../../navigation/PrivateNavigator";
 import { useEffect, useState } from "react";
 
 export default function QR() {

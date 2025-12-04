@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableOpacity, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Feather } from "@expo/vector-icons";
 import { useEffect, useRef } from "react";
 import { styles } from "./styles";
 
@@ -40,7 +39,7 @@ export default function Card() {
 
         <View style={styles.userInfo}>
           <Text style={styles.number}>05/35</Text>
-          <Text style={styles.title}>Kelverlyson Silva Santos Sousa</Text>
+          <Text style={styles.title}>Murilo Fernandes Vaz</Text>
         </View>
 
         <Image

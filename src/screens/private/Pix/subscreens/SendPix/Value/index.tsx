@@ -1,23 +1,17 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import BackButton from "../../../../../components/BackButton";
-import GradientButton from "../../../../../components/GlobalButton";
+import BackButton from "../../../../../../components/BackButton";
+import GradientButton from "../../../../../../components/GlobalButton";
 import CurrencyInput from "react-native-currency-input";
 
 import { styles } from "./styles";
 
-export default function ReceiveValue() {
+export default function PixValue() {
   const [value, setValue] = useState<number | null>(null);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const handleContinue = () => {
-    if (value) {
-      navigation.navigate("QR", { value: String(value) });
-    }
-  };
 
   return (
     <View style={styles.screen}>
@@ -28,7 +22,7 @@ export default function ReceiveValue() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.header}>Quanto deseja receber?</Text>
+        <Text style={styles.header}>Digite o valor da transferência</Text>
 
         <CurrencyInput
           value={value}
@@ -42,7 +36,10 @@ export default function ReceiveValue() {
           keyboardType="numeric"
         />
 
-        <GradientButton title="Continuar" onPress={handleContinue} />
+        <GradientButton
+          title="Continuar"
+          onPress={() => navigation.navigate("ConfirmPix", { value })}
+        />
       </ScrollView>
     </View>
   );

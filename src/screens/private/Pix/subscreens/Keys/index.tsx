@@ -1,5 +1,5 @@
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
-import BackButton from "../../../../components/BackButton";
+import BackButton from "../../../../../components/BackButton";
 import { styles } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";

@@ -1,14 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import Home from "../screens/Home";
-import Pix from "../screens/Pix";
-import SendPix from "../screens/Pix/subscreens/SendPix/Send";
-import ConfirmPix from "../screens/Pix/subscreens/SendPix/Confirm";
-import PixValue from "../screens/Pix/subscreens/SendPix/Value/index";
-import ReceiveValue from "../screens/Pix/subscreens/Receive/Value";
-import QR from "../screens/Pix/subscreens/Receive/QR";
-import PixKey from "../screens/Pix/subscreens/Keys/index";
-import ChoosedKey from "../screens/Pix/subscreens/Keys/ChoosedKey";
-import PayPix from "../screens/Pay";
+import Home from "../screens/private/Home";
+import SendPix from "../screens/private/Pix/subscreens/SendPix/Send";
+import ConfirmPix from "../screens/private/Pix/subscreens/SendPix/Confirm";
+import ReceiveValue from "../screens/private/Pix/subscreens/Receive/Value";
+import QR from "../screens/private/Pix/subscreens/Receive/QR";
+import Pix from "../screens/private/Pix";
+import ChoosedKey from "../screens/private/Pix/subscreens/Keys/ChoosedKey";
+import Statement from "../screens/private/Statement";
+import PayPix from "../screens/private/Pay";
+import PixValue from "../screens/private/Pix/subscreens/SendPix/Value";
+import PixKeys from "../screens/private/Pix/subscreens/Keys";
 const Stack = createStackNavigator();
 export type RootStackParamList = {
   QR: {
@@ -31,10 +32,12 @@ export default function PrivateNavigator() {
       <Stack.Screen name="ConfirmPix" component={ConfirmPix} />
       <Stack.Screen name="ReceiveValue" component={ReceiveValue} />
       <Stack.Screen name="QR" component={QR} />
-      <Stack.Screen name="Keys" component={PixKey} />
+      <Stack.Screen name="PixKeys" component={PixKeys} />
       <Stack.Screen name="ChoosedKey" component={ChoosedKey} />
       {/* PAY SCREENS */}
       <Stack.Screen name="PayPix" component={PayPix} />
+      {/* STATEMENT SCREENS */}
+      <Stack.Screen name="Statement" component={Statement} />
     </Stack.Navigator>
   );
 }

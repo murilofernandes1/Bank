@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import BackButton from "../../../../../components/BackButton";
+import BackButton from "../../../../../../components/BackButton";
 import { styles } from "./styles";
 
 export default function ChoosedKey({ route }: any) {

@@ -34,6 +34,8 @@ export const styles = StyleSheet.create({
 
   keyCard: {
     backgroundColor: "#ffffff",
+    borderColor: "#0d1b2a",
+    borderWidth: 0.5,
     borderRadius: 12,
     padding: 20,
     shadowColor: "#000",

@@ -1,6 +1,6 @@
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../../components/BackButton";
 import { LinearGradient } from "expo-linear-gradient";
 import { ArrowUpIcon, ArrowDownIcon, KeyIcon } from "phosphor-react-native";
 import { useNavigation } from "@react-navigation/native";

@@ -83,7 +83,6 @@ export const styles = StyleSheet.create({
   },
 
   section: {
-    marginTop: 50,
     fontSize: 20,
     fontWeight: "700",
   },
@@ -94,10 +93,13 @@ export const styles = StyleSheet.create({
   },
 
   card: {
-    width: 150,
-    height: 150,
+    width: "100%",
+    height: 175,
     borderRadius: 12,
     marginRight: 15,
+    marginTop: 30,
+    padding: 40,
+    justifyContent: "center",
   },
 
   notifications: {
@@ -212,5 +214,35 @@ export const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#e0f2ff",
     opacity: 0.8,
+  },
+  invoice: {
+    color: "#e0f2ff",
+    fontWeight: 700,
+    fontSize: 20,
+    opacity: 0.8,
+  },
+  value: {
+    marginTop: 5,
+    color: "#e0f2ff",
+    fontWeight: 700,
+    fontSize: 25,
+  },
+  exp: {
+    marginTop: 10,
+    color: "#e0f2ff",
+    fontWeight: 500,
+    fontSize: 15,
+    opacity: 0.8,
+  },
+  date: {
+    fontWeight: 700,
+  },
+  divisor: {
+    backgroundColor: "#1b263b",
+    width: "100%",
+    height: 2,
+    marginTop: 40,
+    marginBottom: 40,
+    opacity: 0.7,
   },
 });

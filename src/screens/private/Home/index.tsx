@@ -91,6 +91,7 @@ export default function Home() {
           </TouchableOpacity>
         </LinearGradient>
 
+        <View style={styles.divisor}></View>
         <Text style={styles.section}>Serviços</Text>
 
         <ScrollView
@@ -171,24 +172,23 @@ export default function Home() {
             <Text style={styles.serviceName}>Investimentos</Text>
           </TouchableOpacity>
         </ScrollView>
+        <View style={styles.divisor}></View>
+        <Text style={styles.section}>Cartão de crédito</Text>
 
-        <Text style={styles.section}>Pagamentos pendentes</Text>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.pendents}
-        >
-          {[1, 2, 3].map((i) => (
-            <LinearGradient
-              key={i}
-              colors={["#0d1b2a", "#1b263b", "#415a77"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.card}
-            />
-          ))}
-        </ScrollView>
+        <TouchableOpacity>
+          <LinearGradient
+            colors={["#0d1b2a", "#1b263b", "#415a77"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.card}
+          >
+            <Text style={styles.invoice}>Fatura atual</Text>
+            <Text style={styles.value}>R$ 287,37</Text>
+            <Text style={styles.exp}>
+              Vencimento em: <Text style={styles.date}>30/12</Text>
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </ScrollView>
 
       {showCard && (

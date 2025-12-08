@@ -37,7 +37,6 @@ export const styles = StyleSheet.create({
     width: "100%",
     padding: 40,
     borderRadius: 12,
-    marginTop: 10,
     position: "relative",
   },
 
@@ -83,7 +82,7 @@ export const styles = StyleSheet.create({
   },
 
   section: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "700",
   },
 
@@ -241,8 +240,8 @@ export const styles = StyleSheet.create({
     backgroundColor: "#1b263b",
     width: "100%",
     height: 2,
-    marginTop: 40,
-    marginBottom: 40,
-    opacity: 0.7,
+    marginTop: 30,
+    marginBottom: 30,
+    opacity: 0.1,
   },
 });

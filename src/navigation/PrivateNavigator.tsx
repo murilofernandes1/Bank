@@ -10,6 +10,7 @@ import Statement from "../screens/private/Statement";
 import PayPix from "../screens/private/Pay";
 import PixValue from "../screens/private/Pix/subscreens/SendPix/Value";
 import PixKeys from "../screens/private/Pix/subscreens/Keys";
+import CreditCard from "../screens/private/CreditCard";
 const Stack = createStackNavigator();
 export type RootStackParamList = {
   QR: {
@@ -38,6 +39,8 @@ export default function PrivateNavigator() {
       <Stack.Screen name="PayPix" component={PayPix} />
       {/* STATEMENT SCREENS */}
       <Stack.Screen name="Statement" component={Statement} />
+      {/* CREDIT CARD SCREENS */}
+      <Stack.Screen name="CreditCard" component={CreditCard} />
     </Stack.Navigator>
   );
 }

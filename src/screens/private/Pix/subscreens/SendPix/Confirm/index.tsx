@@ -4,7 +4,33 @@ import { styles } from "./styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { ArrowDownIcon } from "phosphor-react-native";
 import GradientButton from "../../../../../../components/GlobalButton";
+import LoadingAction from "../../../../../../components/LoadingAction";
+
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 export default function ConfirmPix() {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [sending, setSending] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState(false);
+  const [error, setError] = useState(false);
+  async function fakeLoading() {
+    try {
+      setSending(true);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setMessage(true);
+        setTimeout(() => {
+          navigation.navigate("Pix");
+        }, 3000);
+      }, 3000);
+    } catch (error) {
+      setError(true);
+    }
+  }
   return (
     <>
       <View style={styles.screen}>
@@ -29,11 +55,16 @@ export default function ConfirmPix() {
             <Text style={styles.bank}>Banco Nigger</Text>
           </LinearGradient>
 
-          <GradientButton
-            title="Enviar transferência"
-            onPress={() => console.log("clicou")}
-          />
+          <GradientButton title="Enviar transferência" onPress={fakeLoading} />
         </ScrollView>
+        {sending && (
+          <LoadingAction
+            loading={loading}
+            actionMessage="Pix enviado com sucesso!"
+            error={error}
+            message={message}
+          />
+        )}
       </View>
     </>
   );

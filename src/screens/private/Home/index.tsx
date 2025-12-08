@@ -175,7 +175,7 @@ export default function Home() {
         <View style={styles.divisor}></View>
         <Text style={styles.section}>Cartão de crédito</Text>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("CreditCard")}>
           <LinearGradient
             colors={["#0d1b2a", "#1b263b", "#415a77"]}
             start={{ x: 0, y: 0 }}

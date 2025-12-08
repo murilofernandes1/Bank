@@ -3,7 +3,19 @@ import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
 import { ArrowsLeftRightIcon } from "phosphor-react-native";
 import BackButton from "../../../components/BackButton";
+
+interface TransacoesProps {
+  id: number;
+  title: string;
+  type: "Exit" | "Entry";
+  value: number;
+}
+
 export default function Statement() {
+  let transacoes: TransacoesProps[] = [
+    { id: 1, title: "Pix de Murilo", type: "Entry", value: 100 },
+    { id: 2, title: "Pix para Kelverlyson", type: "Exit", value: 1000 },
+  ];
   return (
     <>
       <View style={styles.screen}>
@@ -16,9 +28,9 @@ export default function Statement() {
           <Text style={styles.header}>Transações recentes</Text>
 
           <View style={styles.recentTransactions}>
-            {[1, 2].map((i) => (
+            {transacoes.map((i) => (
               <LinearGradient
-                key={i}
+                key={i.id}
                 colors={["#0d1b2a", "#1b263b", "#415a77"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
@@ -26,12 +38,19 @@ export default function Statement() {
               >
                 <ArrowsLeftRightIcon size={32} color="#e0f2ff" weight="bold" />
                 <View style={styles.transactionInfo}>
-                  <Text style={styles.titleTransaction}>
-                    {i === 1 ? "Pix para Fulano" : "Pix de Ciclano"}
-                  </Text>
+                  <Text style={styles.titleTransaction}>{i.title}</Text>
                 </View>
-                <Text style={i === 1 ? styles.exitValue : styles.entryValue}>
-                  {i === 1 ? "-R$ 10,00" : "+R$ 10,00"}
+                <Text>
+                  {/* //   style={
+                //     i.type === "Exit" ? styles.exitValue : styles.entryValue
+                //   }
+                // >
+                // {i.type === "Entry" ? R$ :} */}
+                  {i.type === "Entry" ? (
+                    <Text style={styles.entryValue}>+R${i.value}</Text>
+                  ) : (
+                    <Text style={styles.exitValue}>-R${i.value}</Text>
+                  )}
                 </Text>
               </LinearGradient>
             ))}

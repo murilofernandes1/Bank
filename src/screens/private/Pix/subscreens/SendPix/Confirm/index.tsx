@@ -5,7 +5,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ArrowDownIcon } from "phosphor-react-native";
 import GradientButton from "../../../../../../components/GlobalButton";
 import LoadingAction from "../../../../../../components/LoadingAction";
-
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -24,7 +23,7 @@ export default function ConfirmPix() {
         setLoading(false);
         setMessage(true);
         setTimeout(() => {
-          navigation.navigate("Pix");
+          navigation.replace("Home");
         }, 3000);
       }, 3000);
     } catch (error) {

@@ -2,9 +2,12 @@ import { View, ScrollView, Text } from "react-native";
 import BackButton from "../../../components/BackButton";
 import { LinearGradient } from "expo-linear-gradient";
 import GradientButton from "../../../components/GlobalButton";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { styles } from "./styles";
 
 export default function CreditCard() {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
     <View style={styles.screen}>
       <BackButton />
@@ -28,7 +31,7 @@ export default function CreditCard() {
         </LinearGradient>
         <GradientButton
           title="Pagar fatura"
-          onPress={() => console.log("oi")}
+          onPress={() => navigation.navigate("PayCreditCard")}
         ></GradientButton>
       </ScrollView>
     </View>

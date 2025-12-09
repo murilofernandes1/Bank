@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
   card: {
     padding: 20,
     borderRadius: 12,
-    marginTop: 40,
     height: 250,
     justifyContent: "center",
   },
@@ -23,9 +22,12 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  header: {
-    fontSize: 28,
-    fontWeight: "600",
+  title: {
+    fontSize: 26,
+    fontWeight: "700",
+    color: "#0d1b2a",
+    marginTop: 20,
+    marginBottom: 40,
   },
   method: {
     fontSize: 15,

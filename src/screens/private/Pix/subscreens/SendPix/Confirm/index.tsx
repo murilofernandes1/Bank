@@ -8,8 +8,24 @@ import LoadingAction from "../../../../../../components/LoadingAction";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useRoute } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 
+interface ConfirmPixRouteParams {
+  value: number | null;
+  selectedMethodKey?: string;
+  methodName: string | null;
+}
+type RootStackParamList = {
+  ConfirmPix: ConfirmPixRouteParams;
+};
+type ConfirmPixRouteProp = RouteProp<RootStackParamList, "ConfirmPix">;
 export default function ConfirmPix() {
+  const route = useRoute<ConfirmPixRouteProp>();
+
+  const pixValue = route.params.value;
+  const methodKey = route.params.selectedMethodKey;
+  const methodName = route.params.methodName;
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,15 +55,23 @@ export default function ConfirmPix() {
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.header}>Você vai enviar</Text>
+          <Text style={styles.title}>Você vai enviar</Text>
           <LinearGradient
             colors={["#0d1b2a", "#1b263b", "#415a77"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.card}
           >
-            <Text style={styles.value}>R$ 0,10</Text>
-            <Text style={styles.method}>Via saldo da conta</Text>
+            <Text style={styles.value}>
+              {pixValue && pixValue > 0
+                ? pixValue.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                    minimumFractionDigits: 2,
+                  })
+                : "R$ 0,00"}
+            </Text>
+            <Text style={styles.method}>Via {methodName}</Text>
             <ArrowDownIcon style={styles.arrow} size={15} color="#f0f7ff" />
 
             <Text style={styles.name}>Kelverlyson Silva Santos</Text>

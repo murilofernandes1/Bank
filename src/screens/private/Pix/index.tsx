@@ -16,7 +16,7 @@ export default function Pix() {
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.header}>Área Pix</Text>
+          <Text style={styles.title}>Área Pix</Text>
           <Text style={styles.subtitle}>
             Envie pagamentos instantâneos a qualquer hora do dia, fácil e
             prático.
@@ -51,7 +51,7 @@ export default function Pix() {
               <Text style={styles.serviceName}>Receber</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Keys")}
+              onPress={() => navigation.navigate("PixKeys")}
               style={styles.serviceButton}
             >
               <LinearGradient

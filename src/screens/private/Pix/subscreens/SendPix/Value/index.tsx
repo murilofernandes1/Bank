@@ -1,18 +1,42 @@
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import BackButton from "../../../../../../components/BackButton";
 import GradientButton from "../../../../../../components/GlobalButton";
 import CurrencyInput from "react-native-currency-input";
-
+import { LinearGradient } from "expo-linear-gradient";
+import { MoneyIcon, CreditCardIcon } from "phosphor-react-native";
 import { styles } from "./styles";
+
+interface MethodProps {
+  id: number;
+  key: "MONEY" | "CREDIT_CARD";
+  methodName: string;
+}
+
+const paymentMethods: MethodProps[] = [
+  { id: 1, key: "MONEY", methodName: "Dinheiro em conta" },
+  { id: 2, key: "CREDIT_CARD", methodName: "Cartão de crédito" },
+];
 
 export default function PixValue() {
   const [value, setValue] = useState<number | null>(null);
+  const [selectedMethodKey, setSelectedMethodKey] = useState<string | null>(
+    "MONEY"
+  );
+
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
+  const chooseMethod = (key: string) => {
+    setSelectedMethodKey(key);
+  };
+
+  const selectedMethod = paymentMethods.find(
+    (m) => m.key === selectedMethodKey
+  );
+  const isButtonDisabled = !value || value <= 0 || !selectedMethodKey;
+  const methodName = selectedMethod ? selectedMethod.methodName : "";
   return (
     <View style={styles.screen}>
       <BackButton />
@@ -22,7 +46,7 @@ export default function PixValue() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.header}>Digite o valor da transferência</Text>
+        <Text style={styles.title}>Digite o valor da transferência</Text>
 
         <CurrencyInput
           value={value}
@@ -35,10 +59,49 @@ export default function PixValue() {
           placeholder="R$ 0,00"
           keyboardType="numeric"
         />
+        <Text style={styles.methodTitle}>Escolha o metódo de pagamento</Text>
+        <View style={styles.services}>
+          {paymentMethods.map((m) => {
+            const isSelected = m.key === selectedMethodKey;
+
+            return (
+              <TouchableOpacity
+                key={m.id}
+                onPress={() => chooseMethod(m.key)}
+                style={isSelected ? styles.notSelected : styles.serviceButton}
+              >
+                <LinearGradient
+                  colors={["#0d1b2a", "#1b263b", "#415a77"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.serviceCircle}
+                >
+                  {m.key === "MONEY" ? (
+                    <MoneyIcon size={30} color="#e0f2ff" />
+                  ) : (
+                    <CreditCardIcon size={30} color="#e0f2ff" />
+                  )}
+                </LinearGradient>
+                <Text style={styles.serviceName}>{m.methodName}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
 
         <GradientButton
-          title="Continuar"
-          onPress={() => navigation.navigate("ConfirmPix", { value })}
+          title={
+            selectedMethod
+              ? `Pagar com ${selectedMethod.methodName}`
+              : "Selecione um método de pagamento"
+          }
+          onPress={() =>
+            navigation.navigate("ConfirmPix", {
+              value,
+              selectedMethodKey,
+              methodName: methodName,
+            })
+          }
+          disabled={isButtonDisabled}
         />
       </ScrollView>
     </View>

@@ -160,7 +160,10 @@ export default function Home() {
             <Text style={styles.serviceName}>Extrato</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.serviceButton}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Investments")}
+            style={styles.serviceButton}
+          >
             <LinearGradient
               colors={["#0d1b2a", "#1b263b", "#415a77"]}
               start={{ x: 0, y: 0 }}

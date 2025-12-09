@@ -41,7 +41,7 @@ export default function PayCreditCard() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.header}>
+        <Text style={styles.title}>
           Quanto deseja pagar da sua fatura em aberto?
         </Text>
         <Text style={styles.subtitle}>Valor da fatura em aberto: R$287,37</Text>

@@ -25,7 +25,10 @@ export default function Statement() {
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.header}>Transações recentes</Text>
+          <Text style={styles.title}>Extrato</Text>
+          <Text style={styles.subtitle}>
+            Acompanhe suas transações recentes
+          </Text>
 
           <View style={styles.recentTransactions}>
             {transacoes.map((i) => (
@@ -41,11 +44,6 @@ export default function Statement() {
                   <Text style={styles.titleTransaction}>{i.title}</Text>
                 </View>
                 <Text>
-                  {/* //   style={
-                //     i.type === "Exit" ? styles.exitValue : styles.entryValue
-                //   }
-                // >
-                // {i.type === "Entry" ? R$ :} */}
                   {i.type === "Entry" ? (
                     <Text style={styles.entryValue}>+R${i.value}</Text>
                   ) : (

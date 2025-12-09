@@ -30,7 +30,10 @@ export default function PayPix() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.header}>Como deseja pagar?</Text>
+        <Text style={styles.title}>Como deseja pagar?</Text>
+        <Text style={styles.subtitle}>
+          Escolha a maneira desejada para pagar.
+        </Text>
 
         <TouchableOpacity style={styles.optionCard} onPress={handleScanQRCode}>
           <LinearGradient

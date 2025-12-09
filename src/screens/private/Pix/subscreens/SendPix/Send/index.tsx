@@ -24,8 +24,10 @@ export default function SendPix() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.header}>Quem vai receber a transferência?</Text>
-
+        <Text style={styles.title}>Quem vai receber a transferência?</Text>
+        <Text style={styles.subtitle}>
+          Digite a chave do destinatário ou escolha uma na sessão de recentes.
+        </Text>
         <View style={styles.pixArea}>
           <TextInput
             style={styles.pixDestination}
@@ -38,7 +40,7 @@ export default function SendPix() {
         </View>
 
         <View style={styles.contacts}>
-          <Text style={styles.subHeader}>Contatos frequentes</Text>
+          <Text style={styles.contactsTitle}>Destinatários recentes</Text>
 
           <LinearGradient
             colors={["#0d1b2a", "#1b263b", "#415a77"]}

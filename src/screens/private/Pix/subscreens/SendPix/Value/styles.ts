@@ -12,10 +12,11 @@ export const styles = StyleSheet.create({
     paddingBottom: 80,
   },
 
-  header: {
-    fontSize: 28,
-    fontWeight: "600",
+  title: {
+    fontSize: 26,
+    fontWeight: "700",
     color: "#0d1b2a",
+    marginTop: 20,
     marginBottom: 40,
   },
 
@@ -26,6 +27,46 @@ export const styles = StyleSheet.create({
     padding: 20,
     fontSize: 32,
     color: "#0d1b2a",
-    marginBottom: 50,
+  },
+  serviceButton: {
+    alignItems: "center",
+    textAlign: "center",
+    flexDirection: "column",
+    marginRight: 15,
+  },
+  notSelected: {
+    alignItems: "center",
+    textAlign: "center",
+    flexDirection: "column",
+    marginRight: 15,
+    opacity: 0.4,
+  },
+  serviceCircle: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  services: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginTop: 40,
+  },
+  serviceName: {
+    marginTop: 10,
+    fontSize: 15,
+    fontWeight: "500",
+    alignSelf: "center",
+    opacity: 0.8,
+  },
+  methodTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#0d1b2a",
+    marginTop: 40,
+    opacity: 0.8,
   },
 });

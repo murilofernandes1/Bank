@@ -101,11 +101,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  notifications: {
+  exit: {
     padding: 10,
     borderRadius: 50,
   },
-
   serviceButton: {
     alignItems: "center",
     textAlign: "center",

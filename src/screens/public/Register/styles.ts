@@ -64,4 +64,10 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
     fontFamily: "Inter_400Regular",
   },
+  error: {
+    color: "red",
+    fontSize: 15,
+    alignSelf: "center",
+    marginBottom: 10,
+  },
 });

@@ -17,16 +17,18 @@ import {
   ReceiptIcon,
   BarcodeIcon,
   ChartLineUpIcon,
+  SignOutIcon,
 } from "phosphor-react-native";
 import { useState, useRef } from "react";
 import { styles } from "./styles";
+import { useAuth } from "../../../hooks/useAuth";
 import Card from "../../../components/Card";
 
 export default function Home() {
   const [hideBalance, setHideBalance] = useState(true);
   const [showCard, setShowCard] = useState(false);
   const scale = useRef(new Animated.Value(1)).current;
-
+  const { Logout } = useAuth();
   function openCard() {
     setShowCard(true);
     scale.setValue(0.85);
@@ -61,8 +63,8 @@ export default function Home() {
             </Text>
           </View>
 
-          <TouchableOpacity style={styles.notifications}>
-            <Feather name="bell" size={30} color="#0d1b2a" />
+          <TouchableOpacity onPress={() => Logout()} style={styles.exit}>
+            <SignOutIcon size={30} color="#0d1b2a" />
           </TouchableOpacity>
         </View>
 

@@ -79,12 +79,10 @@ export default function Home() {
     loadUser();
   }, []);
 
-  const expiration = card
-    ? new Date(card.expirationDate).toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-      })
-    : "";
+  const expiration = new Date(card.expirationDate).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+  });
 
   return (
     <>

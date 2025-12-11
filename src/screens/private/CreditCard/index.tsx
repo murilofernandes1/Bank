@@ -1,39 +1,87 @@
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, ActivityIndicator } from "react-native";
 import BackButton from "../../../components/BackButton";
 import { LinearGradient } from "expo-linear-gradient";
 import GradientButton from "../../../components/GlobalButton";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useState, useEffect } from "react";
 import { styles } from "./styles";
+import api from "services/api";
+
+type CardProps = {
+  invoiceAmount?: number;
+};
 
 export default function CreditCard() {
+  const [card, setCard] = useState<CardProps | null>(null);
+  const [expiration, setExpiration] = useState("");
+  const [invoice, setInvoice] = useState<number>();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const response = await api.get("/me");
+        const creditCard = response.data.creditCards[0];
+
+        setCard(creditCard);
+        setInvoice(creditCard.invoiceAmount);
+        setExpiration(
+          new Date(creditCard.expirationDate).toLocaleDateString("pt-BR", {
+            day: "2-digit",
+            month: "2-digit",
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadUser();
+  }, []);
+
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   return (
-    <View style={styles.screen}>
-      <BackButton />
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.header}>Meu Cartão de Crédito</Text>
-        <LinearGradient
-          colors={["#0d1b2a", "#1b263b", "#415a77"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.card}
-        >
-          <Text style={styles.invoice}>Fatura atual</Text>
-          <Text style={styles.value}>R$ 287,37</Text>
-          <Text style={styles.exp}>
-            Vencimento em: <Text style={styles.date}>30/12</Text>
-          </Text>
-        </LinearGradient>
-        <GradientButton
-          title="Pagar fatura"
-          onPress={() => navigation.navigate("PayCreditCard")}
-        ></GradientButton>
-      </ScrollView>
-    </View>
+    <>
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <View style={styles.screen}>
+          <BackButton />
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={styles.content}
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={styles.header}>Meu Cartão de Crédito</Text>
+            <LinearGradient
+              colors={["#0d1b2a", "#1b263b", "#415a77"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.card}
+            >
+              <Text style={styles.invoice}>Fatura atual</Text>
+              <Text style={styles.value}>
+                {card?.invoiceAmount?.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 2,
+                })}
+              </Text>
+              <Text style={styles.exp}>
+                Vencimento em: <Text style={styles.date}>{expiration}</Text>
+              </Text>
+            </LinearGradient>
+            <GradientButton
+              title="Pagar fatura"
+              onPress={() => navigation.navigate("PayCreditCard", { invoice })}
+            />
+          </ScrollView>
+        </View>
+      )}
+    </>
   );
 }

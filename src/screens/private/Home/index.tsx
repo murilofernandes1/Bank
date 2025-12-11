@@ -29,20 +29,25 @@ import api from "services/api";
 type UserProps = {
   name: string;
   balance: number;
+  creditCards: CardProps[];
 };
 type CardProps = {
-  invoiceAmount: number;
-  expirationDate: string;
+  invoiceAmount?: number;
+  expirationDate?: string;
 };
 
 export default function Home() {
-  const [user, setUser] = useState<UserProps>();
+  const [user, setUser] = useState<UserProps | null>();
   const [hideBalance, setHideBalance] = useState(true);
   const [showCard, setShowCard] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [card, setCard] = useState<CardProps>();
-  const scale = useRef(new Animated.Value(1)).current;
+  const [card, setCard] = useState<CardProps | null>();
+  const [expiration, setExpiration] = useState("");
+
   const { Logout } = useAuth();
+
+  const scale = useRef(new Animated.Value(1)).current;
+
   function openCard() {
     setShowCard(true);
     scale.setValue(0.85);
@@ -72,17 +77,21 @@ export default function Home() {
         setUser(response.data);
         setCard(response.data.creditCards[0]);
         setLoading(false);
+        const expiration = new Date(card.expirationDate).toLocaleDateString(
+          "pt-BR",
+          {
+            day: "2-digit",
+            month: "2-digit",
+          }
+        );
+        setExpiration(expiration);
       } catch (error) {
         console.log(error);
       }
     }
+
     loadUser();
   }, []);
-
-  const expiration = new Date(card.expirationDate).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-  });
 
   return (
     <>
@@ -248,7 +257,8 @@ export default function Home() {
                     })}
                   </Text>
                   <Text style={styles.exp}>
-                    Vencimento em: <Text style={styles.date}>{expiration}</Text>
+                    Vencimento em:{" "}
+                    <Text style={styles.date}>{expiration || "00/00"} </Text>
                   </Text>
                 </LinearGradient>
               </TouchableOpacity>

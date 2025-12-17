@@ -40,7 +40,6 @@ export default function RegisterScreen() {
     }
     setPinStage(true);
   }
-
   async function handleCreateAccount() {
     try {
       setLoading(true);

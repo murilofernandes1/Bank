@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  name String @unique
+  password String
+  cpf String @unique
+  balance Int @default(0)
+  pin String?
+  pixKeys PixKey[]
+  creditCards CreditCard[]
+  transactions Transaction[]
+  savings Saving[]
+  statements Statement[]
+}
+model Statement {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  month Int
+  year Int
+  entryValues Int @default(0)
+  exitValues Int @default(0)
+  totalIncome Int @default(0)
+  totalExpense Int @default(0)
+}
+model Saving {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  goalName String
+  targetAmount Int
+  currentAmount Int @default(0)
+}
+model Transaction {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  amount Int
+  type String
+  date DateTime @default(now())
+  description String?
+}
+model CreditCard {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  number String @unique
+  expirationDate DateTime
+  invoiceDueDay Int
+  invoiceAmount Int @default(0)
+  creditLimit Int @default(600)
+  cvv String
+}
+model PixKey{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  key String? @unique
+  type String
+}

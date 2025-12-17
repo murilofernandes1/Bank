@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "app",
+    "slug": "app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.murilo11.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.murilo11.app",
+      "softwareKeyboardLayoutMode": "resize"
+    },
+    "web": {},
+    "plugins": ["expo-font"],
+    "extra": {
+      "eas": {
+        "projectId": "c171eecc-fe84-4915-b0c6-221fa2c239c7"
+      }
+    }
+  }
+}

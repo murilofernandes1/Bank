@@ -1,0 +1,17 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "target": "esnext",
+    "module": "esnext",
+    "strict": false,
+    "allowJs": true,
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*"]
+    }
+  },
+  "include": ["src", "App.tsx", "index.ts"],
+  "exclude": ["node_modules"]
+}

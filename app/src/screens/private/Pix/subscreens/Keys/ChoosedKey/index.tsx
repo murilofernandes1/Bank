@@ -47,7 +47,7 @@ export default function ChoosedKey({ route }: any) {
       setMessage(true);
 
       setTimeout(() => {
-        navigation.replace("Home");
+        navigation.replace("PixKeys");
       }, 3000);
     } catch (error) {
       setLoading(false);

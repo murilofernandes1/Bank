@@ -44,7 +44,7 @@ export default function WelcomeBack() {
 
   async function handleLogin(pinValue: string) {
     try {
-      console.log(pinValue);
+      setLoading(true);
       setError(false);
       const response = await api.post("/auth/pin", { pin: pinValue });
       Login(response.data);

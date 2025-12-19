@@ -15,6 +15,7 @@ import { useState } from "react";
 import api from "services/api";
 import LoadingScreen from "components/LoadingScreen";
 import { useTransfer } from "../../../../../../hooks/useTransfer";
+import { phoneFormatter } from "../../../../../../utils/phoneFormatter";
 
 type DestinationProps = {
   key: string;
@@ -143,8 +144,12 @@ export default function SendPix() {
                     <Text style={styles.name}>{destination.user.name}</Text>
 
                     <Text style={styles.key}>
-                      Chave:{" "}
-                      <Text style={styles.keyName}>{destination.key}</Text>
+                      Chave:
+                      <Text style={styles.keyName}>
+                        {destination.key.length === 11
+                          ? phoneFormatter(destination.key)
+                          : destination.key}
+                      </Text>
                     </Text>
 
                     <Text style={styles.bank}>Orbit Bank</Text>

@@ -32,19 +32,27 @@ export const styles = StyleSheet.create({
     gap: 20,
   },
 
-  keyCard: {
+  keyContainer: {
     backgroundColor: "#ffffff",
-
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderRadius: 12,
-    padding: 20,
   },
-
+  keyCard: {
+    flexDirection: "column",
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderRadius: 12,
+  },
   keyTitle: {
     fontSize: 18,
     fontWeight: "700",
     color: "#0d1b2a",
   },
-
+  delete: {
+    marginRight: 10,
+  },
   keyDesc: {
     fontSize: 14,
     color: "#0d1b2a",

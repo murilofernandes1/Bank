@@ -43,6 +43,7 @@ export default function SendPix() {
 
     if (!normalizedKey) {
       setEmpty(true);
+      setOwnKey(false);
       setSearching(false);
       return;
     }
@@ -69,8 +70,10 @@ export default function SendPix() {
       setDestination(data);
     } catch (error: any) {
       if (error.response?.status === 403) {
+        setEmpty(false);
         setOwnKey(true);
       } else {
+        setEmpty(false);
         setNotFound(true);
       }
     } finally {
@@ -104,11 +107,12 @@ export default function SendPix() {
             <ArrowRightIcon size={40} color="#0d1b2a" />
           </TouchableOpacity>
         </View>
-        {empty && (
-          <Text style={styles.feedback}>O campo não pode estar vazio</Text>
-        )}
+
         <View style={styles.contacts}>
           {searching && <LoadingScreen />}
+          {empty && (
+            <Text style={styles.feedback}>O campo não pode estar vazio</Text>
+          )}
           {notFound && (
             <Text style={styles.feedback}>Chave pix não encontrada</Text>
           )}

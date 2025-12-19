@@ -11,6 +11,7 @@ import { styles } from "./styles";
 import BackButton from "../../../components/BackButton";
 import { useAuth } from "../../../hooks/useAuth";
 import api from "services/api";
+import LoadingScreen from "components/LoadingScreen";
 
 export default function LoginScreen() {
   const { Login } = useAuth();
@@ -24,6 +25,9 @@ export default function LoginScreen() {
       if (!email || !password) {
         return setFormError(true);
       }
+      setLoading(true);
+      setFormError(false);
+      setError(false);
       const response = await api.post("/auth/login", {
         email: email,
         password: password,
@@ -42,7 +46,7 @@ export default function LoginScreen() {
   return (
     <>
       {loading === true ? (
-        <ActivityIndicator size="large" color="#058C420" />
+        <LoadingScreen />
       ) : (
         <LinearGradient
           colors={["#0d1b2a", "#1b263b", "#415a77"]}

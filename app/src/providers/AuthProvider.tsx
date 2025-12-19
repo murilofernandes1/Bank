@@ -2,10 +2,6 @@ import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type JwtPayload = {
-  id?: string;
-};
-
 type AuthProviderProps = {
   children: ReactNode;
 };
@@ -14,6 +10,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(null);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const AUTH_STORAGE_KEY = "@auth_token";
 
@@ -22,6 +19,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setToken(token);
     setAlreadyLogged(true);
     setAuthenticated(true);
+    setLoading(false);
   }
 
   function confirmPin() {
@@ -43,6 +41,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setToken(storedToken);
         setAlreadyLogged(true);
         setAuthenticated(false);
+        setLoading(false);
+      } else {
+        setToken(null);
+        setAlreadyLogged(false);
+        setAuthenticated(false);
+        setLoading(false);
       }
     }
 
@@ -55,6 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         token,
         alreadyLogged,
         authenticated,
+        loading,
         Login,
         Logout,
         confirmPin,

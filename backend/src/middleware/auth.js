@@ -1,27 +1,28 @@
 import jwt from "jsonwebtoken";
 
-const auth = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  //aqui ele vai consultar o token presente no header do navegador (ou localStorage)
+export const auth = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
 
-  if (!authHeader) {
-    res.status(401).json({ message: "Acesso negado: nenhum token" });
-  }
+  if (!authHeader)
+    return res.status(401).json({ message: "Token não fornecido" });
+  const token = authHeader.split(" ")[1] || authHeader;
 
-  const token = authHeader.split(" ")[1];
-  //aqui ele faz a divisão do bearer token e o consulta
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      if (err.name === "TokenExpiredError") {
+        console.log("Sessão expirada.");
+        return res
+          .status(401)
+          .json({ message: "Sessão expirada. Faça login novamente." });
+      }
 
-  if (!token) {
-    res.status(401).json({ message: "Token ausente" });
-  }
+      console.log("Token inválido", err);
+      return res.status(401).json({ message: "Token inválido" });
+    }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decoded.id;
-    next(); //se tudo correr bem, acesso liberado.
-  } catch (error) {
-    res.status(401).json({ message: "Token inválido", error: error.message });
-    console.log(error);
-  }
+    next();
+  });
 };
+
 export default auth;

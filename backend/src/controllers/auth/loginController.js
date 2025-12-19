@@ -25,9 +25,8 @@ router.post("/", async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Senha inválida" });
     }
-
     //gerando o token jwt
-    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1y" }); //aqui to criando o token e definindo a validade dele
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "7d" });
 
     res.status(200).json(token);
   } catch (error) {

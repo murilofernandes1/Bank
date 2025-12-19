@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 interface AuthContextProps {
   token: string | null;
-
+  loading: boolean;
   alreadyLogged: boolean;
   authenticated: boolean;
   Login: (token: string) => void;

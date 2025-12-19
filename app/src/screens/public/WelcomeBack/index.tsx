@@ -34,10 +34,9 @@ export default function WelcomeBack() {
       try {
         const response = await api.get("/me");
         setUser(response.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false);
       }
     }
     loadUser();
@@ -47,7 +46,6 @@ export default function WelcomeBack() {
     try {
       console.log(pinValue);
       setError(false);
-      setLoading(true);
       const response = await api.post("/auth/pin", { pin: pinValue });
       Login(response.data);
     } catch (error) {

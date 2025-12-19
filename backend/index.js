@@ -3,7 +3,7 @@ import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
 import pixRoutes from "./src/routes/pixRoutes.js";
 import auth from "./src/middleware/auth.js";
-import transferRoutes from "./src/controllers/pix/sendPixController.js";
+
 const app = express();
 app.use(express.json());
 

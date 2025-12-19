@@ -7,6 +7,7 @@ import GradientButton from "../../../../../../components/GlobalButton";
 import CurrencyInput from "react-native-currency-input";
 import { LinearGradient } from "expo-linear-gradient";
 import { MoneyIcon, CreditCardIcon } from "phosphor-react-native";
+import { useTransfer } from "../../../../../../hooks/useTransfer";
 import { styles } from "./styles";
 
 interface MethodProps {
@@ -21,12 +22,12 @@ const paymentMethods: MethodProps[] = [
 ];
 
 export default function PixValue() {
+  const { setAmount } = useTransfer();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [value, setValue] = useState<number | null>(null);
   const [selectedMethodKey, setSelectedMethodKey] = useState<string | null>(
     "MONEY"
   );
-
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const chooseMethod = (key: string) => {
     setSelectedMethodKey(key);
@@ -94,13 +95,12 @@ export default function PixValue() {
               ? `Pagar com ${selectedMethod.methodName}`
               : "Selecione um método de pagamento"
           }
-          onPress={() =>
+          onPress={() => {
+            setAmount(value);
             navigation.navigate("ConfirmPix", {
-              value,
-              selectedMethodKey,
               methodName: methodName,
-            })
-          }
+            });
+          }}
           disabled={isButtonDisabled}
         />
       </ScrollView>

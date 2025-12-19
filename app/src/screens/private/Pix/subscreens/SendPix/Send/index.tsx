@@ -11,21 +11,22 @@ import { ArrowRightIcon } from "phosphor-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import BackButton from "../../../../../../components/BackButton";
 import { styles } from "./styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import api from "services/api";
 import LoadingScreen from "components/LoadingScreen";
+import { useTransfer } from "../../../../../../hooks/useTransfer";
 
 type DestinationProps = {
-  id: string;
   key: string;
   user: UserProps;
 };
 type UserProps = {
+  id: string;
   name: string;
 };
 export default function SendPix() {
+  const { setDestinationId, setDestinationName } = useTransfer();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
   const [key, setKey] = useState("");
   const [destination, setDestination] = useState<DestinationProps | null>(null);
   const [searching, setSearching] = useState(false);
@@ -121,13 +122,12 @@ export default function SendPix() {
                 style={styles.cardRecent}
               >
                 <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("PixValue", {
-                      destinationId: destination.id,
-                      destinationKey: destination.key,
-                      destinationName: destination.user.name,
-                    })
-                  }
+                  onPress={() => {
+                    setDestinationId(destination.user.id);
+                    setDestinationName(destination.user.name);
+
+                    navigation.navigate("PixValue");
+                  }}
                 >
                   <View style={styles.contactInfo}>
                     <Text style={styles.name}>{destination.user.name}</Text>

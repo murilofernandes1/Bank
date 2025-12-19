@@ -5,6 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ArrowUpIcon, ArrowDownIcon, KeyIcon } from "phosphor-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 export default function Pix() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (

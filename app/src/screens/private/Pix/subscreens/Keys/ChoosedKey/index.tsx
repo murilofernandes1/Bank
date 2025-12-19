@@ -47,11 +47,12 @@ export default function ChoosedKey({ route }: any) {
       setMessage(true);
 
       setTimeout(() => {
-        navigation.navigate("Pix");
+        navigation.replace("Home");
       }, 3000);
     } catch (error) {
       setLoading(false);
       setError(true);
+      console.log(error);
     }
   }
 

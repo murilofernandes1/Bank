@@ -91,4 +91,11 @@ export const styles = StyleSheet.create({
     color: "#e0f2ff",
     opacity: 0.6,
   },
+  feedback: {
+    alignSelf: "center",
+    marginTop: 10,
+    color: "#ff4d4d",
+    fontSize: 14,
+    fontWeight: "500",
+  },
 });

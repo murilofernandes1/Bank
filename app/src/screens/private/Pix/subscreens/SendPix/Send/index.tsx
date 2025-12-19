@@ -104,12 +104,18 @@ export default function SendPix() {
             <ArrowRightIcon size={40} color="#0d1b2a" />
           </TouchableOpacity>
         </View>
-        {empty && <Text>O campo não pode estar vazio</Text>}
+        {empty && (
+          <Text style={styles.feedback}>O campo não pode estar vazio</Text>
+        )}
         <View style={styles.contacts}>
           {searching && <LoadingScreen />}
-          {notFound && <Text>Chave pix não encontrada</Text>}
+          {notFound && (
+            <Text style={styles.feedback}>Chave pix não encontrada</Text>
+          )}
           {ownKey && (
-            <Text>Você não pode realizar transferências para si mesmo.</Text>
+            <Text style={styles.feedback}>
+              Você não pode realizar transferências para si mesmo.
+            </Text>
           )}
           {destination && (
             <>

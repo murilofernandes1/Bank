@@ -45,6 +45,10 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
     color: "#1b263b",
   },
-  counter: {},
-  expired: { color: "red", fontWeight: "700", marginTop: 10 },
+  counter: {
+    marginTop: 20,
+    fontSize: 16,
+    color: "#1b263b",
+  },
+  expired: { color: "red", fontWeight: "700", marginTop: 10, fontSize: 16 },
 });

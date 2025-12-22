@@ -1,7 +1,8 @@
 import { ReactNode, useEffect, useState } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext, UserProps } from "../contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
+import api from "services/api";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -9,6 +10,7 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<UserProps | null>(null);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -61,6 +63,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     checkStoredToken();
   }, []);
+
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const loadUser = await api.get("/me");
+        setUser(loadUser.data);
+        console.log(loadUser.data);
+      } catch (error) {
+        console.log("Não foi possivel carregar o usuário", error);
+      }
+    }
+    loadUser();
+  }, []);
   return (
     <AuthContext.Provider
       value={{
@@ -71,6 +86,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         Login,
         Logout,
         confirmPin,
+        user,
       }}
     >
       {children}

@@ -26,6 +26,11 @@ export const styles = StyleSheet.create({
     padding: 20,
     fontSize: 32,
     color: "#0d1b2a",
-    marginBottom: 50,
+    marginBottom: 10,
+  },
+  error: {
+    color: "red",
+    fontSize: 15,
+    alignSelf: "center",
   },
 });

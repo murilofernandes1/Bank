@@ -18,7 +18,7 @@ import CreateCreditCard from "../screens/private/CreditCard/subscreens/CreateCre
 const Stack = createStackNavigator();
 export type RootStackParamList = {
   QR: {
-    value: string;
+    amount: string;
   };
 };
 

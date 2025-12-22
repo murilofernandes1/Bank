@@ -2,7 +2,6 @@ import { View, Text, ScrollView } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import BackButton from "../../../../../../components/BackButton";
 import GradientButton from "../../../../../../components/GlobalButton";
 import CurrencyInput from "react-native-currency-input";
@@ -10,12 +9,16 @@ import CurrencyInput from "react-native-currency-input";
 import { styles } from "./styles";
 
 export default function ReceiveValue() {
-  const [value, setValue] = useState<number | null>(null);
+  const [amount, setAmount] = useState<number | null>(null);
+  const [empty, setEmpty] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const handleContinue = () => {
-    if (value) {
-      navigation.navigate("QR", { value: String(value) });
+    if (amount) {
+      setEmpty(false);
+      navigation.navigate("QR", { amount: String(amount) });
+    } else {
+      setEmpty(true);
     }
   };
 
@@ -31,8 +34,8 @@ export default function ReceiveValue() {
         <Text style={styles.header}>Quanto deseja receber?</Text>
 
         <CurrencyInput
-          value={value}
-          onChangeValue={setValue}
+          value={amount}
+          onChangeValue={setAmount}
           prefix="R$ "
           delimiter="."
           separator=","
@@ -41,7 +44,9 @@ export default function ReceiveValue() {
           placeholder="R$ 0,00"
           keyboardType="numeric"
         />
-
+        {empty && (
+          <Text style={styles.error}>O valor não pode estar vazio.</Text>
+        )}
         <GradientButton title="Continuar" onPress={handleContinue} />
       </ScrollView>
     </View>

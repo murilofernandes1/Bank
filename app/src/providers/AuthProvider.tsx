@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -33,26 +34,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setAuthenticated(false);
   }
 
-  useEffect(() => {
-    async function checkStoredToken() {
-      const storedToken = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
+  async function checkStoredToken() {
+    const storedToken = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
 
-      if (storedToken) {
-        setToken(storedToken);
-        setAlreadyLogged(true);
-        setAuthenticated(false);
-        setLoading(false);
-      } else {
-        setToken(null);
-        setAlreadyLogged(false);
-        setAuthenticated(false);
-        setLoading(false);
+    if (storedToken) {
+      try {
+        const decoded: any = jwtDecode(storedToken);
+        const targetTime = decoded.exp * 1000;
+        const currentTime = Date.now();
+
+        if (currentTime > targetTime) {
+          console.log("Token expirado estaticamente");
+          await Logout();
+        } else {
+          setToken(storedToken);
+          setAlreadyLogged(true);
+          setAuthenticated(true);
+        }
+      } catch (error) {
+        await Logout();
       }
     }
+    setLoading(false);
+  }
 
+  useEffect(() => {
     checkStoredToken();
   }, []);
-
   return (
     <AuthContext.Provider
       value={{

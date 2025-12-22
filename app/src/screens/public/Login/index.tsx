@@ -32,7 +32,7 @@ export default function LoginScreen() {
         email: email,
         password: password,
       });
-      console.log(response.data);
+
       setFormError(false);
       setError(false);
       setLoading(false);

@@ -49,7 +49,7 @@ model Transaction {
   amount Int
   date DateTime @default(now())
   description String?
- 
+ createdAt DateTime @default(now())
 }
 
 model CreditCard {

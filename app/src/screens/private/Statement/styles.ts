@@ -60,4 +60,15 @@ export const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 40,
   },
+  emptyContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50,
+  },
+  emptyText: {
+    marginTop: 20,
+    fontSize: 16,
+    color: "grey",
+  },
 });

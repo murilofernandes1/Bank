@@ -1,21 +1,51 @@
 import { View, Text, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
-import { ArrowsLeftRightIcon } from "phosphor-react-native";
+import {
+  ArrowsLeftRightIcon,
+  WindIcon,
+  EmptyIcon,
+} from "phosphor-react-native";
 import BackButton from "../../../components/BackButton";
+import { useState, useEffect } from "react";
+import { useAuth } from "hooks/useAuth";
+import api from "services/api";
+import LoadingScreen from "components/LoadingScreen";
 
 interface TransacoesProps {
-  id: number;
-  title: string;
-  type: "Exit" | "Entry";
-  value: number;
+  id: string;
+  destinationId: string;
+  user: {
+    name: string;
+  };
+  destinationUser: {
+    name: string;
+  };
+  amount: number;
 }
 
 export default function Statement() {
-  let transacoes: TransacoesProps[] = [
-    { id: 1, title: "Pix de Murilo", type: "Entry", value: 100 },
-    { id: 2, title: "Pix para Kelverlyson", type: "Exit", value: 1000 },
-  ];
+  const [transfers, setTransfers] = useState<TransacoesProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    async function loadTransfers() {
+      try {
+        const response = await api.get("/me/transfers");
+        setTransfers(response.data);
+
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    loadTransfers();
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
   return (
     <>
       <View style={styles.screen}>
@@ -31,7 +61,15 @@ export default function Statement() {
           </Text>
 
           <View style={styles.recentTransactions}>
-            {transacoes.map((i) => (
+            {transfers.length === 0 && (
+              <View style={styles.emptyContainer}>
+                <EmptyIcon size={64} color="grey" weight="thin" />
+                <Text style={styles.emptyText}>
+                  Nenhuma transação encontrada
+                </Text>
+              </View>
+            )}
+            {transfers.map((i) => (
               <LinearGradient
                 key={i.id}
                 colors={["#0d1b2a", "#1b263b", "#415a77"]}
@@ -41,13 +79,33 @@ export default function Statement() {
               >
                 <ArrowsLeftRightIcon size={32} color="#e0f2ff" weight="bold" />
                 <View style={styles.transactionInfo}>
-                  <Text style={styles.titleTransaction}>{i.title}</Text>
+                  {i.destinationId === user.id ? (
+                    <Text style={styles.titleTransaction}>
+                      Transferência de {i.user.name.split(" ")[0]}
+                    </Text>
+                  ) : (
+                    <Text style={styles.titleTransaction}>
+                      Transferência para {i.destinationUser.name.split(" ")[0]}
+                    </Text>
+                  )}
                 </View>
                 <Text>
-                  {i.type === "Entry" ? (
-                    <Text style={styles.entryValue}>+R${i.value}</Text>
+                  {i.destinationId === user.id ? (
+                    <Text style={styles.entryValue}>
+                      +
+                      {i.amount.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </Text>
                   ) : (
-                    <Text style={styles.exitValue}>-R${i.value}</Text>
+                    <Text style={styles.exitValue}>
+                      -
+                      {i.amount.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </Text>
                   )}
                 </Text>
               </LinearGradient>

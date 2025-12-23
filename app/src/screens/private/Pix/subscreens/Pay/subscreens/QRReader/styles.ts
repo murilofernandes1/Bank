@@ -1,30 +1,48 @@
 import { StyleSheet } from "react-native";
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    width: "100%",
-    height: 200,
-    justifyContent: "center",
-    alignSelf: "center",
-  },
-  message: {
-    textAlign: "center",
-    paddingBottom: 10,
-    fontSize: 25,
-    fontWeight: "600",
-    color: "#0d1b2a",
+    backgroundColor: "#000",
   },
   camera: {
     flex: 1,
   },
-  portrait: {
+  overlay: {
     position: "absolute",
     top: "30%",
     alignSelf: "center",
-  },
-  button: {
-    flex: 1,
     alignItems: "center",
+  },
+  helperText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: "#e0f2ff",
+    fontWeight: "500",
+  },
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: "#e0f2ff",
+    fontWeight: "500",
+  },
+  permissionContainer: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 24,
+    backgroundColor: "#f0f7ff",
+  },
+  message: {
+    textAlign: "center",
+    fontSize: 22,
+    fontWeight: "600",
+    color: "#0d1b2a",
+    marginBottom: 24,
   },
 });

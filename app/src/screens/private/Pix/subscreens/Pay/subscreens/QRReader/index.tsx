@@ -1,8 +1,7 @@
-import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
-import { Text, View, Alert } from "react-native";
-import LoadingAction from "components/LoadingAction";
-import { CornersOutIcon, ScanIcon } from "phosphor-react-native";
+import { Text, View, Alert, ActivityIndicator, Vibration } from "react-native";
+import { CornersOutIcon } from "phosphor-react-native";
 import BackButton from "components/BackButton";
 import GlobalButton from "components/GlobalButton";
 import { styles } from "./styles";
@@ -23,26 +22,30 @@ export default function QRReader() {
 
   const { setDestinationId, setAmount, setDestinationName } = useTransfer();
 
-  async function handleTransfer(data: string) {
+  function handleTransfer(data: string) {
     if (scanned) return;
+
     setScanned(true);
+    Vibration.vibrate(300);
 
     try {
       const parsedData: TransferDataProps = JSON.parse(data);
-      console.log(parsedData);
+
       if (!parsedData.destinationId || !parsedData.amount) {
-        throw new Error("Dados incompletos");
+        throw new Error();
       }
 
-      const parsedAmount = Number(parsedData.amount);
-      setAmount(parsedAmount);
       setDestinationId(parsedData.destinationId);
       setDestinationName(parsedData.name);
+      setAmount(Number(parsedData.amount));
+
       navigation.navigate("ConfirmPix");
-    } catch (err) {
-      setScanned(false);
-      Alert.alert("Erro", "QR Code inválido ou expirado.");
-      console.log("Erro no parse ou transferência", err);
+    } catch {
+      Alert.alert(
+        "Não foi possível ler o QR Code",
+        "Verifique se o código é válido e tente novamente."
+      );
+      setTimeout(() => setScanned(false), 2000);
     }
   }
 
@@ -52,17 +55,13 @@ export default function QRReader() {
 
   if (!permission.granted) {
     return (
-      <>
+      <View style={styles.permissionContainer}>
         <BackButton />
-
-        <View style={styles.container}>
-          <Text style={styles.message}>
-            Precisamos do acesso a sua câmera para ler os QR Codes.
-          </Text>
-
-          <GlobalButton onPress={requestPermission} title="Permitir" />
-        </View>
-      </>
+        <Text style={styles.message}>
+          Precisamos do acesso à câmera para continuar.
+        </Text>
+        <GlobalButton title="Permitir acesso" onPress={requestPermission} />
+      </View>
     );
   }
 
@@ -71,16 +70,24 @@ export default function QRReader() {
       <BackButton />
 
       <CameraView
+        style={styles.camera}
         barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
         onBarcodeScanned={
           scanned ? undefined : ({ data }) => handleTransfer(data)
         }
-        style={styles.camera}
       />
 
-      <View style={styles.portrait} pointerEvents="none">
-        <CornersOutIcon size={300} weight="thin" color="#e0f2ff" />
+      <View style={styles.overlay} pointerEvents="none">
+        <CornersOutIcon size={280} weight="thin" color="#e0f2ff" />
+        <Text style={styles.helperText}>Aponte a câmera para o QR Code</Text>
       </View>
+
+      {scanned && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color="#e0f2ff" />
+          <Text style={styles.loadingText}>Lendo QR Code...</Text>
+        </View>
+      )}
     </View>
   );
 }

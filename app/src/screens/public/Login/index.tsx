@@ -40,6 +40,7 @@ export default function LoginScreen() {
     } catch (error) {
       setFormError(false);
       setError(true);
+      setLoading(false);
       console.log(error);
     }
   }

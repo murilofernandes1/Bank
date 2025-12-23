@@ -60,6 +60,7 @@ router.post("/", async (req, res) => {
         amount: amount,
       },
     });
+
     return res
       .status(200)
       .json({ message: "Transferência realizada com sucesso!" });

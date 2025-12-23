@@ -16,7 +16,7 @@ export default function ReceiveValue() {
   const handleContinue = () => {
     if (amount) {
       setEmpty(false);
-      navigation.navigate("QR", { amount: String(amount) });
+      navigation.navigate("QR", { amount: amount });
     } else {
       setEmpty(true);
     }

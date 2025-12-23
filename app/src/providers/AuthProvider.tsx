@@ -57,25 +57,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
         await Logout();
       }
     }
+
     setLoading(false);
   }
-
-  useEffect(() => {
-    checkStoredToken();
-  }, []);
-
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const loadUser = await api.get("/me");
-        setUser(loadUser.data);
-        console.log(loadUser.data);
-      } catch (error) {
-        console.log("Não foi possivel carregar o usuário", error);
-      }
+  async function loadUser() {
+    try {
+      const loadUser = await api.get("/me");
+      setUser(loadUser.data);
+      console.log(loadUser.data);
+    } catch (error) {
+      console.log("Não foi possivel carregar o usuário", error);
     }
-    loadUser();
+  }
+  useEffect(() => {
+    try {
+      checkStoredToken();
+      loadUser();
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
+
   return (
     <AuthContext.Provider
       value={{

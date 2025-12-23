@@ -15,9 +15,20 @@ router.get("/", async (req, res) => {
 
     const findKey = await prisma.pixKey.findFirst({
       where: {
-        key: key,
+        key: String(key),
       },
-      include: { user: { select: { name: true, id: true } } },
+      select: {
+        id: true,
+        key: true,
+        type: true,
+        userId: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
     if (!findKey) {
       return res.status(404).json({ message: "Chave não encontrado." });

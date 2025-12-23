@@ -6,8 +6,11 @@ import QRCode from "react-native-qrcode-svg";
 import { RootStackParamList } from "../../../../../../navigation/PrivateNavigator";
 import { useEffect, useState } from "react";
 import { useAuth } from "hooks/useAuth";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export default function QR() {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAuth();
   const route = useRoute<RouteProp<RootStackParamList, "QR">>();
   const { amount } = route.params;
@@ -26,12 +29,15 @@ export default function QR() {
       clearInterval(interval);
       setActive(false);
       setExpired(true);
+      navigation.goBack();
     }
   });
 
+  const parsedAmount = String(amount);
   const transaction = {
-    amount: amount,
+    amount: parsedAmount,
     destinationId: user.id,
+    name: user.name,
   };
 
   const qrCodeValue = JSON.stringify(transaction);

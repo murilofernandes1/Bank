@@ -40,14 +40,15 @@ export default function SendPix() {
   }
 
   async function findKey() {
-    const normalizedKey = normalizeKey(key);
-
-    if (!normalizedKey) {
+    if (!key.trim()) {
       setEmpty(true);
-      setOwnKey(false);
-      setSearching(false);
+      setDestination(null);
       return;
     }
+
+    const normalizedKey = key.includes("@")
+      ? key.trim()
+      : key.replace(/\D/g, "");
 
     setDestination(null);
     setNotFound(false);
@@ -58,23 +59,15 @@ export default function SendPix() {
     try {
       const response = await api.get(`/pix/find?key=${normalizedKey}`);
 
-      const data = response.data;
-
-      if (!data) {
-        setEmpty(false);
-        setOwnKey(false);
+      if (!response.data) {
         setNotFound(true);
-        setSearching(false);
-        return;
+      } else {
+        setDestination(response.data);
       }
-
-      setDestination(data);
     } catch (error: any) {
       if (error.response?.status === 403) {
-        setEmpty(false);
         setOwnKey(true);
       } else {
-        setEmpty(false);
         setNotFound(true);
       }
     } finally {
@@ -89,73 +82,72 @@ export default function SendPix() {
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.title}>Quem vai receber a transferência?</Text>
         <Text style={styles.subtitle}>
           Digite a chave do destinatário e confira os dados antes de enviar o
           valor.
         </Text>
+
         <View style={styles.pixArea}>
           <TextInput
             value={key}
             onChangeText={setKey}
             style={styles.pixDestination}
-            placeholder="Digite a chave pix de quem receberá..."
+            placeholder="Digite a chave do destinatário..."
             placeholderTextColor="#0d1b2a"
+            returnKeyType="search"
+            onSubmitEditing={findKey}
           />
-          <TouchableOpacity onPress={findKey}>
-            <ArrowRightIcon size={40} color="#0d1b2a" />
+          <TouchableOpacity onPress={findKey} disabled={searching}>
+            <ArrowRightIcon size={40} color={searching ? "#ccc" : "#0d1b2a"} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.contacts}>
           {searching && <LoadingScreen />}
-          {empty && (
+
+          {!searching && empty && (
             <Text style={styles.feedback}>O campo não pode estar vazio</Text>
           )}
-          {notFound && (
+          {!searching && notFound && (
             <Text style={styles.feedback}>Chave pix não encontrada</Text>
           )}
-          {ownKey && (
+          {!searching && ownKey && (
             <Text style={styles.feedback}>
               Você não pode realizar transferências para si mesmo.
             </Text>
           )}
-          {destination && (
+
+          {!searching && destination && (
             <>
               <Text style={styles.contactsTitle}>Enviar para</Text>
-
-              <LinearGradient
-                colors={["#0d1b2a", "#1b263b", "#415a77"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.cardRecent}
+              <TouchableOpacity
+                onPress={() => {
+                  setDestinationId(destination.user.id);
+                  setDestinationName(destination.user.name);
+                  navigation.navigate("PixValue");
+                }}
               >
-                <TouchableOpacity
-                  onPress={() => {
-                    setDestinationId(destination.user.id);
-                    setDestinationName(destination.user.name);
-
-                    navigation.navigate("PixValue");
-                  }}
+                <LinearGradient
+                  colors={["#0d1b2a", "#1b263b", "#415a77"]}
+                  style={styles.cardRecent}
                 >
                   <View style={styles.contactInfo}>
                     <Text style={styles.name}>{destination.user.name}</Text>
-
                     <Text style={styles.key}>
-                      Chave:
+                      Chave:{" "}
                       <Text style={styles.keyName}>
                         {destination.key.length === 11
                           ? phoneFormatter(destination.key)
                           : destination.key}
                       </Text>
                     </Text>
-
                     <Text style={styles.bank}>Orbit Bank</Text>
                   </View>
-                </TouchableOpacity>
-              </LinearGradient>
+                </LinearGradient>
+              </TouchableOpacity>
             </>
           )}
         </View>

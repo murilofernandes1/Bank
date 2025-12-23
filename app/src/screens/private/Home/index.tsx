@@ -209,21 +209,6 @@ export default function Home() {
           )}
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("PayPix")}
-            style={styles.serviceButton}
-          >
-            <LinearGradient
-              colors={["#0d1b2a", "#1b263b", "#415a77"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.serviceCircle}
-            >
-              <BarcodeIcon size={40} color="#e0f2ff" />
-            </LinearGradient>
-            <Text style={styles.serviceName}>Pagar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
             onPress={() => navigation.navigate("Statement")}
             style={styles.serviceButton}
           >

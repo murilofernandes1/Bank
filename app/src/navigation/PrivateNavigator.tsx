@@ -7,13 +7,14 @@ import QR from "../screens/private/Pix/subscreens/Receive/QR";
 import Pix from "../screens/private/Pix";
 import ChoosedKey from "../screens/private/Pix/subscreens/Keys/ChoosedKey";
 import Statement from "../screens/private/Statement";
-import PayPix from "../screens/private/Pay";
+import PayPix from "screens/private/Pix/subscreens/Pay";
 import PixValue from "../screens/private/Pix/subscreens/SendPix/Value";
 import PixKeys from "../screens/private/Pix/subscreens/Keys";
 import CreditCard from "../screens/private/CreditCard";
 import PayCreditCard from "../screens/private/CreditCard/subscreens/PayCreditCard";
 import Investments from "../screens/private/Investments";
 import CreateCreditCard from "../screens/private/CreditCard/subscreens/CreateCreditCard";
+import QRReader from "screens/private/Pix/subscreens/Pay/subscreens/QRReader";
 
 const Stack = createStackNavigator();
 export type RootStackParamList = {
@@ -44,6 +45,7 @@ export default function PrivateNavigator() {
       <Stack.Screen name="ChoosedKey" component={ChoosedKey} />
       {/* PAY SCREENS */}
       <Stack.Screen name="PayPix" component={PayPix} />
+      <Stack.Screen name="QrReader" component={QRReader} />
       {/* STATEMENT SCREENS */}
       <Stack.Screen name="Statement" component={Statement} />
       {/* CREDIT CARD SCREENS */}

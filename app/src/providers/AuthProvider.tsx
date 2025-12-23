@@ -51,7 +51,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         } else {
           setToken(storedToken);
           setAlreadyLogged(true);
-          setAuthenticated(true);
         }
       } catch (error) {
         await Logout();

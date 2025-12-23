@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Alert,
   SafeAreaView,
+  Vibration,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LinearGradient } from "expo-linear-gradient";
@@ -44,12 +45,12 @@ export default function WelcomeBack() {
 
   async function handleLogin(pinValue: string) {
     try {
-      setLoading(true);
       setError(false);
       const response = await api.post("/auth/pin", { pin: pinValue });
       Login(response.data);
     } catch (error) {
       setPin("");
+      Vibration.vibrate(300);
       setError(true);
       setLoading(false);
       console.log(error);

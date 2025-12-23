@@ -53,7 +53,7 @@ router.post("/", async (req, res) => {
       },
     });
 
-    const newTransaction = await prisma.transaction.create({
+    await prisma.transaction.create({
       data: {
         userId: userId,
         destinationId: destinationId,

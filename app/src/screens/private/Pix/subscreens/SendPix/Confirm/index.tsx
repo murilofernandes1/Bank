@@ -75,7 +75,8 @@ export default function ConfirmPix() {
         {sending && (
           <LoadingAction
             loading={loading}
-            actionMessage="Pix enviado com sucesso!"
+            actionMessage="Pix enviado com sucesso! 
+            Você pode consultar o comprovante na tela de extrato."
             error={error}
             message={message}
           />

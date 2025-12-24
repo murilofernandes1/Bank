@@ -69,4 +69,11 @@ export const styles = StyleSheet.create({
     marginTop: 40,
     opacity: 0.8,
   },
+  errorText: {
+    marginTop: 8,
+    color: "#ff6b6b",
+    fontSize: 13,
+    fontWeight: "500",
+    alignSelf: "center",
+  },
 });

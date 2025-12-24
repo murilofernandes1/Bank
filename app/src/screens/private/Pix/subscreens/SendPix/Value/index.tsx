@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "../../../../../../components/BackButton";
-import GradientButton from "../../../../../../components/GlobalButton";
+import GlobalButton from "../../../../../../components/GlobalButton";
 import CurrencyInput from "react-native-currency-input";
 import { LinearGradient } from "expo-linear-gradient";
 import { MoneyIcon, CreditCardIcon } from "phosphor-react-native";
@@ -25,6 +25,7 @@ export default function PixValue() {
   const { setAmount } = useTransfer();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [value, setValue] = useState<number | null>(null);
+  const [touched, setTouched] = useState(false);
   const [selectedMethodKey, setSelectedMethodKey] = useState<string | null>(
     "MONEY"
   );
@@ -38,6 +39,7 @@ export default function PixValue() {
   );
   const isButtonDisabled = !value || value <= 0 || !selectedMethodKey;
   const methodName = selectedMethod ? selectedMethod.methodName : "";
+
   return (
     <View style={styles.screen}>
       <BackButton />
@@ -51,7 +53,10 @@ export default function PixValue() {
 
         <CurrencyInput
           value={value}
-          onChangeValue={setValue}
+          onChangeValue={(v) => {
+            setTouched(true);
+            setValue(v);
+          }}
           prefix="R$ "
           delimiter="."
           separator=","
@@ -60,6 +65,10 @@ export default function PixValue() {
           placeholder="R$ 0,00"
           keyboardType="numeric"
         />
+        {touched && (!value || value <= 0) && (
+          <Text style={styles.errorText}>Informe um valor maior que zero</Text>
+        )}
+
         <Text style={styles.methodTitle}>Escolha o metódo de pagamento</Text>
         <View style={styles.services}>
           {paymentMethods.map((m) => {
@@ -89,7 +98,7 @@ export default function PixValue() {
           })}
         </View>
 
-        <GradientButton
+        <GlobalButton
           title={
             selectedMethod
               ? `Pagar com ${selectedMethod.methodName}`

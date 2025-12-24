@@ -1,17 +1,27 @@
 import { StyleSheet } from "react-native";
-export const styles = StyleSheet.create({
-  button: {
-    marginTop: 40,
-    width: "100%",
-    backgroundColor: "#1b263b",
 
-    paddingVertical: 18,
-    borderRadius: 12,
-    alignItems: "center",
+export const styles = StyleSheet.create({
+  wrapper: {
+    width: "100%",
+    marginTop: 32,
   },
-  text: {
+
+  disabledWrapper: {
+    opacity: 0.6,
+  },
+
+  button: {
+    width: "100%",
+    paddingVertical: 16,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  buttonText: {
     color: "#f0f7ff",
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "700",
+    letterSpacing: 0.4,
   },
 });

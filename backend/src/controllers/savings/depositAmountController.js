@@ -19,6 +19,19 @@ router.put("/:id/deposit", async (req, res) => {
     if (user.balance < amount) {
       return res.status(401).json({ message: "Saldo insuficiente." });
     }
+    const withdrawBalance = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        balance: { decrement: amount },
+      },
+    });
+    if (!withdrawBalance) {
+      return res
+        .status(500)
+        .json({ message: "Não foi possivel tirar o dinheiro da conta" });
+    }
     const saving = await prisma.saving.findUnique({
       where: { id: savingId },
     });

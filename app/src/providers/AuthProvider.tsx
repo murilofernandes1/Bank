@@ -63,7 +63,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const loadUser = await api.get("/me");
       setUser(loadUser.data);
-      console.log(loadUser.data);
     } catch (error) {
       console.log("Não foi possivel carregar o usuário", error);
     }

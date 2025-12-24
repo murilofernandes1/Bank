@@ -11,12 +11,6 @@ router.put("/:id/withdraw", async (req, res) => {
     return res.status(401).json({ message: "Usuário não autorizado." });
   }
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
     const saving = await prisma.saving.findUnique({
       where: { id: savingId },
     });
@@ -34,6 +28,14 @@ router.put("/:id/withdraw", async (req, res) => {
       },
       data: {
         currentAmount: { decrement: amount },
+      },
+    });
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        balance: { increment: amount },
       },
     });
     return res

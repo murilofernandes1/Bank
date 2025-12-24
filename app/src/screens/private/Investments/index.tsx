@@ -6,14 +6,20 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
+  TextInput,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+
 import { styles } from "./styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { PlusIcon, PiggyBankIcon } from "phosphor-react-native";
 import LoadingScreen from "components/LoadingScreen";
 import GlobalButton from "components/GlobalButton";
+import CurrencyInput from "react-native-currency-input";
 import api from "services/api";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type PiggyProps = {
   id: string;
@@ -25,29 +31,51 @@ type PiggyProps = {
 export default function Investments() {
   const [piggy, setPiggy] = useState<PiggyProps[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [detailsModalVisible, setDetailsModalVisible] = useState(false);
   const [selectedPiggy, setSelectedPiggy] = useState<PiggyProps | null>(null);
-  const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    async function loadPiggys() {
+  const [goalName, setGoalName] = useState("");
+  const [targetAmount, setTargetAmount] = useState<number | null>(null);
+
+  async function loadPiggys() {
+    try {
+      setLoading(true);
       const response = await api.get("/me/savings");
       setPiggy(response.data);
+    } finally {
       setLoading(false);
     }
-    loadPiggys();
-  }, []);
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      loadPiggys();
+    }, [])
+  );
+
+  async function handleCreatePiggy() {
+    if (!goalName || !targetAmount || targetAmount <= 0) return;
+
+    try {
+      setLoading(true);
+      await api.post("/me/savings", {
+        goalName,
+        targetAmount,
+      });
+      setCreateModalVisible(false);
+      setGoalName("");
+      setTargetAmount(null);
+      await loadPiggys();
+    } catch {
+      setLoading(false);
+    }
+  }
 
   if (loading) {
     return <LoadingScreen />;
   }
-
-  const progress =
-    selectedPiggy && selectedPiggy.targetAmount > 0
-      ? Math.min(
-          (selectedPiggy.currentAmount / selectedPiggy.targetAmount) * 100,
-          100
-        )
-      : 0;
 
   return (
     <View style={styles.screen}>
@@ -70,51 +98,41 @@ export default function Investments() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.horizontalList}
         >
-          {piggy.map((p) => {
-            const remaining = p.targetAmount - p.currentAmount;
-
-            return (
-              <TouchableOpacity
-                key={p.id}
-                style={styles.piggyCard}
-                onPress={() => {
-                  setSelectedPiggy(p);
-                  setModalVisible(true);
-                }}
+          {piggy.map((p) => (
+            <TouchableOpacity
+              key={p.id}
+              style={styles.piggyCard}
+              onPress={() => {
+                setSelectedPiggy(p);
+                setDetailsModalVisible(true);
+              }}
+            >
+              <LinearGradient
+                colors={["#0d1b2a", "#1b263b", "#415a77"]}
+                style={styles.piggyCircle}
               >
-                <LinearGradient
-                  colors={["#0d1b2a", "#1b263b", "#415a77"]}
-                  style={styles.piggyCircle}
-                >
-                  <PiggyBankIcon size={34} color="#e0f2ff" />
-                </LinearGradient>
+                <PiggyBankIcon size={36} color="#e0f2ff" />
+              </LinearGradient>
 
-                <Text style={styles.piggyTitle}>{p.goalName}</Text>
+              <Text style={styles.piggyTitle}>{p.goalName}</Text>
+              <Text style={styles.piggyValue}>
+                {p.currentAmount.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </Text>
+            </TouchableOpacity>
+          ))}
 
-                <Text style={styles.piggyValue}>
-                  {p.currentAmount.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                </Text>
-
-                <Text style={styles.piggyRemaining}>
-                  Faltam{" "}
-                  {remaining.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-
-          <TouchableOpacity style={[styles.piggyCard, styles.createCard]}>
+          <TouchableOpacity
+            style={[styles.piggyCard, styles.createCard]}
+            onPress={() => setCreateModalVisible(true)}
+          >
             <LinearGradient
               colors={["#1b263b", "#415a77"]}
               style={styles.piggyCircle}
             >
-              <PlusIcon size={34} color="#e0f2ff" />
+              <PlusIcon size={36} color="#e0f2ff" />
             </LinearGradient>
 
             <Text style={styles.piggyTitle}>Novo porquinho</Text>
@@ -124,62 +142,138 @@ export default function Investments() {
       </ScrollView>
 
       <Modal
-        visible={modalVisible}
-        animationType="fade"
+        visible={createModalVisible}
         transparent
-        onRequestClose={() => setModalVisible(false)}
+        animationType="fade"
+        onRequestClose={() => setCreateModalVisible(false)}
       >
         <Pressable
           style={styles.modalOverlay}
-          onPress={() => setModalVisible(false)}
+          onPress={() => setCreateModalVisible(false)}
         />
 
         <View style={styles.modalContainer}>
           <View style={styles.modalHandle} />
 
-          {selectedPiggy && (
-            <>
-              <LinearGradient
-                colors={["#0d1b2a", "#1b263b", "#415a77"]}
-                style={styles.modalCircle}
-              >
-                <PiggyBankIcon size={38} color="#e0f2ff" />
-              </LinearGradient>
+          <Text style={styles.modalTitle2}>Novo porquinho</Text>
 
-              <Text style={styles.modalTitle}>{selectedPiggy.goalName}</Text>
+          <TextInput
+            value={goalName}
+            onChangeText={setGoalName}
+            placeholder="Nome do objetivo"
+            style={styles.input}
+          />
 
-              <Text style={styles.modalMainValue}>
-                {selectedPiggy.currentAmount.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
-              </Text>
+          <CurrencyInput
+            value={targetAmount}
+            onChangeValue={setTargetAmount}
+            prefix="R$ "
+            delimiter="."
+            separator=","
+            precision={2}
+            placeholder="Meta desejada"
+            style={styles.input}
+          />
 
-              <View style={styles.progressWrapper}>
-                <View style={styles.progressBackground}>
+          <GlobalButton
+            title="Criar porquinho"
+            onPress={handleCreatePiggy}
+            disabled={!goalName || !targetAmount || targetAmount <= 0}
+          />
+        </View>
+      </Modal>
+
+      <Modal
+        visible={detailsModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setDetailsModalVisible(false)}
+      >
+        <Pressable
+          style={styles.modalOverlay}
+          onPress={() => setDetailsModalVisible(false)}
+        />
+
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHandle} />
+
+          {selectedPiggy &&
+            (() => {
+              const progress =
+                selectedPiggy.currentAmount / selectedPiggy.targetAmount;
+
+              const percentage = Math.min(progress * 100, 100);
+
+              return (
+                <>
                   <LinearGradient
-                    colors={["#0d1b2a", "#415a77"]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={[styles.progressFill, { width: `${progress}%` }]}
+                    colors={["#0d1b2a", "#1b263b", "#415a77"]}
+                    style={styles.modalCircle}
+                  >
+                    <PiggyBankIcon size={42} color="#e0f2ff" />
+                  </LinearGradient>
+
+                  <Text style={styles.modalTitle}>
+                    {selectedPiggy.goalName}
+                  </Text>
+
+                  <Text style={styles.modalValueMain}>
+                    {selectedPiggy.currentAmount.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </Text>
+
+                  <Text style={styles.modalSubValue}>
+                    de{" "}
+                    {selectedPiggy.targetAmount.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </Text>
+
+                  <View style={styles.progressContainer}>
+                    <View style={styles.progressBackground}>
+                      <LinearGradient
+                        colors={["#1b263b", "#415a77"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={[
+                          styles.progressFill,
+                          { width: `${percentage}%` },
+                        ]}
+                      />
+                    </View>
+
+                    <Text style={styles.progressText}>
+                      {percentage.toFixed(0)}% da meta
+                    </Text>
+                  </View>
+
+                  <GlobalButton
+                    title="Adicionar dinheiro"
+                    onPress={() => {
+                      setDetailsModalVisible(false);
+                      navigation.navigate("PiggyValue", {
+                        type: "DEPOSIT",
+                        piggyId: selectedPiggy.id,
+                      });
+                    }}
                   />
-                </View>
 
-                <Text style={styles.progressText}>
-                  Faltam{" "}
-                  {(
-                    selectedPiggy.targetAmount - selectedPiggy.currentAmount
-                  ).toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                </Text>
-              </View>
-
-              <GlobalButton title="Adicionar dinheiro" onPress={() => {}} />
-              <GlobalButton title="Resgatar dinheiro" onPress={() => {}} />
-            </>
-          )}
+                  <GlobalButton
+                    title="Resgatar dinheiro"
+                    onPress={() => {
+                      setDetailsModalVisible(false);
+                      navigation.navigate("PiggyValue", {
+                        type: "WITHDRAW",
+                        piggyId: selectedPiggy.id,
+                      });
+                    }}
+                  />
+                </>
+              );
+            })()}
         </View>
       </Modal>
     </View>

@@ -79,12 +79,6 @@ export const styles = StyleSheet.create({
     marginTop: 6,
   },
 
-  piggyRemaining: {
-    fontSize: 12,
-    color: "#64748b",
-    marginTop: 4,
-  },
-
   piggySubtitle: {
     fontSize: 12,
     color: "#64748b",
@@ -129,36 +123,62 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#0d1b2a",
     marginBottom: 6,
+    textAlign: "center",
   },
 
-  modalMainValue: {
+  modalValueMain: {
     fontSize: 28,
     fontWeight: "700",
     color: "#0d1b2a",
-    marginBottom: 16,
+    marginBottom: 4,
   },
 
-  progressWrapper: {
+  modalSubValue: {
+    fontSize: 14,
+    color: "#415a77",
+    marginBottom: 20,
+  },
+
+  progressContainer: {
     width: "100%",
-    marginBottom: 26,
+    marginBottom: 28,
   },
 
   progressBackground: {
-    height: 4,
+    width: "100%",
+    height: 6,
     backgroundColor: "rgba(13,27,42,0.15)",
-    borderRadius: 4,
+    borderRadius: 6,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 4,
-    borderRadius: 4,
+    height: 6,
+    borderRadius: 6,
   },
 
   progressText: {
     marginTop: 8,
-    fontSize: 13,
-    fontWeight: "500",
+    fontSize: 12,
     color: "#415a77",
+    textAlign: "right",
+  },
+
+  input: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: "#0d1b2a",
+    marginBottom: 16,
+  },
+
+  modalTitle2: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#0d1b2a",
+    marginBottom: 20,
   },
 });

@@ -8,6 +8,8 @@ import myTransfersController from "../controllers/transfers/myTransfersControlle
 import seeReceiptController from "../controllers/transfers/seeReceiptController.js";
 import createSavingController from "../controllers/savings/createSavingController.js";
 import mySavings from "../controllers/savings/mySavingsController.js";
+import depositAmountController from "../controllers/savings/depositAmountController.js";
+import withdrawAmountController from "../controllers/savings/withdrawAmountController.js";
 
 router.use("/", meController);
 router.use("/card", newCreditCard);
@@ -17,5 +19,7 @@ router.use("/transfers", myTransfersController);
 router.use("/receipts", seeReceiptController);
 router.use("/savings", createSavingController);
 router.use("/savings", mySavings);
+router.use("/savings", depositAmountController);
+router.use("/savings", withdrawAmountController);
 
 export default router;

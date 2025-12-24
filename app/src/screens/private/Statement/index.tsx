@@ -60,8 +60,10 @@ export default function Statement() {
 
   async function seeReceipt(transfer: TransacoesProps) {
     try {
+      setLoading(true);
       const response = await api.get(`/me/receipts/${transfer.id}`);
       setReceipt(response.data);
+      setLoading(false);
       setReceiptOpen(true);
     } catch (error) {
       console.log(error);

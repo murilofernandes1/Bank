@@ -268,6 +268,7 @@ export default function Investments() {
                       navigation.navigate("PiggyValue", {
                         type: "WITHDRAW",
                         piggyId: selectedPiggy.id,
+                        currentAmount: selectedPiggy.currentAmount,
                       });
                     }}
                   />

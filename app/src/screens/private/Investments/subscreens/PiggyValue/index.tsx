@@ -11,6 +11,7 @@ import { styles } from "./styles";
 
 interface RouteParams {
   piggyId: string;
+  currentAmount: number;
   type: "DEPOSIT" | "WITHDRAW";
 }
 
@@ -22,13 +23,14 @@ const paymentMethods = [
 export default function PiggyValue() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const route = useRoute();
-  const { piggyId, type } = route.params as RouteParams;
+  const { piggyId, type, currentAmount } = route.params as RouteParams;
 
   const [value, setValue] = useState<number | null>(null);
   const [touched, setTouched] = useState(false);
+  const [invalidValue, setInvalidValue] = useState(false);
   const [method, setMethod] = useState("MONEY");
 
-  const disabled = !value || value <= 0;
+  const disabled = !value || value <= 0 || invalidValue;
 
   return (
     <View style={styles.screen}>
@@ -44,8 +46,10 @@ export default function PiggyValue() {
         <CurrencyInput
           value={value}
           onChangeValue={(v) => {
+            setInvalidValue(false);
             setTouched(true);
             setValue(v);
+            v > currentAmount && setInvalidValue(true);
           }}
           prefix="R$ "
           delimiter="."
@@ -59,7 +63,9 @@ export default function PiggyValue() {
         {touched && (!value || value <= 0) && (
           <Text style={styles.errorText}>Informe um valor maior que zero</Text>
         )}
-
+        {invalidValue && (
+          <Text style={styles.errorText}>Seu porquinho não tem esse valor</Text>
+        )}
         {type === "DEPOSIT" && (
           <>
             <Text style={styles.methodTitle}>Escolha o método</Text>

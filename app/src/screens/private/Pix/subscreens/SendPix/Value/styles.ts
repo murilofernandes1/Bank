@@ -13,62 +13,65 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: "700",
     color: "#0d1b2a",
-    marginTop: 20,
-    marginBottom: 40,
+    marginBottom: 30,
   },
 
   valueInput: {
-    width: "100%",
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 20,
-    fontSize: 32,
+    fontSize: 36,
+    fontWeight: "700",
     color: "#0d1b2a",
+    marginBottom: 8,
   },
-  serviceButton: {
-    alignItems: "center",
-    textAlign: "center",
-    flexDirection: "column",
-    marginRight: 15,
-  },
-  notSelected: {
-    alignItems: "center",
-    textAlign: "center",
-    flexDirection: "column",
-    marginRight: 15,
-    opacity: 0.4,
-  },
-  serviceCircle: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  services: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginTop: 40,
-  },
-  serviceName: {
-    marginTop: 10,
-    fontSize: 15,
-    fontWeight: "500",
-    alignSelf: "center",
-    opacity: 0.8,
-  },
+
   methodTitle: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "600",
     color: "#0d1b2a",
     marginTop: 40,
-    opacity: 0.8,
+    marginBottom: 16,
   },
+
+  services: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 40,
+  },
+
+  serviceButton: {
+    width: "48%",
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    paddingVertical: 16,
+    alignItems: "center",
+    elevation: 2,
+  },
+
+  notSelected: {
+    width: "48%",
+    backgroundColor: "#e2e8f0",
+    borderRadius: 16,
+    paddingVertical: 16,
+    alignItems: "center",
+  },
+
+  serviceCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 8,
+  },
+
+  serviceName: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#0d1b2a",
+  },
+
   errorText: {
     marginTop: 8,
     color: "#ff6b6b",

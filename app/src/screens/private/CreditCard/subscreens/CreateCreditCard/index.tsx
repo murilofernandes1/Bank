@@ -5,32 +5,33 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../../../hooks/useAuth";
-import { styles } from "./styles";
 import api from "services/api";
 import LoadingAction from "components/LoadingAction";
 import GlobalButton from "../../../../../components/GlobalButton";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "components/BackButton";
+import { styles } from "./styles";
 
 type UserProps = {
   id: string;
   name: string;
 };
 
+const days = ["1", "5", "8", "11", "14", "17", "20", "23", "26", "29", "31"];
+
 export default function CreateCreditCard() {
   const [user, setUser] = useState<UserProps | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [day, setDay] = useState("");
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
   const [message, setMessage] = useState(false);
+  const [day, setDay] = useState<string | null>(null);
 
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { token } = useAuth();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   useEffect(() => {
     if (!token) return;
@@ -39,9 +40,9 @@ export default function CreateCreditCard() {
       try {
         const response = await api.get("/me");
         setUser(response.data);
-        setLoading(false);
       } catch {
         setError(true);
+      } finally {
         setLoading(false);
       }
     }
@@ -49,29 +50,23 @@ export default function CreateCreditCard() {
     loadUser();
   }, [token]);
 
-  function getOpacity(value: string) {
-    return day === value ? 0.5 : 1;
-  }
-
   async function createCreditCard() {
     if (!day) return;
 
     try {
       setSending(true);
-      setLoading(true);
       await api.post("/me/card", { dueDay: day });
-      setLoading(false);
+      setSending(false);
       setMessage(true);
-      setTimeout(() => navigation.navigate("Home"), 3000);
+      setTimeout(() => navigation.navigate("Home"), 2500);
     } catch {
       setError(true);
-      setLoading(false);
     }
   }
 
   if (loading && !sending) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={styles.center}>
         <ActivityIndicator size="large" color="#0d1b2a" />
       </View>
     );
@@ -81,56 +76,90 @@ export default function CreateCreditCard() {
     <>
       <View style={styles.screen}>
         <BackButton />
+
         <ScrollView
-          style={{ flex: 1 }}
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
         >
           <Text style={styles.title}>
-            Bem vindo, {user?.name?.split(" ")[0] ?? "Nome"}!
+            Bem-vindo, {user?.name?.split(" ")[0]}!
           </Text>
 
           <Text style={styles.subtitle}>
-            Vamos começar criando seu cartão de crédito gratuito e com a
-            transparência que só a Orbit tem!
+            Seu cartão de crédito gratuito, sem taxas escondidas e com controle
+            total pelo app.
           </Text>
 
-          <Text style={styles.subtitle2}>
-            Qual a melhor dia para o vencimento da sua fatura?
-          </Text>
+          <View style={styles.infoCard}>
+            <Text style={styles.infoTitle}>
+              Quais são os diferenciais do cartão virtual Orbit?
+            </Text>
+            <Text style={styles.infoText}>
+              Com o cartão Orbit você tem vantagens exclusivas, acumula pontos
+              para trocar por produtos e muito mais!
+            </Text>
+          </View>
+
+          <Text style={styles.sectionTitle}>Dia de vencimento da fatura</Text>
 
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.services}
+            contentContainerStyle={styles.daysContainer}
           >
-            {["5", "11", "21", "27"].map((value) => (
-              <TouchableOpacity
-                key={value}
-                onPress={() => setDay(value)}
-                style={styles.serviceButton}
-              >
-                <LinearGradient
-                  colors={["#0d1b2a", "#1b263b", "#415a77"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={[styles.serviceCircle, { opacity: getOpacity(value) }]}
+            {days.map((value) => {
+              const selected = day === value;
+
+              return (
+                <TouchableOpacity
+                  key={value}
+                  activeOpacity={0.85}
+                  onPress={() => setDay(value)}
+                  style={[styles.dayCard, selected && styles.dayCardSelected]}
                 >
-                  <Text style={styles.number}>{value}</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            ))}
+                  <Text
+                    style={[
+                      styles.dayNumber,
+                      selected && styles.dayNumberSelected,
+                    ]}
+                  >
+                    {value}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.dayLabel,
+                      selected && styles.dayLabelSelected,
+                    ]}
+                  >
+                    todo mês
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
 
-          <GlobalButton title="Criar meu cartão" onPress={createCreditCard} />
+          {day && (
+            <View style={styles.confirmationBox}>
+              <Text style={styles.confirmationText}>
+                Sua fatura vencerá todo dia{" "}
+                <Text style={styles.bold}>{day}</Text>
+              </Text>
+            </View>
+          )}
+
+          <GlobalButton
+            title="Criar meu cartão"
+            disabled={!day || sending}
+            onPress={createCreditCard}
+          />
         </ScrollView>
       </View>
 
       {sending && (
         <LoadingAction
-          loading={loading}
+          loading
           message={message}
-          actionMessage="Cartão de crédito criado com sucesso!"
+          actionMessage="Cartão criado com sucesso!"
           error={error}
         />
       )}

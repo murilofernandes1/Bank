@@ -73,6 +73,24 @@ export default function Card() {
         end={{ x: 1, y: 1 }}
         style={styles.card}
       >
+        <View style={styles.orbitWrapper}>
+          <View style={styles.orbit}>
+            <LinearGradient
+              colors={["#e0f2ff", "#778da9"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.orbitCenter}
+            />
+
+            <LinearGradient
+              colors={["#e0f2ff", "#778da9"]}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={styles.orbitDot}
+            />
+          </View>
+        </View>
+
         <Image
           source={require("../../assets/contactless.png")}
           style={styles.contactless}

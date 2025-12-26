@@ -62,7 +62,7 @@ export default function WelcomeBack() {
   async function handleBiometricLogin() {
     try {
       const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Acesse com sua impressão digital ou PIN.",
+        promptMessage: `Bem vindo de volta, ${user.name}!`,
         fallbackLabel: "Digite sua senha",
         disableDeviceFallback: false,
       });

@@ -32,6 +32,12 @@ export const styles = StyleSheet.create({
     color: "#e0f2ff",
     fontWeight: "500",
   },
+  errorText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: "red",
+    fontWeight: "500",
+  },
   permissionContainer: {
     flex: 1,
     justifyContent: "center",

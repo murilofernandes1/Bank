@@ -28,7 +28,11 @@ export const styles = StyleSheet.create({
   },
 
   userInfo: {
-    marginTop: 165,
+    width: 70,
+    height: 70,
+    position: "absolute",
+    bottom: 15,
+    left: 15,
   },
 
   number: {
@@ -52,5 +56,32 @@ export const styles = StyleSheet.create({
     position: "absolute",
     bottom: 15,
     right: 15,
+  },
+  orbitWrapper: {
+    alignItems: "flex-start",
+  },
+
+  orbit: {
+    width: 48,
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  orbitCenter: {
+    width: 40,
+    height: 40,
+    borderRadius: 999,
+    opacity: 0.9,
+  },
+
+  orbitDot: {
+    position: "absolute",
+    width: 15,
+    height: 15,
+    borderRadius: 999,
+    left: 40,
+    bottom: 40,
+    opacity: 0.6,
   },
 });

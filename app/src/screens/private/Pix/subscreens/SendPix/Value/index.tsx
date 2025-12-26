@@ -24,28 +24,20 @@ const paymentMethods: MethodProps[] = [
 export default function PixValue() {
   const { setAmount } = useTransfer();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const [value, setValue] = useState<number | null>(null);
   const [touched, setTouched] = useState(false);
-  const [selectedMethodKey, setSelectedMethodKey] = useState<string | null>(
-    "MONEY"
-  );
+  const [method, setMethod] = useState<"MONEY" | "CREDIT_CARD">("MONEY");
 
-  const chooseMethod = (key: string) => {
-    setSelectedMethodKey(key);
-  };
+  const disabled = !(typeof value === "number" && value > 0);
 
-  const selectedMethod = paymentMethods.find(
-    (m) => m.key === selectedMethodKey
-  );
-  const isButtonDisabled = !value || value <= 0 || !selectedMethodKey;
-  const methodName = selectedMethod ? selectedMethod.methodName : "";
+  const selectedMethod = paymentMethods.find((m) => m.key === method);
 
   return (
     <View style={styles.screen}>
       <BackButton />
 
       <ScrollView
-        style={{ flex: 1 }}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
@@ -55,7 +47,7 @@ export default function PixValue() {
           value={value}
           onChangeValue={(v) => {
             setTouched(true);
-            setValue(v);
+            setValue(v ?? 0);
           }}
           prefix="R$ "
           delimiter="."
@@ -63,54 +55,49 @@ export default function PixValue() {
           precision={2}
           style={styles.valueInput}
           placeholder="R$ 0,00"
-          keyboardType="numeric"
+          keyboardType="number-pad"
         />
+
         {touched && (!value || value <= 0) && (
           <Text style={styles.errorText}>Informe um valor maior que zero</Text>
         )}
 
-        <Text style={styles.methodTitle}>Escolha o metódo de pagamento</Text>
-        <View style={styles.services}>
-          {paymentMethods.map((m) => {
-            const isSelected = m.key === selectedMethodKey;
+        <Text style={styles.methodTitle}>Escolha o método de pagamento</Text>
 
-            return (
-              <TouchableOpacity
-                key={m.id}
-                onPress={() => chooseMethod(m.key)}
-                style={isSelected ? styles.notSelected : styles.serviceButton}
+        <View style={styles.services}>
+          {paymentMethods.map((m) => (
+            <TouchableOpacity
+              key={m.id}
+              onPress={() => setMethod(m.key)}
+              style={
+                method === m.key ? styles.notSelected : styles.serviceButton
+              }
+            >
+              <LinearGradient
+                colors={["#0d1b2a", "#1b263b", "#415a77"]}
+                style={styles.serviceCircle}
               >
-                <LinearGradient
-                  colors={["#0d1b2a", "#1b263b", "#415a77"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={styles.serviceCircle}
-                >
-                  {m.key === "MONEY" ? (
-                    <MoneyIcon size={30} color="#e0f2ff" />
-                  ) : (
-                    <CreditCardIcon size={30} color="#e0f2ff" />
-                  )}
-                </LinearGradient>
-                <Text style={styles.serviceName}>{m.methodName}</Text>
-              </TouchableOpacity>
-            );
-          })}
+                {m.key === "MONEY" ? (
+                  <MoneyIcon size={28} color="#e0f2ff" />
+                ) : (
+                  <CreditCardIcon size={28} color="#e0f2ff" />
+                )}
+              </LinearGradient>
+
+              <Text style={styles.serviceName}>{m.methodName}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <GlobalButton
-          title={
-            selectedMethod
-              ? `Pagar com ${selectedMethod.methodName}`
-              : "Selecione um método de pagamento"
-          }
+          title={`Pagar com ${selectedMethod?.methodName}`}
+          disabled={disabled}
           onPress={() => {
             setAmount(value);
             navigation.navigate("ConfirmPix", {
-              methodName: methodName,
+              methodName: selectedMethod?.methodName,
             });
           }}
-          disabled={isButtonDisabled}
         />
       </ScrollView>
     </View>

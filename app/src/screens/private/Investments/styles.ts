@@ -47,7 +47,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
     alignItems: "center",
     marginRight: 12,
-    elevation: 2,
   },
 
   createCard: {

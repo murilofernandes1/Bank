@@ -8,56 +8,87 @@ export const styles = StyleSheet.create({
 
   content: {
     paddingHorizontal: 20,
-    paddingTop: 20,
     paddingBottom: 80,
   },
-  card: {
-    width: "100%",
-    height: 175,
-    borderRadius: 12,
-    marginRight: 15,
-    marginTop: 30,
-    padding: 40,
-    justifyContent: "center",
-  },
-  cardNumber: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#e0f2ff",
-  },
 
-  cardName: {
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#e0f2ff",
-    opacity: 0.8,
-  },
-  invoice: {
-    color: "#e0f2ff",
-    fontWeight: 700,
-    fontSize: 20,
-    opacity: 0.8,
-  },
-  value: {
-    marginTop: 5,
-    color: "#e0f2ff",
-    fontWeight: 700,
-    fontSize: 25,
-  },
-  exp: {
-    marginTop: 10,
-    color: "#e0f2ff",
-    fontWeight: 500,
-    fontSize: 15,
-    opacity: 0.8,
-  },
-  date: {
-    fontWeight: 700,
-  },
   header: {
     fontSize: 26,
     fontWeight: "700",
     color: "#0d1b2a",
     marginTop: 20,
+    marginBottom: 20,
+  },
+
+  card: {
+    width: "100%",
+    borderRadius: 16,
+    padding: 24,
+    marginBottom: 30,
+  },
+
+  cardLabel: {
+    fontSize: 16,
+    color: "#e0f2ff",
+    opacity: 0.85,
+    marginBottom: 8,
+  },
+
+  cardValue: {
+    fontSize: 32,
+    fontWeight: "700",
+    color: "#e0f2ff",
+    marginBottom: 16,
+  },
+
+  cardFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  cardExpiration: {
+    fontSize: 14,
+    color: "#e0f2ff",
+    opacity: 0.9,
+  },
+
+  badgeClosed: {
+    backgroundColor: "rgba(240,247,255,0.15)",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+
+  badgeText: {
+    color: "#e0f2ff",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+
+  actionArea: {
+    gap: 16,
+  },
+
+  helperBox: {
+    backgroundColor: "#eaf2ff",
+    padding: 14,
+    borderRadius: 12,
+  },
+
+  helperText: {
+    fontSize: 14,
+    color: "#0d1b2a",
+    opacity: 0.8,
+    textAlign: "center",
+    lineHeight: 20,
+  },
+
+  bold: {
+    fontWeight: "700",
+  },
+
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

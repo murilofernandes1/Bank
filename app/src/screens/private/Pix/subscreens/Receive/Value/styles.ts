@@ -20,13 +20,10 @@ export const styles = StyleSheet.create({
   },
 
   valueInput: {
-    width: "100%",
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 20,
-    fontSize: 32,
+    fontSize: 36,
+    fontWeight: "700",
     color: "#0d1b2a",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   error: {
     color: "red",

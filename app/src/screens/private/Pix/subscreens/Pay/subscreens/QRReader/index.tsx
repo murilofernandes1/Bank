@@ -18,6 +18,7 @@ type TransferDataProps = {
 export default function QRReader() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [scanned, setScanned] = useState(false);
+  const [error, setError] = useState(false);
   const [permission, requestPermission] = useCameraPermissions();
 
   const { setDestinationId, setAmount, setDestinationName } = useTransfer();
@@ -34,17 +35,14 @@ export default function QRReader() {
       if (!parsedData.destinationId || !parsedData.amount) {
         throw new Error();
       }
-
+      setError(false);
       setDestinationId(parsedData.destinationId);
       setDestinationName(parsedData.name);
       setAmount(Number(parsedData.amount));
 
       navigation.navigate("ConfirmPix");
     } catch {
-      Alert.alert(
-        "Não foi possível ler o QR Code",
-        "Verifique se o código é válido e tente novamente."
-      );
+      setError(true);
       setTimeout(() => setScanned(false), 2000);
     }
   }
@@ -80,6 +78,11 @@ export default function QRReader() {
       <View style={styles.overlay} pointerEvents="none">
         <CornersOutIcon size={280} weight="thin" color="#e0f2ff" />
         <Text style={styles.helperText}>Aponte a câmera para o QR Code</Text>
+        {error && (
+          <Text style={styles.errorText}>
+            QR Code inválido. Tente novamente.
+          </Text>
+        )}
       </View>
 
       {scanned && (

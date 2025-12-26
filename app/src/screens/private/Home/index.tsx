@@ -275,11 +275,12 @@ export default function Home() {
               <CreditCardIcon size={40} color="#e0f2ff" />
 
               <Text style={[styles.invoice, { marginTop: 15 }]}>
-                Criar cartão de crédito
+                Peça agora seu cartão de crédito
               </Text>
 
               <Text style={styles.exp}>
-                Aproveite limite, compras online e controle total
+                Aproveite limite, compras online e controle total que só a Orbit
+                oferece!
               </Text>
             </LinearGradient>
           </TouchableOpacity>

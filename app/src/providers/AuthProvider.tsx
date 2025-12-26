@@ -12,7 +12,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProps | null>(null);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
   const AUTH_STORAGE_KEY = "@auth_token";
@@ -83,6 +83,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         token,
         alreadyLogged,
         authenticated,
+        setAuthenticated,
         loading,
         Login,
         Logout,

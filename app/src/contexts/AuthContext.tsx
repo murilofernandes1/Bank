@@ -11,6 +11,7 @@ interface AuthContextProps {
   loading: boolean;
   alreadyLogged: boolean;
   authenticated: boolean;
+  setAuthenticated: (boolean: boolean) => void;
   Login: (token: string) => void;
   confirmPin: () => void;
   Logout: () => void;

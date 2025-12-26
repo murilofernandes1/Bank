@@ -9,8 +9,6 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import api from "services/api";
 import { useAuth } from "hooks/useAuth";
 import OrbitingSingle from "../../../components/Orbit";
@@ -18,18 +16,21 @@ import { useEffect, useState } from "react";
 import LoadingScreen from "components/LoadingScreen";
 import { SignOutIcon, FingerprintIcon } from "phosphor-react-native";
 import { PinInput } from "../../../components/PinInput/index";
+import * as LocalAuthentication from "expo-local-authentication";
 
 type UserProps = {
   name: string;
 };
 
 export default function WelcomeBack() {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [user, setUser] = useState<UserProps | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isBiometricSupported, setIsBiometricSupported] = useState(false);
   const [pin, setPin] = useState("");
+
   const [error, setError] = useState(false);
-  const { Logout, Login } = useAuth();
+  const { Logout, Login, setAuthenticated } = useAuth();
+
   useEffect(() => {
     async function loadUser() {
       try {
@@ -40,10 +41,11 @@ export default function WelcomeBack() {
         console.log(error);
       }
     }
+    checkBiometricSupport();
     loadUser();
   }, []);
 
-  async function handleLogin(pinValue: string) {
+  async function handlePinLogin(pinValue: string) {
     try {
       setError(false);
       const response = await api.post("/auth/pin", { pin: pinValue });
@@ -56,6 +58,36 @@ export default function WelcomeBack() {
       console.log(error);
     }
   }
+
+  async function handleBiometricLogin() {
+    try {
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: "Acesse com sua impressão digital ou PIN.",
+        fallbackLabel: "Digite sua senha",
+        disableDeviceFallback: false,
+      });
+
+      if (result.success) {
+        setAuthenticated(true);
+      }
+    } catch (error) {
+      return null;
+    }
+  }
+
+  const checkBiometricSupport = async () => {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    setIsBiometricSupported(hasHardware);
+    if (hasHardware) {
+      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+      if (!isEnrolled) {
+        Alert.alert(
+          "Ops! Parece que você ainda não tem uma digital configurada.",
+          "Acesse as configurações do seu dispositivo e configure uma impressão digital ou Face ID"
+        );
+      }
+    }
+  };
 
   if (loading) return <LoadingScreen />;
 
@@ -103,18 +135,16 @@ export default function WelcomeBack() {
 
                   if (value.length === 4) {
                     setTimeout(() => {
-                      handleLogin(value);
+                      handlePinLogin(value);
                     }, 300);
                   }
                 }}
               />
 
               <TouchableOpacity
-                onPress={() =>
-                  Alert.alert(
-                    "Esta funcionalidade estará disponivel em uma versão futura."
-                  )
-                }
+                onPress={() => {
+                  handleBiometricLogin();
+                }}
                 style={styles.primaryButton}
               >
                 <FingerprintIcon size={80} color="#e0f2ff" />

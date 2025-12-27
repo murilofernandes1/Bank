@@ -15,7 +15,7 @@ model User {
   balance Int @default(0)
   pin String?
   pixKeys PixKey[]
-  creditCards CreditCard[]
+  creditCard CreditCard?  
   sentTransactions     Transaction[] @relation("SentTransactions")
   receivedTransactions Transaction[] @relation("ReceivedTransactions")
   savings Saving[]
@@ -54,15 +54,40 @@ model Transaction {
 
 model CreditCard {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
+  userId String @db.ObjectId @unique
   user User @relation(fields: [userId], references: [id])
+
   number String @unique
-  expirationDate DateTime
-  invoiceDueDay Int
-  invoiceAmount Int @default(0)
-  creditLimit Int @default(600)
   cvv String
+  expirationDate DateTime
+  
+  invoiceDueDay Int
+  invoiceClosingDay Int
+
+  invoiceDueDate DateTime
+  invoiceClosingDate DateTime
+
+  creditLimit Int @default(600)
+
+  invoices Invoice[]
 }
+
+model Invoice {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  creditCardId String @db.ObjectId
+  creditCard CreditCard @relation(fields: [creditCardId], references: [id])
+
+  referenceDate DateTime
+
+  totalAmount Int
+  paidAmount Int @default(0)
+
+  isPaid Boolean @default(false)
+}
+
+
+
 model PixKey{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   userId String @db.ObjectId

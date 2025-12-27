@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import meController from "../controllers/user/meController.js";
-import newCreditCard from "../controllers/user/creditCard/newCreditCard.js";
+import newCreditCard from "../controllers/creditcard/newCreditCard.js";
 import createKey from "../controllers/user/keys/createKey.js";
 import deleteKey from "../controllers/user/keys/deleteKey.js";
 import myTransfersController from "../controllers/transfers/myTransfersController.js";
@@ -10,9 +10,11 @@ import createSavingController from "../controllers/savings/createSavingControlle
 import mySavings from "../controllers/savings/mySavingsController.js";
 import depositAmountController from "../controllers/savings/depositAmountController.js";
 import withdrawAmountController from "../controllers/savings/withdrawAmountController.js";
+import payCreditCardController from "../controllers/creditcard/payCreditCardController.js";
 
 router.use("/", meController);
 router.use("/card", newCreditCard);
+router.use("/card/pay", payCreditCardController);
 router.use("/keys", createKey);
 router.use("/keys/:id", deleteKey);
 router.use("/transfers", myTransfersController);

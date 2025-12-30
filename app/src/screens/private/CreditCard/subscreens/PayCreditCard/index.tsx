@@ -8,6 +8,7 @@ import GradientButton from "../../../../../components/GlobalButton";
 import CurrencyInput from "react-native-currency-input";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import { styles } from "./styles";
+import GlobalButton from "../../../../../components/GlobalButton";
 
 interface CreditCardProps {
   key: string;
@@ -27,8 +28,9 @@ export default function PayCreditCard() {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState(false);
   const [error, setError] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const invoiceAmount = route.params.invoice;
-  async function fakeLoading() {
+  async function handlePay() {
     try {
       setSending(true);
       setLoading(true);
@@ -77,7 +79,7 @@ export default function PayCreditCard() {
           keyboardType="numeric"
         />
 
-        <GradientButton title="Continuar" onPress={fakeLoading} />
+        <GlobalButton title="Pagar fatura" onPress={() => handlePay()} />
       </ScrollView>
       {sending && (
         <LoadingAction

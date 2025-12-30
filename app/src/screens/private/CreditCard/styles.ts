@@ -16,21 +16,21 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#0d1b2a",
     marginTop: 20,
-    marginBottom: 20,
   },
 
-  card: {
-    width: "100%",
+  subtitle: {
+    fontSize: 15,
+    color: "#415a77",
+    marginTop: 6,
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+
+  invoiceCard: {
     borderRadius: 16,
     padding: 24,
-    marginBottom: 30,
   },
-  creditCard: {
-    width: 400,
-    padding: 20,
-    borderRadius: 20,
-    height: 275,
-  },
+
   cardLabel: {
     fontSize: 16,
     color: "#e0f2ff",
@@ -42,23 +42,18 @@ export const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "700",
     color: "#e0f2ff",
-    marginBottom: 16,
-  },
-
-  cardFooter: {
-    flexDirection: "row",
-    alignItems: "center",
+    marginBottom: 14,
   },
 
   cardExpiration: {
     fontSize: 14,
     color: "#e0f2ff",
-    opacity: 0.9,
   },
 
   badgeClosed: {
+    alignSelf: "flex-start",
     backgroundColor: "rgba(240,247,255,0.15)",
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: 20,
   },
@@ -70,21 +65,121 @@ export const styles = StyleSheet.create({
   },
 
   actionArea: {
-    gap: 16,
+    gap: 14,
+    marginBottom: 34,
   },
 
-  helperBox: {
-    backgroundColor: "#eaf2ff",
-    padding: 14,
-    borderRadius: 12,
-  },
-
-  helperText: {
-    fontSize: 14,
-    color: "#0d1b2a",
-    opacity: 0.8,
+  helperInline: {
+    fontSize: 13,
+    color: "#415a77",
     textAlign: "center",
     lineHeight: 20,
+  },
+
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#0d1b2a",
+    marginBottom: 4,
+  },
+
+  sectionDesc: {
+    fontSize: 14,
+    color: "#415a77",
+    marginBottom: 16,
+  },
+
+  cardContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 30,
+  },
+
+  creditCard: {
+    width: 400,
+    height: 275,
+    borderRadius: 20,
+    padding: 20,
+  },
+
+  orbitWrapper: {
+    alignItems: "flex-start",
+  },
+
+  orbit: {
+    width: 60,
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  orbitCenter: {
+    width: 52,
+    height: 52,
+    borderRadius: 999,
+    opacity: 0.9,
+  },
+
+  orbitDot: {
+    position: "absolute",
+    width: 18,
+    height: 18,
+    borderRadius: 999,
+    left: 48,
+    bottom: 48,
+    opacity: 0.6,
+  },
+
+  contactless: {
+    width: 44,
+    height: 44,
+    position: "absolute",
+    top: 15,
+    right: 15,
+  },
+
+  userInfo: {
+    position: "absolute",
+    bottom: 28,
+    left: 20,
+  },
+
+  numberContainer: {
+    width: "66%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  number: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#e0f2ff",
+    opacity: 0.8,
+    marginBottom: 8,
+  },
+
+  cardNumber: {
+    fontWeight: "600",
+    fontSize: 20,
+    color: "#e0f2ff",
+    letterSpacing: 2,
+    opacity: 0.8,
+  },
+
+  title: {
+    fontSize: 20,
+    color: "#e0f2ff",
+    fontWeight: "500",
+    width: "80%",
+    marginTop: 12,
+  },
+
+  mastercard: {
+    width: 70,
+    height: 70,
+    position: "absolute",
+    bottom: 15,
+    right: 15,
   },
 
   bold: {
@@ -95,93 +190,5 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  cardContainer: {
-    width: "100%",
-
-    borderRadius: 20,
-    overflow: "hidden",
-    alignItems: "center",
-  },
-
-  closeButton: {
-    position: "absolute",
-  },
-
-  contactless: {
-    width: 35,
-    height: 35,
-    position: "absolute",
-    top: 15,
-    right: 15,
-  },
-
-  userInfo: {
-    width: "100%",
-    height: 70,
-    position: "absolute",
-    bottom: 50,
-    left: 20,
-  },
-
-  number: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#e0f2ff",
-    marginBottom: 8,
-    opacity: 0.8,
-  },
-  cardNumber: {
-    fontSize: 20,
-    color: "#e0f2ff",
-    letterSpacing: 2,
-    marginBottom: 12,
-  },
-  title: {
-    fontSize: 18,
-    color: "#e0f2ff",
-    fontWeight: "500",
-    width: "80%",
-  },
-
-  mastercard: {
-    width: 70,
-    height: 70,
-    position: "absolute",
-    bottom: 15,
-    right: 15,
-  },
-  orbitWrapper: {
-    alignItems: "flex-start",
-  },
-
-  orbit: {
-    width: 48,
-    height: 48,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  orbitCenter: {
-    width: 40,
-    height: 40,
-    borderRadius: 999,
-    opacity: 0.9,
-  },
-
-  orbitDot: {
-    position: "absolute",
-    width: 15,
-    height: 15,
-    borderRadius: 999,
-    left: 40,
-    bottom: 40,
-    opacity: 0.6,
-  },
-  numberContainer: {
-    width: "66%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
 });

@@ -10,10 +10,9 @@ import GlobalButton from "../../../../../../components/GlobalButton";
 
 export default function ReceiveValue() {
   const [amount, setAmount] = useState<number | null>(null);
-  const [value, setValue] = useState<number | null>(null);
-  const [touched, setTouched] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const disabled = !(typeof value === "number" && value > 0);
+
+  const disabled = !(typeof amount === "number" && amount > 0);
 
   return (
     <View style={styles.screen}>
@@ -28,9 +27,7 @@ export default function ReceiveValue() {
 
         <CurrencyInput
           value={amount}
-          onChangeValue={(a) => {
-            setAmount(a);
-          }}
+          onChangeValue={(a) => setAmount(a)}
           prefix="R$ "
           delimiter="."
           separator=","
@@ -44,7 +41,7 @@ export default function ReceiveValue() {
           disabled={disabled}
           title="Continuar"
           onPress={() => {
-            navigation.navigate("QR", { amount: amount });
+            navigation.navigate("QR", { amount });
           }}
         />
       </ScrollView>

@@ -3,6 +3,32 @@ import { createContext } from "react";
 export interface UserProps {
   id: string;
   name: string;
+  balance: number;
+  creditCard?: CreditCardProps;
+  pixKeys?: PixKeysProps;
+}
+
+export interface CreditCardProps {
+  id: string;
+  creditLimit: number;
+  cvv: number;
+  expirationDate: Date;
+  invoiceClosingDate: Date;
+  invoiceDueDate: Date;
+  invoiceClosingDay: number;
+  invoiceDueDay: number;
+  invoices: InvoiceProps[];
+  number: number;
+}
+export interface InvoiceProps {
+  invoiceAmount: number;
+  expirationDueDate: Date;
+}
+
+export interface PixKeysProps {
+  id: string;
+  key: string;
+  type: string;
 }
 
 interface AuthContextProps {

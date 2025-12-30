@@ -24,17 +24,12 @@ router.get("/", async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { creditCards: true, pixKeys: true },
+      include: { creditCard: { include: { invoices: true } }, pixKeys: true },
       omit: { password: true },
     });
-    const creditCards = user.creditCards.map((card) => ({
-      ...card,
-      invoiceDueDate: gerarInvoiceDueDate(card.invoiceDueDay),
-    }));
 
     res.json({
       ...user,
-      creditCards,
     });
   } catch (error) {
     res

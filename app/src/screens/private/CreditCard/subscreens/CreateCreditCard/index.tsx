@@ -20,7 +20,7 @@ type UserProps = {
   name: string;
 };
 
-const days = ["1", "5", "8", "11", "14", "17", "20", "23", "26", "29", "31"];
+const days = ["1", "4", "7", "10", "13", "16", "19", "22", "25", "28"];
 
 export default function CreateCreditCard() {
   const [user, setUser] = useState<UserProps | null>(null);
@@ -52,18 +52,24 @@ export default function CreateCreditCard() {
 
   async function createCreditCard() {
     if (!day) return;
-
+    const formatedDay = Number(day);
+    console.log(day);
+    console.log(formatedDay);
     try {
       setSending(true);
-      await api.post("/me/card", { dueDay: day });
+      await api.post("/me/card", { invoiceClosingDay: formatedDay });
       setSending(false);
       setMessage(true);
       setTimeout(() => navigation.navigate("Home"), 2500);
-    } catch {
+    } catch (error) {
+      console.log(error);
       setError(true);
+      setTimeout(() => {
+        setLoading(false);
+        navigation.navigate("Home");
+      }, 2500);
     }
   }
-
   if (loading && !sending) {
     return (
       <View style={styles.center}>
@@ -100,7 +106,9 @@ export default function CreateCreditCard() {
             </Text>
           </View>
 
-          <Text style={styles.sectionTitle}>Dia de vencimento da fatura</Text>
+          <Text style={styles.sectionTitle}>
+            Qual o melhor dia para o vencimento da sua fatura?
+          </Text>
 
           <ScrollView
             horizontal
@@ -148,7 +156,7 @@ export default function CreateCreditCard() {
           )}
 
           <GlobalButton
-            title="Criar meu cartão"
+            title="Solicitar meu cartão de crédito"
             disabled={!day || sending}
             onPress={createCreditCard}
           />
@@ -157,9 +165,9 @@ export default function CreateCreditCard() {
 
       {sending && (
         <LoadingAction
-          loading
+          loading={loading}
           message={message}
-          actionMessage="Cartão criado com sucesso!"
+          actionMessage="Deu tudo certo! Seu cartão já está disponível"
           error={error}
         />
       )}

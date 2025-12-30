@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
 
   message: {
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: "600",
     color: "#e0f2ff",
     textAlign: "center",

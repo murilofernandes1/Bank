@@ -96,7 +96,7 @@ export default function LoadingAction({
       {error && (
         <View style={styles.messageWrapper}>
           <Animated.Text style={styles.message}>
-            Algo deu errado. Tente novamente mais tarde.
+            Ops! Algo deu errado, tente novamente mais tarde.
           </Animated.Text>
         </View>
       )}

@@ -243,4 +243,16 @@ export const styles = StyleSheet.create({
     marginBottom: 30,
     opacity: 0.1,
   },
+  cardLabel: {
+    fontSize: 16,
+    color: "#e0f2ff",
+    opacity: 0.85,
+    marginBottom: 8,
+  },
+
+  cardValue: {
+    fontSize: 32,
+    fontWeight: "700",
+    color: "#e0f2ff",
+  },
 });

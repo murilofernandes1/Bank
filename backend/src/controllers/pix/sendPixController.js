@@ -58,6 +58,7 @@ router.post("/", async (req, res) => {
         userId: userId,
         destinationId: destinationId,
         amount: amount,
+        method: "PIX",
       },
     });
 

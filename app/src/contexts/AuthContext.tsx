@@ -21,11 +21,12 @@ export interface CreditCardProps {
   number: number;
 }
 export interface InvoiceProps {
+  amount: number;
   referenceDate: Date;
-
+  id: string;
   totalAmount: number;
   paidAmount: number;
-
+  invoiceAmount: number;
   isPaid: number;
 }
 

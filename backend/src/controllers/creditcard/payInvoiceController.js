@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.put("/:id", async (req, res) => {
+router.put("/", async (req, res) => {
   const userId = req.userId;
   const { amount } = req.body;
 
@@ -57,7 +57,6 @@ router.put("/:id", async (req, res) => {
         totalAmount: { decrement: amount },
         paidAmount: { increment: amount },
         isPaid: isFullPayment ? true : false,
-        paidAt: isFullPayment ? new Date() : null,
       },
     });
 

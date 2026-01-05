@@ -15,6 +15,7 @@ interface CreditCardProps {
   key: string;
   name: string;
   invoice: number | null;
+  invoiceId: string;
 }
 
 type RootStackParamList = {
@@ -34,6 +35,7 @@ export default function PayCreditCard() {
   const [error, setError] = useState(false);
 
   const invoiceAmount = route.params.invoice;
+  const invoiceId = route.params.invoiceId;
 
   const disabled =
     !value || value <= 0 || (invoiceAmount !== null && value > invoiceAmount);
@@ -42,7 +44,7 @@ export default function PayCreditCard() {
     try {
       setSending(true);
       setLoading(true);
-      await api.post("/");
+      await api.post(`/card/invoice/${invoiceId}`, { invoiceAmount });
       setTimeout(() => {
         setLoading(false);
         setMessage(true);
@@ -51,8 +53,13 @@ export default function PayCreditCard() {
           navigation.navigate("Home");
         }, 3000);
       }, 3000);
-    } catch {
+    } catch (error) {
       setError(true);
+      setTimeout(() => {
+        setSending(false);
+        navigation.navigate("Home");
+      }, 3000);
+      console.log(error);
     }
   }
 

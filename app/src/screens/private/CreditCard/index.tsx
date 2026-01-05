@@ -70,6 +70,7 @@ export default function CreditCard() {
   }
 
   const invoiceAmount = user?.creditCard?.invoices?.[0]?.totalAmount ?? 0;
+  const invoiceId = user?.creditCard.invoices?.[0]?.id;
   const isInvoiceZero = invoiceAmount === 0;
   const disablePayment = dueClosed || isInvoiceZero;
 
@@ -130,11 +131,13 @@ export default function CreditCard() {
                 : "Pagar fatura"
             }
             disabled={disablePayment}
-            onPress={() =>
+            onPress={() => {
+              console.log(invoiceId);
               navigation.navigate("PayCreditCard", {
                 invoice: invoiceAmount,
-              })
-            }
+                invoiceId: invoiceId,
+              });
+            }}
           />
 
           {dueClosed && (

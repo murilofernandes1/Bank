@@ -26,7 +26,9 @@ router.post("/", async (req, res) => {
     if (card.creditLimit < amount) {
       return res.status(403).json({ message: "Limite insuficiente." });
     }
-
+    if (card.currentLimit < amount) {
+      return res.status(403).json({ message: "Limite insuficiente." });
+    }
     const now = new Date();
 
     const referenceDate = new Date(now.getFullYear(), now.getMonth(), 1);

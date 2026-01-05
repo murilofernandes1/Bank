@@ -12,26 +12,28 @@ import { styles } from "./styles";
 
 interface MethodProps {
   id: number;
-  key: "MONEY" | "CREDIT_CARD";
+  key: "PIX" | "CARD";
   methodName: string;
 }
 
 const paymentMethods: MethodProps[] = [
-  { id: 1, key: "MONEY", methodName: "Dinheiro em conta" },
-  { id: 2, key: "CREDIT_CARD", methodName: "Cartão de crédito" },
+  { id: 1, key: "PIX", methodName: "Dinheiro em conta" },
+  { id: 2, key: "CARD", methodName: "Cartão de crédito" },
 ];
 
 export default function PixValue() {
-  const { setAmount } = useTransfer();
+  const { setAmount, setMethod } = useTransfer();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [value, setValue] = useState<number | null>(null);
   const [touched, setTouched] = useState(false);
-  const [method, setMethod] = useState<"MONEY" | "CREDIT_CARD">("MONEY");
+  const [paymentMethod, setPaymentMethod] = useState<"PIX" | "CARD" | null>(
+    null
+  );
 
-  const disabled = !(typeof value === "number" && value > 0);
+  const disabled = !(typeof value === "number" && value > 0) || !paymentMethod;
 
-  const selectedMethod = paymentMethods.find((m) => m.key === method);
+  const selectedMethod = paymentMethods.find((m) => m.key === paymentMethod);
 
   return (
     <View style={styles.screen}>
@@ -68,16 +70,21 @@ export default function PixValue() {
           {paymentMethods.map((m) => (
             <TouchableOpacity
               key={m.id}
-              onPress={() => setMethod(m.key)}
+              onPress={() => {
+                setPaymentMethod(m.key);
+                setMethod(m.key);
+              }}
               style={
-                method === m.key ? styles.notSelected : styles.serviceButton
+                paymentMethod === m.key
+                  ? styles.notSelected
+                  : styles.serviceButton
               }
             >
               <LinearGradient
                 colors={["#0d1b2a", "#1b263b", "#415a77"]}
                 style={styles.serviceCircle}
               >
-                {m.key === "MONEY" ? (
+                {m.key === "PIX" ? (
                   <MoneyIcon size={28} color="#e0f2ff" />
                 ) : (
                   <CreditCardIcon size={28} color="#e0f2ff" />
@@ -90,12 +97,17 @@ export default function PixValue() {
         </View>
 
         <GlobalButton
-          title={`Pagar com ${selectedMethod?.methodName}`}
+          title={
+            paymentMethod
+              ? `Pagar com ${selectedMethod?.methodName}`
+              : "Escolha um método de pagamento"
+          }
           disabled={disabled}
           onPress={() => {
+            if (!paymentMethod || !value) return;
             setAmount(value);
             navigation.navigate("ConfirmPix", {
-              methodName: selectedMethod?.methodName,
+              methodName: selectedMethod!.methodName,
             });
           }}
         />

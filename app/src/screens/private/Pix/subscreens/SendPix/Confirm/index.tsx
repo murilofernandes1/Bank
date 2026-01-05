@@ -9,11 +9,20 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTransfer } from "../../../../../../hooks/useTransfer";
+import { useRoute, RouteProp } from "@react-navigation/native";
+
+type RouteParams = {
+  ConfirmPix: {
+    methodName: string;
+  };
+};
 
 export default function ConfirmPix() {
   const { destinationId, amount, destinationName, SendTransfer } =
     useTransfer();
 
+  const route = useRoute<RouteProp<RouteParams, "ConfirmPix">>();
+  const { methodName } = route.params;
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -60,7 +69,7 @@ export default function ConfirmPix() {
                   })
                 : "R$ 0,00"}
             </Text>
-            {/* <Text style={styles.method}>Via {methodName}</Text> */}
+            <Text style={styles.method}>Via {methodName}</Text>
             <ArrowDownIcon style={styles.arrow} size={15} color="#f0f7ff" />
 
             <Text style={styles.name}>{destinationName}</Text>

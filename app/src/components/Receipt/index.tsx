@@ -22,6 +22,7 @@ export const Receipt = forwardRef<View, ReceiptProps>(
       transactionId,
       createdAt,
       amount,
+
       onClose,
       onPress,
     },

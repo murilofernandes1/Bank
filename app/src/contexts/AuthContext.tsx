@@ -21,8 +21,12 @@ export interface CreditCardProps {
   number: number;
 }
 export interface InvoiceProps {
-  invoiceAmount: number;
-  expirationDueDate: Date;
+  referenceDate: Date;
+
+  totalAmount: number;
+  paidAmount: number;
+
+  isPaid: number;
 }
 
 export interface PixKeysProps {

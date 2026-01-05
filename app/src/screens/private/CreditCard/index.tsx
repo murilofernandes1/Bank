@@ -69,7 +69,7 @@ export default function CreditCard() {
     );
   }
 
-  const invoiceAmount = user?.creditCard?.invoices?.[0]?.invoiceAmount ?? 0;
+  const invoiceAmount = user?.creditCard?.invoices?.[0]?.totalAmount ?? 0;
   const isInvoiceZero = invoiceAmount === 0;
   const disablePayment = dueClosed || isInvoiceZero;
 

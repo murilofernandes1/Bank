@@ -177,7 +177,7 @@ export default function Home() {
 
               <Text style={styles.cardValue}>
                 {user.creditCard.invoices.length > 0
-                  ? user.creditCard.invoices[0].invoiceAmount.toLocaleString(
+                  ? user.creditCard.invoices[0].totalAmount.toLocaleString(
                       "pt-BR",
                       {
                         style: "currency",

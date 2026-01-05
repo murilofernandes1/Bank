@@ -7,3 +7,5 @@ const router = express.Router();
 router.use("/transfer", payWithCard);
 router.use("/create", newCreditCard);
 router.use("/pay", payCreditCardController);
+
+export default router;

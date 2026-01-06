@@ -79,4 +79,9 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
     alignSelf: "center",
   },
+  limit: {
+    marginTop: 6,
+    fontSize: 13,
+    color: "#475569",
+  },
 });

@@ -73,10 +73,6 @@ export default function PixValue() {
           keyboardType="number-pad"
         />
 
-        {touched && (!value || value <= 0) && (
-          <Text style={styles.errorText}>Informe um valor maior que zero</Text>
-        )}
-
         <Text style={styles.methodTitle}>Escolha o método de pagamento</Text>
 
         <View style={styles.services}>
@@ -100,11 +96,22 @@ export default function PixValue() {
                 {m.key === "PIX" ? (
                   <MoneyIcon size={28} color="#e0f2ff" />
                 ) : (
-                  <CreditCardIcon size={28} color="#e0f2ff" />
+                  <>
+                    <CreditCardIcon size={28} color="#e0f2ff" />
+                  </>
                 )}
               </LinearGradient>
 
               <Text style={styles.serviceName}>{m.methodName}</Text>
+              {m.key === "CARD" && selectedMethod?.key === "CARD" && (
+                <Text style={styles.limit}>
+                  Limite disponível:{" "}
+                  {card.currentLimit.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </Text>
+              )}
             </TouchableOpacity>
           ))}
         </View>

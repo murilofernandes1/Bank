@@ -1,5 +1,10 @@
 import { ReactNode, useEffect, useState } from "react";
-import { AuthContext, UserProps } from "../contexts/AuthContext";
+import {
+  AuthContext,
+  CreditCardProps,
+  InvoiceProps,
+  UserProps,
+} from "../contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import api from "services/api";
@@ -13,6 +18,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserProps | null>(null);
   const [alreadyLogged, setAlreadyLogged] = useState(false);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [card, setCard] = useState<CreditCardProps | null>(null);
+  const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
   const [loading, setLoading] = useState(true);
 
   const AUTH_STORAGE_KEY = "@auth_token";
@@ -61,8 +68,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
   async function loadUser() {
     try {
-      const loadUser = await api.get("/me");
-      setUser(loadUser.data);
+      const { data } = await api.get("/me");
+      setUser(data);
+      if (data.creditCard) {
+        setCard(data.creditCard);
+        if (data.creditCard.invoices?.length > 0) {
+          setInvoice(data.creditCard.invoices[0]);
+        }
+      }
     } catch (error) {
       console.log("Não foi possivel carregar o usuário", error);
     }
@@ -80,6 +93,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider
       value={{
+        loadUser,
         token,
         alreadyLogged,
         authenticated,
@@ -89,6 +103,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         Logout,
         confirmPin,
         user,
+        card,
+        invoice,
       }}
     >
       {children}

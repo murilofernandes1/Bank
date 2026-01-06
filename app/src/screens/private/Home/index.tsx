@@ -23,7 +23,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import Card from "../../../components/Card";
 
 export default function Home() {
-  const { Logout, user } = useAuth();
+  const { Logout, user, card, invoice } = useAuth();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [hideBalance, setHideBalance] = useState(true);
   const [showCard, setShowCard] = useState(false);
@@ -176,27 +176,25 @@ export default function Home() {
               <Text style={styles.cardLabel}>Fatura atual</Text>
 
               <Text style={styles.cardValue}>
-                {user.creditCard.invoices.length > 0
-                  ? user.creditCard.invoices[0].totalAmount.toLocaleString(
-                      "pt-BR",
-                      {
-                        style: "currency",
-                        currency: "BRL",
-                      }
-                    )
+                {invoice
+                  ? invoice?.totalAmount.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })
                   : "R$ 0,00"}
               </Text>
 
-              <Text style={styles.exp}>
-                Vencimento em{" "}
-                {new Date(user.creditCard.invoiceDueDate).toLocaleDateString(
-                  "pt-BR",
-                  {
+              {invoice ? (
+                <Text style={styles.exp}>
+                  Vencimento em{" "}
+                  {new Date(card?.invoiceDueDate).toLocaleDateString("pt-BR", {
                     day: "2-digit",
                     month: "2-digit",
-                  }
-                )}
-              </Text>
+                  })}
+                </Text>
+              ) : (
+                <Text style={styles.exp}>Tudo em dia com sua fatura!</Text>
+              )}
             </LinearGradient>
           </TouchableOpacity>
         ) : (

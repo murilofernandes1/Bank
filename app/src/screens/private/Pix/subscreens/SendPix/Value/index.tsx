@@ -1,5 +1,5 @@
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "../../../../../../components/BackButton";
@@ -8,6 +8,7 @@ import CurrencyInput from "react-native-currency-input";
 import { LinearGradient } from "expo-linear-gradient";
 import { MoneyIcon, CreditCardIcon } from "phosphor-react-native";
 import { useTransfer } from "../../../../../../hooks/useTransfer";
+import { useAuth } from "hooks/useAuth";
 import { styles } from "./styles";
 
 interface MethodProps {
@@ -24,16 +25,28 @@ const paymentMethods: MethodProps[] = [
 export default function PixValue() {
   const { setAmount, setMethod } = useTransfer();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
+  const [exceededLimit, setExceededLimit] = useState(false);
+  const { card } = useAuth();
   const [value, setValue] = useState<number | null>(null);
   const [touched, setTouched] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"PIX" | "CARD" | null>(
     null
   );
 
-  const disabled = !(typeof value === "number" && value > 0) || !paymentMethod;
+  const disabled =
+    !(typeof value === "number" && value > 0) ||
+    !paymentMethod ||
+    exceededLimit;
 
   const selectedMethod = paymentMethods.find((m) => m.key === paymentMethod);
+
+  useEffect(() => {
+    if (value && card.currentLimit < value) {
+      setExceededLimit(true);
+    } else {
+      setExceededLimit(false);
+    }
+  }, [value, card.currentLimit]);
 
   return (
     <View style={styles.screen}>

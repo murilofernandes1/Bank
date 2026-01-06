@@ -19,6 +19,7 @@ export interface CreditCardProps {
   invoiceDueDay: number;
   invoices: InvoiceProps[];
   number: number;
+  currentLimit: number;
 }
 export interface InvoiceProps {
   amount: number;
@@ -28,6 +29,7 @@ export interface InvoiceProps {
   paidAmount: number;
   invoiceAmount: number;
   isPaid: number;
+  invoiceDueDate: Date;
 }
 
 export interface PixKeysProps {
@@ -39,6 +41,8 @@ export interface PixKeysProps {
 interface AuthContextProps {
   token: string | null;
   user: UserProps | null;
+  card?: CreditCardProps | null;
+  invoice?: InvoiceProps | null;
   loading: boolean;
   alreadyLogged: boolean;
   authenticated: boolean;
@@ -46,6 +50,7 @@ interface AuthContextProps {
   Login: (token: string) => void;
   confirmPin: () => void;
   Logout: () => void;
+  loadUser: () => void;
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(

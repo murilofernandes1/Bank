@@ -17,7 +17,7 @@ import { useAuth } from "hooks/useAuth";
 import { styles } from "./styles";
 
 export default function CreditCard() {
-  const { user } = useAuth();
+  const { user, card, invoice } = useAuth();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [loading, setLoading] = useState(true);
@@ -27,22 +27,23 @@ export default function CreditCard() {
   const opacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.9)).current;
 
+  // Proteção: só executa se existir cartão
   useEffect(() => {
-    if (!user?.creditCard) return;
+    if (!card) return;
 
-    const creditCard = user.creditCard;
-
-    setDueClosed(new Date(creditCard.invoiceDueDate).getTime() < Date.now());
+    setDueClosed(
+      invoice ? new Date(invoice.invoiceDueDate).getTime() < Date.now() : false
+    );
 
     setExpirationCard(
-      new Date(creditCard.expirationDate).toLocaleDateString("pt-BR", {
+      new Date(card.expirationDate).toLocaleDateString("pt-BR", {
         month: "2-digit",
         year: "2-digit",
       })
     );
 
     setLoading(false);
-  }, [user]);
+  }, [card, invoice]);
 
   useEffect(() => {
     if (!loading) {
@@ -61,7 +62,7 @@ export default function CreditCard() {
     }
   }, [loading]);
 
-  if (loading) {
+  if (loading || !user || !card) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" color="#0d1b2a" />
@@ -69,8 +70,7 @@ export default function CreditCard() {
     );
   }
 
-  const invoiceAmount = user?.creditCard?.invoices?.[0]?.totalAmount ?? 0;
-  const invoiceId = user?.creditCard.invoices?.[0]?.id;
+  const invoiceAmount = invoice?.totalAmount ?? 0;
   const isInvoiceZero = invoiceAmount === 0;
   const disablePayment = dueClosed || isInvoiceZero;
 
@@ -101,23 +101,30 @@ export default function CreditCard() {
             })}
           </Text>
 
+          <Text style={styles.availableLimit}>
+            Limite disponível:{" "}
+            {card.currentLimit != null
+              ? card.currentLimit.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })
+              : "-"}
+          </Text>
+
           {dueClosed ? (
             <View style={styles.badgeClosed}>
               <Text style={styles.badgeText}>Fatura fechada</Text>
             </View>
-          ) : (
-            <Text style={styles.cardExpiration}>
+          ) : invoice ? (
+            <Text style={styles.exp}>
               Vencimento em{" "}
-              <Text style={styles.bold}>
-                {new Date(user.creditCard.invoiceDueDate).toLocaleDateString(
-                  "pt-BR",
-                  {
-                    day: "2-digit",
-                    month: "2-digit",
-                  }
-                )}
-              </Text>
+              {new Date(card.invoiceDueDate).toLocaleDateString("pt-BR", {
+                day: "2-digit",
+                month: "2-digit",
+              })}
             </Text>
+          ) : (
+            <Text style={styles.exp}>Tudo em dia com sua fatura!</Text>
           )}
         </LinearGradient>
 
@@ -132,10 +139,8 @@ export default function CreditCard() {
             }
             disabled={disablePayment}
             onPress={() => {
-              console.log(invoiceId);
               navigation.navigate("PayCreditCard", {
                 invoice: invoiceAmount,
-                invoiceId: invoiceId,
               });
             }}
           />
@@ -181,11 +186,11 @@ export default function CreditCard() {
             <View style={styles.userInfo}>
               <View style={styles.numberContainer}>
                 <Text style={styles.number}>{expirationCard}</Text>
-                <Text style={styles.number}>{user.creditCard.cvv}</Text>
+                <Text style={styles.number}>{card.cvv ?? "-"}</Text>
               </View>
 
               <Text style={styles.cardNumber}>
-                {String(user.creditCard.number)
+                {String(card.number ?? "")
                   .match(/.{1,4}/g)
                   ?.join(" ")}
               </Text>

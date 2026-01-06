@@ -53,11 +53,9 @@ export default function CreateCreditCard() {
   async function createCreditCard() {
     if (!day) return;
     const formatedDay = Number(day);
-    console.log(day);
-    console.log(formatedDay);
     try {
       setSending(true);
-      await api.post("/me/card", { invoiceClosingDay: formatedDay });
+      await api.post("/card/create", { invoiceClosingDay: formatedDay });
       setSending(false);
       setMessage(true);
       setTimeout(() => navigation.navigate("Home"), 2500);

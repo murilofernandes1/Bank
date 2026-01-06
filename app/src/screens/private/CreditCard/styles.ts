@@ -191,4 +191,17 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  availableLimit: {
+    fontSize: 16,
+    color: "#e0f2ff",
+    opacity: 0.75,
+    marginBottom: 12,
+  },
+  exp: {
+    marginTop: 10,
+    color: "#e0f2ff",
+    fontWeight: 500,
+    fontSize: 15,
+    opacity: 0.8,
+  },
 });

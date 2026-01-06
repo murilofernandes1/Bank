@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import CurrencyInput from "react-native-currency-input";
-
+import { useTransfer } from "hooks/useTransfer";
 import BackButton from "../../../../../components/BackButton";
 import GlobalButton from "../../../../../components/GlobalButton";
 import LoadingAction from "../../../../../components/LoadingAction";
@@ -15,7 +15,6 @@ interface CreditCardProps {
   key: string;
   name: string;
   invoice: number | null;
-  invoiceId: string;
 }
 
 type RootStackParamList = {
@@ -27,7 +26,7 @@ type PayCreditCardRouteProp = RouteProp<RootStackParamList, "PayCreditCard">;
 export default function PayCreditCard() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const route = useRoute<PayCreditCardRouteProp>();
-
+  const { PayInvoice } = useTransfer();
   const [value, setValue] = useState<number | null>(null);
   const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -35,7 +34,6 @@ export default function PayCreditCard() {
   const [error, setError] = useState(false);
 
   const invoiceAmount = route.params.invoice;
-  const invoiceId = route.params.invoiceId;
 
   const disabled =
     !value || value <= 0 || (invoiceAmount !== null && value > invoiceAmount);
@@ -44,7 +42,7 @@ export default function PayCreditCard() {
     try {
       setSending(true);
       setLoading(true);
-      await api.post(`/card/invoice/${invoiceId}`, { invoiceAmount });
+      PayInvoice(invoiceAmount);
       setTimeout(() => {
         setLoading(false);
         setMessage(true);

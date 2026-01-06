@@ -60,6 +60,15 @@ router.put("/", async (req, res) => {
       },
     });
 
+    await prisma.creditCard.update({
+      where: {
+        id: user.creditCard.id,
+      },
+      data: {
+        currentLimit: { increment: amount },
+      },
+    });
+
     return res.status(200).json({
       message: isFullPayment
         ? "Fatura paga com sucesso"

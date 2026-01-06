@@ -31,7 +31,7 @@ export function TransferProvider({ children }: TransferProviderProps) {
       setDestinationName(null);
       setAmount(null);
       setMethod(null);
-      await loadUser();
+      loadUser();
     } catch (error) {
       console.log(error);
     } finally {
@@ -41,9 +41,8 @@ export function TransferProvider({ children }: TransferProviderProps) {
 
   async function PayInvoice(value: number) {
     try {
-      setLoading(true);
-      await api.post(`/card/invoice`, { amount: value });
-      await loadUser();
+      await api.put(`/card/invoice`, { amount: value });
+      loadUser();
     } catch (error) {
       console.log(error);
     } finally {

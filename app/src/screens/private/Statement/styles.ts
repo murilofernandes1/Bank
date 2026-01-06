@@ -71,4 +71,16 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: "grey",
   },
+  dateTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#0d1b2a",
+    marginBottom: 12,
+    marginTop: 20,
+  },
+  dateDivider: {
+    height: 1,
+    backgroundColor: "#dbe4f0",
+    marginBottom: 15,
+  },
 });

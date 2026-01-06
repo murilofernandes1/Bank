@@ -83,5 +83,6 @@ export const styles = StyleSheet.create({
     marginTop: 6,
     fontSize: 13,
     color: "#475569",
+    textAlign: "center",
   },
 });

@@ -26,7 +26,7 @@ export default function PixValue() {
   const { setAmount, setMethod } = useTransfer();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [exceededLimit, setExceededLimit] = useState(false);
-  const { card } = useAuth();
+  const { card, user } = useAuth();
   const [value, setValue] = useState<number | null>(null);
   const [touched, setTouched] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"PIX" | "CARD" | null>(
@@ -103,10 +103,18 @@ export default function PixValue() {
               </LinearGradient>
 
               <Text style={styles.serviceName}>{m.methodName}</Text>
-              {m.key === "CARD" && selectedMethod?.key === "CARD" && (
+              {m.key === "CARD" ? (
                 <Text style={styles.limit}>
                   Limite disponível:{" "}
                   {card.currentLimit.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </Text>
+              ) : (
+                <Text style={styles.limit}>
+                  Saldo:{" "}
+                  {user.balance.toLocaleString("pt-BR", {
                     style: "currency",
                     currency: "BRL",
                   })}

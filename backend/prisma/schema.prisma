@@ -20,7 +20,7 @@ model User {
   receivedTransactions Transaction[] @relation("ReceivedTransactions")
   savings Saving[]
   statements Statement[]
-  investments UserInvestment[]
+
 }
 model Statement {
   id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -87,32 +87,6 @@ model Invoice {
   paidAmount Int @default(0)
 
   isPaid Boolean @default(false)
-}
-
-model InvestmentPlan {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  dailyRate Float  
-  active    Boolean @default(true)
-
-  userInvestments UserInvestment[]
-}
-
-model UserInvestment {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId          String   @db.ObjectId
-  user            User     @relation(fields: [userId], references: [id])
-
-  planId          String   @db.ObjectId
-  plan            InvestmentPlan @relation(fields: [planId], references: [id])
-
-  amountInvested  Int
-  totalIncome     Int      @default(0)
-
-  dailyRate       Float   
-  lastIncomeAt    DateTime @default(now())
-
-  createdAt       DateTime @default(now())
 }
 
 

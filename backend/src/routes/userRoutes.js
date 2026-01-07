@@ -9,6 +9,7 @@ import createSavingController from "../controllers/savings/createSavingControlle
 import mySavings from "../controllers/savings/mySavingsController.js";
 import depositAmountController from "../controllers/savings/depositAmountController.js";
 import withdrawAmountController from "../controllers/savings/withdrawAmountController.js";
+import deleteSavingController from "../controllers/savings/deleteSavingController.js";
 
 router.use("/", meController);
 router.use("/keys", createKey);
@@ -19,5 +20,6 @@ router.use("/savings", createSavingController);
 router.use("/savings", mySavings);
 router.use("/savings", depositAmountController);
 router.use("/savings", withdrawAmountController);
+router.use("/savings/:id", deleteSavingController);
 
 export default router;

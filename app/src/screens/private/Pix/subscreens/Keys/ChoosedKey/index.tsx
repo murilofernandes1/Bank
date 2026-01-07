@@ -121,14 +121,6 @@ export default function ChoosedKey({ route }: any) {
           />
         )}
 
-        {type === "random" && (
-          <View style={styles.randomBox}>
-            <Text style={styles.randomText}>
-              Uma chave aleatória será gerada automaticamente.
-            </Text>
-          </View>
-        )}
-
         <TouchableOpacity onPress={newKey} style={styles.confirmButton}>
           <Text style={styles.confirmText}>Salvar chave</Text>
         </TouchableOpacity>

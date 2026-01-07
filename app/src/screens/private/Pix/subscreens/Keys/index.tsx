@@ -85,7 +85,7 @@ export default function PixKey() {
                     ? "Email"
                     : type === "phone"
                     ? "Telefone"
-                    : "Aleatória"}
+                    : null}
                 </Text>
               </View>
               <Text style={styles.keyDetail}>
@@ -118,7 +118,7 @@ export default function PixKey() {
                 ? "E-mail"
                 : type === "phone"
                 ? "Telefone"
-                : "Chave Aleatória"}
+                : null}
             </Text>
             <Text style={styles.keyDesc}>{desc}</Text>
           </TouchableOpacity>
@@ -142,7 +142,6 @@ export default function PixKey() {
           {renderKeyCard("cpf", cpfKey, "Use seu CPF como chave Pix")}
           {renderKeyCard("email", emailKey, "Cadastre seu e-mail como chave")}
           {renderKeyCard("phone", phoneKey, "Use seu número de celular")}
-          {renderKeyCard("random", randomKey, "Gerar uma chave aleatória")}
         </View>
       </ScrollView>
     </View>

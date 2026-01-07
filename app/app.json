@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "Orbit Bank",
+    "slug": "OrbitBank",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",

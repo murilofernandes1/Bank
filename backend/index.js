@@ -4,8 +4,10 @@ import userRoutes from "./src/routes/userRoutes.js";
 import pixRoutes from "./src/routes/pixRoutes.js";
 import cardRoutes from "./src/routes/cardRoutes.js";
 import auth from "./src/middleware/auth.js";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const PORT = 3000;

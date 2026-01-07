@@ -16,16 +16,25 @@ export default function LoadingScreen({
   orbitDuration = 4000,
 }: Props) {
   const rotate = useRef(new Animated.Value(0)).current;
+  const loopRef = useRef<Animated.CompositeAnimation | null>(null);
 
   useEffect(() => {
     rotate.setValue(0);
-    Animated.loop(
+
+    loopRef.current = Animated.loop(
       Animated.timing(rotate, {
         toValue: 1,
         duration: orbitDuration,
         useNativeDriver: true,
       })
-    ).start();
+    );
+
+    loopRef.current.start();
+
+    return () => {
+      loopRef.current?.stop();
+      rotate.stopAnimation();
+    };
   }, [orbitDuration]);
 
   const spin = rotate.interpolate({
@@ -37,7 +46,7 @@ export default function LoadingScreen({
     <View
       style={{
         flex: 1,
-        backgroundColor: "#e0f2ff",
+        backgroundColor: "#0d1b2a",
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -52,7 +61,7 @@ export default function LoadingScreen({
         }}
       >
         <LinearGradient
-          colors={["#1b263b", "#0d1b2a"]}
+          colors={["#e0f2ff", "#778da9"]}
           style={{
             width: size,
             height: size,
@@ -60,6 +69,7 @@ export default function LoadingScreen({
             position: "absolute",
           }}
         />
+
         <Animated.View
           style={{
             position: "absolute",
@@ -71,7 +81,7 @@ export default function LoadingScreen({
           }}
         >
           <LinearGradient
-            colors={["#415a77", "#778da9"]}
+            colors={["#415a77", "#1b263b"]}
             style={{
               width: orbitSize,
               height: orbitSize,

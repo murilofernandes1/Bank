@@ -18,7 +18,7 @@ export default function Orbit({
   const rotate = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    rotate.setValue(0); // reseta
+    rotate.setValue(0);
     Animated.loop(
       Animated.timing(rotate, {
         toValue: 1,

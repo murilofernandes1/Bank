@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import api from "services/api";
+import PinChecker from "components/PinHandler";
 
 interface RouteParams {
   piggyId: string;
@@ -20,37 +21,33 @@ export default function PiggyConfirm() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const route = useRoute();
   const { piggyId, amount, type } = route.params as RouteParams;
+
   const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
   const [error, setError] = useState(false);
 
-  async function handleConfirm() {
+  const [pinOpen, setPinOpen] = useState(false);
+
+  async function executeOperation() {
     try {
       setSending(true);
       setLoading(true);
 
-      setTimeout(async () => {
-        if (type === "DEPOSIT") {
-          try {
-            await api.put(`me/savings/${piggyId}/deposit`, { amount });
-          } catch (error) {
-            console.log(error);
-          }
-        } else {
-          try {
-            await api.put(`me/savings/${piggyId}/withdraw`, { amount });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-        setLoading(false);
-        setMessage(true);
-        setTimeout(() => {
-          navigation.replace("Investments");
-        }, 2500);
-      }, 2000);
+      if (type === "DEPOSIT") {
+        await api.put(`me/savings/${piggyId}/deposit`, { amount });
+      } else {
+        await api.put(`me/savings/${piggyId}/withdraw`, { amount });
+      }
+
+      setLoading(false);
+      setMessage(true);
+
+      setTimeout(() => {
+        navigation.goBack();
+      }, 3500);
     } catch {
+      setLoading(false);
       setError(true);
     }
   }
@@ -81,9 +78,18 @@ export default function PiggyConfirm() {
           title={
             type === "DEPOSIT" ? "Confirmar aplicação" : "Confirmar resgate"
           }
-          onPress={handleConfirm}
+          onPress={() => setPinOpen(true)}
         />
       </ScrollView>
+
+      <PinChecker
+        isOpen={pinOpen}
+        onCancel={() => setPinOpen(false)}
+        onSuccess={async () => {
+          setPinOpen(false);
+          await executeOperation();
+        }}
+      />
 
       {sending && (
         <LoadingAction

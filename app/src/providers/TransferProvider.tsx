@@ -13,38 +13,58 @@ export function TransferProvider({ children }: TransferProviderProps) {
   const [amount, setAmount] = useState<number | null>(null);
   const [method, setMethod] = useState<"PIX" | "CARD" | null>(null);
   const [loading, setLoading] = useState(false);
+
   const { loadUser } = useAuth();
 
-  async function SendTransfer(destId: string, value: number) {
+  async function CheckPin(pin: string): Promise<boolean> {
+    try {
+      await api.post("/auth/pin", { pin });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async function SendTransfer(pin: string, destId: string, value: number) {
     if (!method) return;
+
+    const isValid = await CheckPin(pin);
+    if (!isValid) throw new Error("PIN_INVALID");
+
     try {
       setLoading(true);
+
       if (method === "PIX") {
-        await api.post("/pix/send", { amount: value, destinationId: destId });
+        await api.post("/pix/send", {
+          amount: value,
+          destinationId: destId,
+        });
       } else {
         await api.post("/card/transfer", {
           amount: value,
           destinationId: destId,
         });
       }
+
       setDestinationId(null);
       setDestinationName(null);
       setAmount(null);
       setMethod(null);
+
       loadUser();
-    } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
   }
 
-  async function PayInvoice(value: number) {
+  async function PayInvoice(pin: string, value: number) {
+    const isValid = await CheckPin(pin);
+    if (!isValid) throw new Error("PIN_INVALID");
+
     try {
+      setLoading(true);
       await api.put(`/card/invoice`, { amount: value });
       loadUser();
-    } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -53,6 +73,8 @@ export function TransferProvider({ children }: TransferProviderProps) {
   return (
     <TransferContext.Provider
       value={{
+        CheckPin,
+        SendTransfer,
         PayInvoice,
         destinationId,
         setDestinationId,
@@ -62,7 +84,6 @@ export function TransferProvider({ children }: TransferProviderProps) {
         setAmount,
         method,
         setMethod,
-        SendTransfer,
         loading,
       }}
     >

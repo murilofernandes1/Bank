@@ -22,9 +22,7 @@ export default function GlobalButton({
     >
       <LinearGradient
         colors={
-          disabled
-            ? ["#94a3b8", "#94a3b8"] // cinza quando desabilitado
-            : ["#0d1b2a", "#1b263b", "#415a77"]
+          disabled ? ["#94a3b8", "#94a3b8"] : ["#0d1b2a", "#1b263b", "#415a77"]
         }
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}

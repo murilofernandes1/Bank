@@ -13,9 +13,16 @@ interface TransferContextProps {
   setAmount: (value: number | null) => void;
   setMethod: (method: TransferMethod | null) => void;
 
-  SendTransfer: (id: string, value: number) => Promise<void>;
+  CheckPin: (pin: string) => Promise<boolean>;
 
-  PayInvoice: (amount: number) => Promise<void>;
+  SendTransfer: (
+    pin: string,
+    destinationId: string,
+    amount: number
+  ) => Promise<void>;
+
+  PayInvoice: (pin: string, amount: number) => Promise<void>;
+
   loading: boolean;
 }
 

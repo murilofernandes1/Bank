@@ -7,9 +7,8 @@ import { useTransfer } from "hooks/useTransfer";
 import BackButton from "../../../../../components/BackButton";
 import GlobalButton from "../../../../../components/GlobalButton";
 import LoadingAction from "../../../../../components/LoadingAction";
-
+import PinChecker from "components/PinHandler";
 import { styles } from "./styles";
-import api from "services/api";
 
 interface CreditCardProps {
   key: string;
@@ -27,37 +26,41 @@ export default function PayCreditCard() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const route = useRoute<PayCreditCardRouteProp>();
   const { PayInvoice } = useTransfer();
+
   const [value, setValue] = useState<number | null>(null);
   const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
   const [error, setError] = useState(false);
+  const [showPin, setShowPin] = useState(false);
 
   const invoiceAmount = route.params.invoice;
 
   const disabled =
     !value || value <= 0 || (invoiceAmount !== null && value > invoiceAmount);
 
-  async function handlePay() {
+  async function handlePay(pin: string) {
     try {
+      setShowPin(false);
       setSending(true);
       setLoading(true);
-      PayInvoice(invoiceAmount);
-      setTimeout(() => {
-        setLoading(false);
-        setMessage(true);
 
-        setTimeout(() => {
-          navigation.navigate("Home");
-        }, 3000);
-      }, 3000);
-    } catch (error) {
-      setError(true);
+      await PayInvoice(pin, value!);
+
+      setLoading(false);
+      setMessage(true);
+
       setTimeout(() => {
         setSending(false);
+        setMessage(false);
         navigation.navigate("Home");
       }, 3000);
-      console.log(error);
+    } catch {
+      setLoading(false);
+      setError(true);
+      setTimeout(() => {
+        navigation.navigate("Home");
+      }, 3000);
     }
   }
 
@@ -100,9 +103,15 @@ export default function PayCreditCard() {
         <GlobalButton
           title="Pagar fatura"
           disabled={disabled}
-          onPress={handlePay}
+          onPress={() => setShowPin(true)}
         />
       </ScrollView>
+
+      <PinChecker
+        isOpen={showPin}
+        onCancel={() => setShowPin(false)}
+        onSuccess={handlePay}
+      />
 
       {sending && (
         <LoadingAction

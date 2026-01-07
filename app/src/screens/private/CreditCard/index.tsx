@@ -27,7 +27,6 @@ export default function CreditCard() {
   const opacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.9)).current;
 
-  // Proteção: só executa se existir cartão
   useEffect(() => {
     if (!card) return;
 

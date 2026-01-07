@@ -20,6 +20,6 @@ router.use("/savings", createSavingController);
 router.use("/savings", mySavings);
 router.use("/savings", depositAmountController);
 router.use("/savings", withdrawAmountController);
-router.use("/savings/:id", deleteSavingController);
+router.use("/savings", deleteSavingController);
 
 export default router;

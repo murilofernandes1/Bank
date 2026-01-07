@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.delete("/", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const userId = req.userId;
   const savingId = req.params.id;
   if (!userId) {
@@ -23,7 +23,7 @@ router.delete("/", async (req, res) => {
     }
     await prisma.saving.delete({
       where: {
-        id: saving.id,
+        id: savingId,
       },
     });
     return res.status(200).json({ message: "Reserva deletada com sucesso." });

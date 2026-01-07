@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -13,7 +14,6 @@ import BackButton from "../../../../../../components/BackButton";
 import { styles } from "./styles";
 import { useState } from "react";
 import api from "services/api";
-import LoadingScreen from "components/LoadingScreen";
 import { useTransfer } from "../../../../../../hooks/useTransfer";
 import { phoneFormatter } from "../../../../../../utils/phoneFormatter";
 
@@ -107,7 +107,7 @@ export default function SendPix() {
         </View>
 
         <View style={styles.contacts}>
-          {searching && <LoadingScreen />}
+          {searching && <ActivityIndicator color="#0d1b2a" />}
 
           {!searching && empty && (
             <Text style={styles.feedback}>Informe uma chave Pix válida</Text>

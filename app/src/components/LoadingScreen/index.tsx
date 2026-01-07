@@ -1,8 +1,87 @@
-import { View, ActivityIndicator } from "react-native";
-export default function LoadingScreen() {
+import { View, Animated } from "react-native";
+import { useEffect, useRef } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+
+interface Props {
+  size?: number;
+  orbitSize?: number;
+  orbitRadius?: number;
+  orbitDuration?: number;
+}
+
+export default function LoadingScreen({
+  size = 80,
+  orbitSize = 20,
+  orbitRadius = 70,
+  orbitDuration = 4000,
+}: Props) {
+  const rotate = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    rotate.setValue(0);
+    Animated.loop(
+      Animated.timing(rotate, {
+        toValue: 1,
+        duration: orbitDuration,
+        useNativeDriver: true,
+      })
+    ).start();
+  }, [orbitDuration]);
+
+  const spin = rotate.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <ActivityIndicator size="large" color="#0d1b2a" />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#e0f2ff",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          position: "relative",
+          width: orbitRadius * 2 + orbitSize,
+          height: orbitRadius * 2 + orbitSize,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <LinearGradient
+          colors={["#1b263b", "#0d1b2a"]}
+          style={{
+            width: size,
+            height: size,
+            borderRadius: 999,
+            position: "absolute",
+          }}
+        />
+        <Animated.View
+          style={{
+            position: "absolute",
+            width: orbitRadius * 2,
+            height: orbitRadius * 2,
+            justifyContent: "center",
+            alignItems: "center",
+            transform: [{ rotate: spin }],
+          }}
+        >
+          <LinearGradient
+            colors={["#415a77", "#778da9"]}
+            style={{
+              width: orbitSize,
+              height: orbitSize,
+              borderRadius: 999,
+              position: "absolute",
+              top: 0,
+            }}
+          />
+        </Animated.View>
+      </View>
     </View>
   );
 }

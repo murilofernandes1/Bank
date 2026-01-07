@@ -47,7 +47,7 @@ export default function PiggyConfirm() {
         setLoading(false);
         setMessage(true);
         setTimeout(() => {
-          navigation.replace("Home");
+          navigation.replace("Investments");
         }, 2500);
       }, 2000);
     } catch {

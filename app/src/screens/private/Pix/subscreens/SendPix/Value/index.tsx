@@ -36,7 +36,7 @@ export default function PixValue() {
   const disabled =
     !(typeof value === "number" && value > 0) ||
     !paymentMethod ||
-    exceededLimit;
+    user.balance < value;
 
   const selectedMethod = paymentMethods.find((m) => m.key === paymentMethod);
 
@@ -124,6 +124,14 @@ export default function PixValue() {
           ))}
         </View>
 
+        {paymentMethod === "PIX" && user.balance < value ? (
+          <Text style={styles.errorText}>Saldo em conta insuficiente</Text>
+        ) : null}
+        {paymentMethod === "CARD" && card.currentLimit < value ? (
+          <Text style={styles.errorText}>
+            Limite do cartão de crédito insuficiente
+          </Text>
+        ) : null}
         <GlobalButton
           title={
             paymentMethod

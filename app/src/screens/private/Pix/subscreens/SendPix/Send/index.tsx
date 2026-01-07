@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ArrowRightIcon } from "phosphor-react-native";
+import { ArrowRightIcon, UserIcon } from "phosphor-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import BackButton from "../../../../../../components/BackButton";
 import { styles } from "./styles";
@@ -25,6 +25,7 @@ type UserProps = {
   id: string;
   name: string;
 };
+
 export default function SendPix() {
   const { setDestinationId, setDestinationName } = useTransfer();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -34,10 +35,6 @@ export default function SendPix() {
   const [empty, setEmpty] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [ownKey, setOwnKey] = useState(false);
-
-  function normalizeKey(value: string) {
-    return value.replace(/\D/g, "");
-  }
 
   async function findKey() {
     if (!key.trim()) {
@@ -83,25 +80,29 @@ export default function SendPix() {
         style={{ flex: 1 }}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Quem vai receber a transferência?</Text>
+        <Text style={styles.title}>Quem vai receber?</Text>
         <Text style={styles.subtitle}>
-          Digite a chave do destinatário e confira os dados antes de enviar o
-          valor.
+          Informe a chave Pix do destinatário para continuar
         </Text>
 
-        <View style={styles.pixArea}>
+        <View style={styles.searchCard}>
           <TextInput
             value={key}
             onChangeText={setKey}
             style={styles.pixDestination}
-            placeholder="Digite a chave do destinatário..."
-            placeholderTextColor="#0d1b2a"
+            placeholder="CPF, e-mail, telefone ou chave aleatória"
+            placeholderTextColor="#64748b"
             returnKeyType="search"
             onSubmitEditing={findKey}
           />
-          <TouchableOpacity onPress={findKey} disabled={searching}>
-            <ArrowRightIcon size={40} color={searching ? "#ccc" : "#0d1b2a"} />
+          <TouchableOpacity
+            onPress={findKey}
+            disabled={searching}
+            style={styles.searchButton}
+          >
+            <ArrowRightIcon size={28} color="#ffffff" />
           </TouchableOpacity>
         </View>
 
@@ -109,21 +110,25 @@ export default function SendPix() {
           {searching && <LoadingScreen />}
 
           {!searching && empty && (
-            <Text style={styles.feedback}>O campo não pode estar vazio</Text>
+            <Text style={styles.feedback}>Informe uma chave Pix válida</Text>
           )}
+
           {!searching && notFound && (
-            <Text style={styles.feedback}>Chave pix não encontrada</Text>
+            <Text style={styles.feedback}>Chave Pix não encontrada</Text>
           )}
+
           {!searching && ownKey && (
             <Text style={styles.feedback}>
-              Você não pode realizar transferências para si mesmo.
+              Você não pode transferir para sua própria chave
             </Text>
           )}
 
           {!searching && destination && (
             <>
-              <Text style={styles.contactsTitle}>Enviar para</Text>
+              <Text style={styles.contactsTitle}>Destinatário</Text>
+
               <TouchableOpacity
+                activeOpacity={0.9}
                 onPress={() => {
                   setDestinationId(destination.user.id);
                   setDestinationName(destination.user.name);
@@ -134,8 +139,13 @@ export default function SendPix() {
                   colors={["#0d1b2a", "#1b263b", "#415a77"]}
                   style={styles.cardRecent}
                 >
+                  <View style={styles.avatar}>
+                    <UserIcon size={26} color="#e0f2ff" />
+                  </View>
+
                   <View style={styles.contactInfo}>
                     <Text style={styles.name}>{destination.user.name}</Text>
+
                     <Text style={styles.key}>
                       Chave:{" "}
                       <Text style={styles.keyName}>
@@ -144,6 +154,7 @@ export default function SendPix() {
                           : destination.key}
                       </Text>
                     </Text>
+
                     <Text style={styles.bank}>Orbit Bank</Text>
                   </View>
                 </LinearGradient>

@@ -16,7 +16,6 @@ import Investments from "../screens/private/Investments";
 import CreateCreditCard from "../screens/private/CreditCard/subscreens/CreateCreditCard";
 import QRReader from "screens/private/Pix/subscreens/Pay/subscreens/QRReader";
 import PiggyConfirm from "screens/private/Investments/subscreens/PiggyConfirm";
-import PiggyValue from "screens/private/Investments/subscreens/PiggyValue";
 
 const Stack = createStackNavigator();
 export type RootStackParamList = {
@@ -56,7 +55,6 @@ export default function PrivateNavigator() {
       <Stack.Screen name="CreateCreditCard" component={CreateCreditCard} />
       {/* INVESTMENTS SCREENS */}
       <Stack.Screen name="Investments" component={Investments} />
-      <Stack.Screen name="PiggyValue" component={PiggyValue} />
       <Stack.Screen name="PiggyConfirm" component={PiggyConfirm} />
     </Stack.Navigator>
   );

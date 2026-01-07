@@ -1,15 +1,14 @@
 import { StyleSheet } from "react-native";
+
 export const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: "#f0f7ff",
   },
-
   content: {
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 80,
-    color: "##0d1b2a",
   },
   title: {
     fontSize: 26,
@@ -18,35 +17,79 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   subtitle: {
-    fontSize: 16,
-    fontWeight: "400",
+    fontSize: 15,
     color: "#0d1b2a",
     opacity: 0.7,
-    marginTop: 5,
-    marginBottom: 40,
+    marginTop: 6,
+    marginBottom: 22,
+  },
+  heroCard: {
+    marginBottom: 26,
+  },
+  heroGradient: {
+    borderRadius: 22,
+    padding: 22,
+    alignItems: "flex-start",
+  },
+  heroTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#ffffff",
+    marginTop: 10,
+  },
+  heroSubtitle: {
+    fontSize: 14,
+    color: "#cbd5f5",
+    marginTop: 4,
+  },
+  section: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#0d1b2a",
+    marginBottom: 14,
+  },
+  servicesGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
   serviceButton: {
-    alignItems: "flex-start",
-    textAlign: "center",
-    flexDirection: "column",
-    marginRight: 15,
+    width: "47%",
+    backgroundColor: "#ffffff",
+    borderRadius: 22,
+    paddingVertical: 20,
+    alignItems: "center",
+    marginBottom: 16,
+    elevation: 5,
   },
   serviceCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 50,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
     justifyContent: "center",
     alignItems: "center",
   },
-  services: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-  },
   serviceName: {
-    marginTop: 10,
+    marginTop: 12,
     fontSize: 15,
-    fontWeight: "500",
-    alignSelf: "center",
+    fontWeight: "600",
+    color: "#0d1b2a",
+  },
+  tipCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 20,
+    padding: 18,
+    marginTop: 10,
+    elevation: 3,
+  },
+  tipTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#0d1b2a",
+    marginBottom: 4,
+  },
+  tipText: {
+    fontSize: 13,
+    color: "#475569",
   },
 });

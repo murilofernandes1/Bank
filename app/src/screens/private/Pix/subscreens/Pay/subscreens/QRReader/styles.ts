@@ -10,19 +10,20 @@ export const styles = StyleSheet.create({
   },
   overlay: {
     position: "absolute",
-    top: "30%",
+    top: "25%",
     alignSelf: "center",
     alignItems: "center",
   },
   helperText: {
     marginTop: 16,
-    fontSize: 16,
+    fontSize: 18,
     color: "#e0f2ff",
     fontWeight: "500",
+    textAlign: "center",
   },
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -33,10 +34,11 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
   },
   errorText: {
-    marginTop: 12,
+    marginTop: 8,
     fontSize: 16,
-    color: "red",
-    fontWeight: "500",
+    color: "#ff4d4d",
+    fontWeight: "600",
+    textAlign: "center",
   },
   permissionContainer: {
     flex: 1,
@@ -50,5 +52,8 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#0d1b2a",
     marginBottom: 24,
+  },
+  permissionButton: {
+    backgroundColor: "#e0f2ff",
   },
 });

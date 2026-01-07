@@ -73,7 +73,6 @@ export const styles = StyleSheet.create({
   },
 
   errorText: {
-    marginTop: 8,
     color: "#ff6b6b",
     fontSize: 13,
     fontWeight: "500",

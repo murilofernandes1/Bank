@@ -94,13 +94,16 @@ export default function CreditCard() {
         >
           <Text style={styles.cardLabel}>Fatura atual</Text>
 
-          <Text style={styles.cardValue}>
-            {invoiceAmount.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })}
-          </Text>
-
+          {invoice ? (
+            <Text style={styles.cardValue}>
+              {invoice.totalAmount.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
+            </Text>
+          ) : (
+            <Text style={styles.cardValue}>R$ 0,00</Text>
+          )}
           <Text style={styles.availableLimit}>
             Limite disponível:{" "}
             {card.currentLimit != null
@@ -123,9 +126,7 @@ export default function CreditCard() {
                 month: "2-digit",
               })}
             </Text>
-          ) : (
-            <Text style={styles.exp}>Tudo em dia com sua fatura!</Text>
-          )}
+          ) : null}
         </LinearGradient>
 
         <View style={styles.actionArea}>

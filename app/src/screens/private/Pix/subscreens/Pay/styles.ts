@@ -19,26 +19,35 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   subtitle: {
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#0d1b2a",
-    opacity: 0.7,
-    marginTop: 5,
-    marginBottom: 40,
+    fontSize: 15,
+    color: "#475569",
+    marginTop: 6,
+    marginBottom: 30,
   },
+
   optionCard: {
     marginBottom: 20,
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
+    elevation: 5,
   },
 
   optionGradient: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 20,
-    borderRadius: 12,
+    padding: 22,
+    borderRadius: 16,
     justifyContent: "flex-start",
-    gap: 15,
+    gap: 16,
+  },
+
+  iconWrapper: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "rgba(224,242,255,0.15)",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   optionText: {

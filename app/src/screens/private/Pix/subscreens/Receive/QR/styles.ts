@@ -8,33 +8,31 @@ export const styles = StyleSheet.create({
 
   content: {
     paddingHorizontal: 20,
-    paddingTop: 100,
+    paddingTop: 80,
     paddingBottom: 80,
     alignItems: "center",
   },
 
   qrBox: {
-    padding: 25,
-    borderRadius: 20,
+    padding: 30,
+    borderRadius: 28,
+    borderWidth: 4,
+    borderColor: "#0d1b2a",
     backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    elevation: 5,
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 30,
-  },
-
-  title: {
-    fontSize: 22,
-    fontWeight: "600",
-    color: "#1b263b",
-    marginBottom: 20,
+    width: 320,
+    height: 320,
   },
 
   amount: {
-    fontSize: 26,
+    fontSize: 30,
     fontWeight: "700",
     color: "#1b263b",
     marginBottom: 10,
@@ -42,13 +40,28 @@ export const styles = StyleSheet.create({
 
   receiver: {
     fontSize: 18,
-    opacity: 0.7,
+    opacity: 0.8,
     color: "#1b263b",
+    marginBottom: 10,
+    textAlign: "center",
   },
+
   counter: {
-    marginTop: 20,
+    marginTop: 15,
     fontSize: 16,
-    color: "#1b263b",
+    color: "#415a77",
+    textAlign: "center",
   },
-  expired: { color: "red", fontWeight: "700", marginTop: 10, fontSize: 16 },
+
+  timer: {
+    fontWeight: "700",
+    color: "#0d1b2a",
+  },
+
+  expired: {
+    color: "#ff4d4d",
+    fontWeight: "700",
+    fontSize: 18,
+    textAlign: "center",
+  },
 });

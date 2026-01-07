@@ -1,10 +1,9 @@
-import { View, ScrollView, Text, TouchableOpacity, Alert } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import BackButton from "components/BackButton";
 import { LinearGradient } from "expo-linear-gradient";
 import { QrCodeIcon, PencilSimpleIcon } from "phosphor-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import { styles } from "./styles";
 
 export default function PayPix() {
@@ -37,7 +36,9 @@ export default function PayPix() {
             end={{ x: 1, y: 1 }}
             style={styles.optionGradient}
           >
-            <QrCodeIcon size={40} color="#e0f2ff" />
+            <View style={styles.iconWrapper}>
+              <QrCodeIcon size={32} color="#e0f2ff" />
+            </View>
             <Text style={styles.optionText}>Escanear QR Code</Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -49,7 +50,9 @@ export default function PayPix() {
             end={{ x: 1, y: 1 }}
             style={styles.optionGradient}
           >
-            <PencilSimpleIcon size={40} color="#e0f2ff" />
+            <View style={styles.iconWrapper}>
+              <PencilSimpleIcon size={32} color="#e0f2ff" />
+            </View>
             <Text style={styles.optionText}>Inserir chave manualmente</Text>
           </LinearGradient>
         </TouchableOpacity>

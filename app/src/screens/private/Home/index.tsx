@@ -14,8 +14,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import {
   CreditCardIcon,
   ReceiptIcon,
-  ChartLineUpIcon,
   SignOutIcon,
+  PiggyBankIcon,
 } from "phosphor-react-native";
 import { useRef, useState } from "react";
 import { styles } from "./styles";
@@ -157,9 +157,9 @@ export default function Home() {
               colors={["#0d1b2a", "#1b263b", "#415a77"]}
               style={styles.serviceCircle}
             >
-              <ChartLineUpIcon size={40} color="#e0f2ff" />
+              <PiggyBankIcon size={40} color="#e0f2ff" />
             </LinearGradient>
-            <Text style={styles.serviceName}>Investimentos</Text>
+            <Text style={styles.serviceName}>Reservas</Text>
           </TouchableOpacity>
         </ScrollView>
 
@@ -192,9 +192,7 @@ export default function Home() {
                     month: "2-digit",
                   })}
                 </Text>
-              ) : (
-                <Text style={styles.exp}>Tudo em dia com sua fatura!</Text>
-              )}
+              ) : null}
             </LinearGradient>
           </TouchableOpacity>
         ) : (

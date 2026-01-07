@@ -7,10 +7,6 @@ router.put("/", async (req, res) => {
   const userId = req.userId;
   const { amount } = req.body;
 
-  if (!userId) {
-    return res.status(401).json({ message: "Usuário não autorizado" });
-  }
-
   if (!amount || amount <= 0) {
     return res.status(400).json({ message: "Valor inválido" });
   }
@@ -49,31 +45,30 @@ router.put("/", async (req, res) => {
       });
     }
 
-    const isFullPayment = amount === invoice.totalAmount;
+    const remainingAmount = invoice.totalAmount - amount;
+    const isFullPayment = remainingAmount <= 0;
 
-    const updatedInvoice = await prisma.invoice.update({
-      where: { id: invoice.id },
-      data: {
-        totalAmount: { decrement: amount },
-        paidAmount: { increment: amount },
-        isPaid: isFullPayment ? true : false,
-      },
-    });
-
-    await prisma.creditCard.update({
-      where: {
-        id: user.creditCard.id,
-      },
-      data: {
-        currentLimit: { increment: amount },
-      },
-    });
+    await prisma.$transaction([
+      prisma.invoice.update({
+        where: { id: invoice.id },
+        data: {
+          totalAmount: Math.max(0, remainingAmount),
+          paidAmount: { increment: amount },
+          isPaid: isFullPayment,
+        },
+      }),
+      prisma.creditCard.update({
+        where: { id: user.creditCard.id },
+        data: {
+          currentLimit: { increment: amount },
+        },
+      }),
+    ]);
 
     return res.status(200).json({
       message: isFullPayment
         ? "Fatura paga com sucesso"
         : "Pagamento parcial realizado com sucesso",
-      invoice: updatedInvoice,
     });
   } catch (error) {
     console.error(error);

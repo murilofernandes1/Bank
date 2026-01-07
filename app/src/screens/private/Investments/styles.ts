@@ -5,109 +5,177 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f0f7ff",
   },
-
   content: {
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 80,
   },
-
   title: {
     fontSize: 26,
     fontWeight: "700",
-    color: "#0d1b2a",
+    color: "#0f172a",
     marginTop: 20,
   },
-
   subtitle: {
-    fontSize: 16,
-    color: "#0d1b2a",
-    opacity: 0.7,
+    fontSize: 15,
+    color: "#475569",
     marginTop: 6,
-    marginBottom: 30,
+    marginBottom: 22,
   },
-
-  section: {
-    fontSize: 20,
+  summaryCard: {
+    marginBottom: 26,
+  },
+  summaryGradient: {
+    borderRadius: 22,
+    padding: 22,
+  },
+  summaryLabel: {
+    fontSize: 13,
+    color: "#cbd5f5",
+    marginBottom: 6,
+  },
+  summaryValue: {
+    fontSize: 30,
     fontWeight: "700",
-    color: "#0d1b2a",
-    marginBottom: 10,
+    color: "#ffffff",
   },
-
+  summarySub: {
+    fontSize: 13,
+    color: "#cbd5f5",
+    marginTop: 6,
+  },
+  section: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#0f172a",
+    marginBottom: 12,
+  },
   horizontalList: {
-    paddingVertical: 16,
-    paddingRight: 16,
+    paddingVertical: 14,
+    paddingRight: 14,
   },
-
   piggyCard: {
     width: 160,
     backgroundColor: "#ffffff",
-    borderRadius: 18,
-    paddingVertical: 20,
-    paddingHorizontal: 12,
+    borderRadius: 22,
+    paddingVertical: 22,
+    paddingHorizontal: 14,
     alignItems: "center",
-    marginRight: 12,
+    marginRight: 14,
+    elevation: 6,
   },
-
   createCard: {
+    backgroundColor: "#f8fafc",
     borderWidth: 1,
     borderStyle: "dashed",
     borderColor: "#cbd5e1",
-    backgroundColor: "#f8fafc",
   },
-
   piggyCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 12,
   },
-
+  createCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#e2e8f0",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 12,
+  },
   piggyTitle: {
     fontSize: 14,
     fontWeight: "600",
     color: "#0f172a",
     textAlign: "center",
   },
-
   piggyValue: {
     fontSize: 13,
-    color: "#0f172a",
+    fontWeight: "600",
+    color: "#334155",
     marginTop: 6,
   },
-
   piggySubtitle: {
     fontSize: 12,
     color: "#64748b",
     marginTop: 4,
   },
-
+  cardProgressBackground: {
+    width: "100%",
+    height: 4,
+    backgroundColor: "#e2e8f0",
+    borderRadius: 4,
+    marginTop: 10,
+    overflow: "hidden",
+  },
+  cardProgressFill: {
+    height: 4,
+    backgroundColor: "#334155",
+    borderRadius: 4,
+  },
+  emptyState: {
+    alignItems: "center",
+    paddingVertical: 40,
+  },
+  emptyCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#0f172a",
+    marginBottom: 6,
+  },
+  emptySubtitle: {
+    fontSize: 14,
+    color: "#475569",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  emptyButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#334155",
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 14,
+  },
+  emptyButtonText: {
+    color: "#ffffff",
+    fontSize: 14,
+    fontWeight: "600",
+    marginLeft: 8,
+  },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: "rgba(0,0,0,0.35)",
   },
-
   modalContainer: {
     position: "absolute",
     bottom: 0,
     width: "100%",
     backgroundColor: "#f0f7ff",
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
-    padding: 24,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 26,
     alignItems: "center",
   },
-
   modalHandle: {
-    width: 42,
+    width: 46,
     height: 4,
     borderRadius: 2,
     backgroundColor: "#cbd5e1",
-    marginBottom: 18,
+    marginBottom: 20,
   },
-
   modalCircle: {
     width: 72,
     height: 72,
@@ -116,68 +184,54 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 14,
   },
-
   modalTitle: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#0d1b2a",
-    marginBottom: 6,
-    textAlign: "center",
+    color: "#0f172a",
+    marginBottom: 10,
   },
-
   modalValueMain: {
     fontSize: 28,
     fontWeight: "700",
-    color: "#0d1b2a",
-    marginBottom: 4,
+    color: "#0f172a",
+    marginBottom: 18,
   },
-
-  modalSubValue: {
-    fontSize: 14,
-    color: "#415a77",
-    marginBottom: 20,
-  },
-
   progressContainer: {
     width: "100%",
-    marginBottom: 28,
+    marginBottom: 26,
   },
-
   progressBackground: {
     width: "100%",
     height: 6,
-    backgroundColor: "rgba(13,27,42,0.15)",
+    backgroundColor: "#e2e8f0",
     borderRadius: 6,
     overflow: "hidden",
   },
-
   progressFill: {
     height: 6,
+    backgroundColor: "#334155",
     borderRadius: 6,
   },
-
   progressText: {
     marginTop: 8,
     fontSize: 12,
-    color: "#415a77",
+    color: "#475569",
     textAlign: "right",
   },
-
   input: {
     width: "100%",
     backgroundColor: "#ffffff",
-    borderRadius: 12,
-    paddingHorizontal: 16,
+    borderRadius: 16,
+    paddingHorizontal: 18,
     paddingVertical: 14,
     fontSize: 16,
-    color: "#0d1b2a",
+    color: "#0f172a",
     marginBottom: 16,
   },
-
   modalTitle2: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#0d1b2a",
+    color: "#0f172a",
     marginBottom: 20,
   },
 });

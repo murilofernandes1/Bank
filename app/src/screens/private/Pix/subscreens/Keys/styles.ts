@@ -20,55 +20,84 @@ export const styles = StyleSheet.create({
   },
 
   subtitle: {
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#0d1b2a",
-    opacity: 0.7,
-    marginTop: 5,
+    fontSize: 15,
+    color: "#475569",
+    marginTop: 6,
+    marginBottom: 30,
   },
 
   keyList: {
-    marginTop: 30,
-    gap: 20,
+    marginTop: 20,
+    gap: 18,
   },
 
   keyContainer: {
-    backgroundColor: "#ffffff",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: 12,
   },
-  keyCard: {
-    flexDirection: "column",
-    backgroundColor: "#ffffff",
+
+  keyCardGradient: {
+    flex: 1,
     padding: 20,
-    borderRadius: 12,
+    borderRadius: 16,
+    backgroundColor: "#e0f2ff20",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
   },
+
+  keyCardEmpty: {
+    flex: 1,
+    padding: 20,
+    borderRadius: 16,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
+
+  badge: {
+    backgroundColor: "#1b263b",
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    alignSelf: "flex-start",
+    marginBottom: 6,
+  },
+
+  badgeText: {
+    color: "#e0f2ff",
+    fontWeight: "600",
+    fontSize: 12,
+  },
+
   keyTitle: {
     fontSize: 18,
     fontWeight: "700",
     color: "#0d1b2a",
   },
-  delete: {
-    marginRight: 10,
+
+  keyDetail: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginTop: 5,
+    color: "#0d1b2a",
   },
+
   keyDesc: {
     fontSize: 14,
     color: "#0d1b2a",
     opacity: 0.7,
     marginTop: 5,
   },
-  keyDetail: {
-    fontSize: 16,
-    color: "#0d1b2a",
-    fontWeight: "700",
-    marginTop: 5,
-    opacity: 0.9,
-  },
-  confirmText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "700",
+
+  deleteButton: {
+    marginLeft: 12,
+    padding: 6,
+    borderRadius: 12,
+    backgroundColor: "#0d1b2a",
   },
 });

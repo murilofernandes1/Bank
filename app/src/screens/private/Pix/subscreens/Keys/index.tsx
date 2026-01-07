@@ -1,9 +1,16 @@
-import { View, ScrollView, Text, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Animated,
+} from "react-native";
 import BackButton from "../../../../../components/BackButton";
 import { styles } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import api from "services/api";
 import LoadingScreen from "components/LoadingScreen";
 import { phoneFormatter } from "utils/phoneFormatter";
@@ -19,8 +26,8 @@ export default function PixKey() {
   const [keys, setKeys] = useState<KeyProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const cpfKey = keys.find((k) => k.type === "cpf");
   const emailKey = keys.find((k) => k.type === "email");
@@ -60,162 +67,82 @@ export default function PixKey() {
     return <LoadingScreen />;
   }
 
+  function renderKeyCard(
+    type: string,
+    keyObj: KeyProps | undefined,
+    desc: string
+  ) {
+    return (
+      <View style={styles.keyContainer}>
+        {keyObj ? (
+          <>
+            <TouchableOpacity style={styles.keyCardGradient}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>
+                  {type === "cpf"
+                    ? "CPF"
+                    : type === "email"
+                    ? "Email"
+                    : type === "phone"
+                    ? "Telefone"
+                    : "Aleatória"}
+                </Text>
+              </View>
+              <Text style={styles.keyDetail}>
+                {type === "phone" && keyObj.key.length === 11
+                  ? phoneFormatter(keyObj.key)
+                  : keyObj.key}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              disabled={!!deletingId}
+              onPress={() => handleDeleteKey(keyObj.id)}
+              style={styles.deleteButton}
+            >
+              {deletingId === keyObj?.id ? (
+                <LoadingScreen />
+              ) : (
+                <TrashIcon size={28} color="#fef2f2" />
+              )}
+            </TouchableOpacity>
+          </>
+        ) : (
+          <TouchableOpacity
+            style={styles.keyCardEmpty}
+            onPress={() => navigation.navigate("ChoosedKey", { type })}
+          >
+            <Text style={styles.keyTitle}>
+              {type === "cpf"
+                ? "CPF"
+                : type === "email"
+                ? "E-mail"
+                : type === "phone"
+                ? "Telefone"
+                : "Chave Aleatória"}
+            </Text>
+            <Text style={styles.keyDesc}>{desc}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  }
+
   return (
     <View style={styles.screen}>
       <BackButton />
-
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.title}>Minhas chaves Pix</Text>
-        <Text style={styles.subtitle}>Consulte e Cadastre suas chaves Pix</Text>
+        <Text style={styles.subtitle}>Consulte e cadastre suas chaves Pix</Text>
 
         <View style={styles.keyList}>
-          <View style={styles.keyContainer}>
-            {cpfKey ? (
-              <>
-                <View style={styles.keyCard}>
-                  <Text style={styles.keyTitle}>CPF</Text>
-                  <Text style={styles.keyDetail}>{cpfKey.key}</Text>
-                </View>
-                <TouchableOpacity
-                  disabled={!!deletingId}
-                  onPress={() => handleDeleteKey(cpfKey.id)}
-                >
-                  {deletingId === cpfKey.id ? (
-                    <LoadingScreen />
-                  ) : (
-                    <TrashIcon
-                      style={styles.delete}
-                      size={30}
-                      color="#0d1b2a"
-                    />
-                  )}
-                </TouchableOpacity>
-              </>
-            ) : (
-              <TouchableOpacity
-                style={styles.keyCard}
-                onPress={() =>
-                  navigation.navigate("ChoosedKey", { type: "cpf" })
-                }
-              >
-                <Text style={styles.keyTitle}>CPF</Text>
-                <Text style={styles.keyDesc}>Use seu CPF como chave Pix</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-
-          <View style={styles.keyContainer}>
-            {emailKey ? (
-              <>
-                <View style={styles.keyCard}>
-                  <Text style={styles.keyTitle}>Email</Text>
-                  <Text style={styles.keyDetail}>{emailKey.key}</Text>
-                </View>
-                <TouchableOpacity
-                  disabled={!!deletingId}
-                  onPress={() => handleDeleteKey(emailKey.id)}
-                >
-                  {deletingId === emailKey.id ? (
-                    <LoadingScreen />
-                  ) : (
-                    <TrashIcon
-                      style={styles.delete}
-                      size={30}
-                      color="#0d1b2a"
-                    />
-                  )}
-                </TouchableOpacity>
-              </>
-            ) : (
-              <TouchableOpacity
-                style={styles.keyCard}
-                onPress={() =>
-                  navigation.navigate("ChoosedKey", { type: "email" })
-                }
-              >
-                <Text style={styles.keyTitle}>E-mail</Text>
-                <Text style={styles.keyDesc}>
-                  Cadastre seu e-mail como chave
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-
-          <View style={styles.keyContainer}>
-            {phoneKey ? (
-              <>
-                <View style={styles.keyCard}>
-                  <Text style={styles.keyTitle}>Telefone</Text>
-                  <Text style={styles.keyDetail}>
-                    {phoneFormatter(phoneKey.key)}
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  disabled={!!deletingId}
-                  onPress={() => handleDeleteKey(phoneKey.id)}
-                >
-                  {deletingId === phoneKey.id ? (
-                    <LoadingScreen />
-                  ) : (
-                    <TrashIcon
-                      style={styles.delete}
-                      size={30}
-                      color="#0d1b2a"
-                    />
-                  )}
-                </TouchableOpacity>
-              </>
-            ) : (
-              <TouchableOpacity
-                style={styles.keyCard}
-                onPress={() =>
-                  navigation.navigate("ChoosedKey", { type: "phone" })
-                }
-              >
-                <Text style={styles.keyTitle}>Telefone</Text>
-                <Text style={styles.keyDesc}>Use seu número de celular</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-
-          <View style={styles.keyContainer}>
-            {randomKey ? (
-              <>
-                <View style={styles.keyCard}>
-                  <Text style={styles.keyTitle}>Chave Aleatória</Text>
-                  <Text style={styles.keyDetail}>{randomKey.key}</Text>
-                </View>
-                <TouchableOpacity
-                  disabled={!!deletingId}
-                  onPress={() => handleDeleteKey(randomKey.id)}
-                >
-                  {deletingId === randomKey.id ? (
-                    <LoadingScreen />
-                  ) : (
-                    <TrashIcon
-                      style={styles.delete}
-                      size={30}
-                      color="#0d1b2a"
-                    />
-                  )}
-                </TouchableOpacity>
-              </>
-            ) : (
-              <TouchableOpacity
-                style={styles.keyCard}
-                onPress={() =>
-                  navigation.navigate("ChoosedKey", { type: "random" })
-                }
-              >
-                <Text style={styles.keyTitle}>Chave Aleatória</Text>
-                <Text style={styles.keyDesc}>Gerar uma chave aleatória</Text>
-              </TouchableOpacity>
-            )}
-          </View>
+          {renderKeyCard("cpf", cpfKey, "Use seu CPF como chave Pix")}
+          {renderKeyCard("email", emailKey, "Cadastre seu e-mail como chave")}
+          {renderKeyCard("phone", phoneKey, "Use seu número de celular")}
+          {renderKeyCard("random", randomKey, "Gerar uma chave aleatória")}
         </View>
       </ScrollView>
     </View>

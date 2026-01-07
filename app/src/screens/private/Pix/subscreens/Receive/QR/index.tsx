@@ -1,72 +1,80 @@
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, Animated } from "react-native";
 import BackButton from "../../../../../../components/BackButton";
 import { styles } from "./styles";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import QRCode from "react-native-qrcode-svg";
 import { RootStackParamList } from "../../../../../../navigation/PrivateNavigator";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuth } from "hooks/useAuth";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export default function QR() {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { user } = useAuth();
   const route = useRoute<RouteProp<RootStackParamList, "QR">>();
-  const { amount } = route.params;
-  const [time, setTime] = useState(90);
+  const { amount: initialAmount } = route.params;
+
+  const [time, setTime] = useState(10);
   const [active, setActive] = useState(true);
-  const [expired, setExpired] = useState(false);
-  let interval: NodeJS.Timeout;
+  const [qrData, setQrData] = useState({
+    amount: String(initialAmount),
+    destinationId: user.id,
+    name: user.name,
+  });
+
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
   useEffect(() => {
-    interval = setInterval(() => {
-      setTime((prevTime) => prevTime - 1);
+    const interval = setInterval(() => {
+      setTime((prev) => prev - 1);
     }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    if (time === 0) {
-      clearInterval(interval);
+    if (time <= 0 && active) {
       setActive(false);
-      setExpired(true);
-      navigation.goBack();
+
+      Animated.timing(fadeAnim, {
+        toValue: 0.3,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+
+      setQrData({ amount: "", destinationId: "", name: "" });
     }
-  });
+  }, [time]);
 
-  const parsedAmount = String(amount);
-  const transaction = {
-    amount: parsedAmount,
-    destinationId: user.id,
-    name: user.name,
-  };
-
-  const qrCodeValue = JSON.stringify(transaction);
   return (
     <View style={styles.screen}>
       <BackButton />
-
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.qrBox}>
-          <QRCode value={qrCodeValue} size={220} />
-        </View>
+        <Animated.View style={[styles.qrBox, { opacity: fadeAnim }]}>
+          <QRCode value={JSON.stringify(qrData)} size={280} />
+        </Animated.View>
 
         <Text style={styles.amount}>
-          {Number(amount).toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          })}
+          {qrData.amount
+            ? Number(qrData.amount).toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })
+            : "--"}
         </Text>
 
-        <Text style={styles.receiver}>Enviando para {user?.name}</Text>
-        {active && (
+        <Text style={styles.receiver}>
+          {qrData.name
+            ? `Enviando para ${qrData.name}`
+            : "QR Code expirado. Gere um novo na tela anterior."}
+        </Text>
+
+        {active ? (
           <Text style={styles.counter}>
-            Seu QRCode expira em {time} segundos.
+            Expira em <Text style={styles.timer}>{time}s</Text>
           </Text>
-        )}
-        {expired && <Text style={styles.expired}>QRCode expirado.</Text>}
+        ) : null}
       </ScrollView>
     </View>
   );

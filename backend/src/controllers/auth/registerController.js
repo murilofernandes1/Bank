@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
     });
 
     const token = jwt.sign({ id: userDB.id }, JWT_SECRET, { expiresIn: "1y" });
+
     res.status(201).json(token);
   } catch (error) {
     console.error(error);

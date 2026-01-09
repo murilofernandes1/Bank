@@ -29,7 +29,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setToken(token);
     setAlreadyLogged(true);
     setAuthenticated(true);
-    setLoading(false);
   }
 
   function confirmPin() {
@@ -81,13 +80,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
   useEffect(() => {
-    try {
-      checkStoredToken();
-      loadUser();
+    async function init() {
+      setLoading(true);
+
+      await checkStoredToken();
+      await loadUser();
+
       setLoading(false);
-    } catch (error) {
-      console.log(error);
     }
+
+    init();
   }, []);
 
   return (

@@ -81,7 +81,7 @@ export default function LoadingScreen({
           }}
         >
           <LinearGradient
-            colors={["#415a77", "#1b263b"]}
+            colors={["#e0f2ff", "#778da9"]}
             style={{
               width: orbitSize,
               height: orbitSize,

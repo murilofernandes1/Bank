@@ -6,15 +6,12 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-
     "icon": "./src/assets/logo/orbit-logo.png",
-
     "splash": {
       "image": "./src/assets/logo/orbit-logo_background.png",
       "resizeMode": "cover",
       "backgroundColor": "#B1C3D9"
     },
-
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.murilo11.app",
@@ -22,7 +19,6 @@
         "ITSAppUsesNonExemptEncryption": false
       }
     },
-
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/logo/orbit-logo_foreground.png",
@@ -32,7 +28,13 @@
       "edgeToEdgeEnabled": true,
       "package": "com.murilo11.app"
     },
-
-    "plugins": ["expo-font"]
+    "plugins": [
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8c84ae92-7dd8-410f-9a57-086e75da1c2d"
+      }
+    }
   }
 }

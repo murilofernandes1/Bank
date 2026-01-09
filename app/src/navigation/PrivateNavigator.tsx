@@ -30,13 +30,10 @@ export default function PrivateNavigator() {
       id="PrivateStack"
       screenOptions={{ headerShown: false, animation: "fade_from_right" }}
     >
-      {/* HOME SCREENS */}
       <Stack.Screen name="Home" component={Home} />
-      {/* WELCOME SCREENS */}
 
-      {/* PIX SCREENS */}
       <Stack.Screen name="Pix" component={Pix} />
-      {/* SEND PIX SUB SCREENS */}
+
       <Stack.Screen name="SendPix" component={SendPix} />
       <Stack.Screen name="PixValue" component={PixValue} />
       <Stack.Screen name="ConfirmPix" component={ConfirmPix} />
@@ -44,16 +41,16 @@ export default function PrivateNavigator() {
       <Stack.Screen name="QR" component={QR} />
       <Stack.Screen name="PixKeys" component={PixKeys} />
       <Stack.Screen name="ChoosedKey" component={ChoosedKey} />
-      {/* PAY SCREENS */}
+
       <Stack.Screen name="PayPix" component={PayPix} />
       <Stack.Screen name="QrReader" component={QRReader} />
-      {/* STATEMENT SCREENS */}
+
       <Stack.Screen name="Statement" component={Statement} />
-      {/* CREDIT CARD SCREENS */}
+
       <Stack.Screen name="CreditCard" component={CreditCard} />
       <Stack.Screen name="PayCreditCard" component={PayCreditCard} />
       <Stack.Screen name="CreateCreditCard" component={CreateCreditCard} />
-      {/* INVESTMENTS SCREENS */}
+
       <Stack.Screen name="Investments" component={Investments} />
       <Stack.Screen name="PiggyConfirm" component={PiggyConfirm} />
     </Stack.Navigator>

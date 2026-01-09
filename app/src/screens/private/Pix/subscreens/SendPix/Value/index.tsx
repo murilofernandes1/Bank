@@ -36,7 +36,8 @@ export default function PixValue() {
   const disabled =
     !(typeof value === "number" && value > 0) ||
     !paymentMethod ||
-    user.balance < value;
+    (paymentMethod === "PIX" && user.balance < value) ||
+    (paymentMethod === "CARD" && card.currentLimit < value);
 
   const selectedMethod = paymentMethods.find((m) => m.key === paymentMethod);
 

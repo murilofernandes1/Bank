@@ -140,6 +140,7 @@ export const styles = StyleSheet.create({
 
   userInfo: {
     position: "absolute",
+    width: "100%",
     bottom: 28,
     left: 20,
   },

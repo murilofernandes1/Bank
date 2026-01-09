@@ -233,6 +233,7 @@ export default function Investments() {
             value={goalName}
             onChangeText={setGoalName}
             placeholder="Nome do objetivo"
+            placeholderTextColor="#94a3b8"
             style={styles.input}
           />
 
@@ -244,6 +245,7 @@ export default function Investments() {
             separator=","
             precision={2}
             placeholder="Meta desejada"
+            placeholderTextColor="#94a3b8"
             style={styles.input}
           />
 
@@ -315,6 +317,7 @@ export default function Investments() {
                     separator=","
                     precision={2}
                     placeholder="Quanto deseja guardar?"
+                    placeholderTextColor="#94a3b8"
                     style={styles.input}
                   />
 

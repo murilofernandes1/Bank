@@ -3,15 +3,17 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
-import BackButton from "../../../components/BackButton";
 import { useAuth } from "../../../hooks/useAuth";
 import api from "services/api";
 import LoadingScreen from "components/LoadingScreen";
+import AlternativeBackButton from "components/AlternativeBackButton";
 
 export default function LoginScreen() {
   const { Login } = useAuth();
@@ -53,42 +55,55 @@ export default function LoginScreen() {
           colors={["#0d1b2a", "#1b263b", "#415a77"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={styles.screen}
+          style={styles.container}
         >
-          <BackButton />
-          <View style={styles.container}>
-            <Text style={styles.title}>Bem-vindo</Text>
-            <Text style={styles.subtitle}>Faça login para continuar</Text>
+          <AlternativeBackButton />
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <ScrollView
+              contentContainerStyle={{ flexGrow: 1 }}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.content}>
+                <Text style={styles.title}>Bem-vindo de volta</Text>
+                <Text style={styles.subtitle}>Faça login para continuar</Text>
 
-            <TextInput
-              placeholder="E-mail"
-              placeholderTextColor="#e0f2ff90"
-              style={styles.input}
-              value={email}
-              onChangeText={setEmail}
-            />
+                <TextInput
+                  placeholder="E-mail"
+                  placeholderTextColor="#e0f2ff90"
+                  style={styles.input}
+                  value={email}
+                  onChangeText={setEmail}
+                />
 
-            <TextInput
-              placeholder="Senha"
-              placeholderTextColor="#e0f2ff90"
-              secureTextEntry
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-            />
-            {formError && (
-              <Text style={styles.error}>Os campos não podem estar vazios</Text>
-            )}
-            {error && (
-              <Text style={styles.error}>
-                Dados inválidos. Verifique os campos digitados e tente
-                novamente.
-              </Text>
-            )}
-            <TouchableOpacity onPress={handleLogin} style={styles.button}>
-              <Text style={styles.buttonText}>Entrar</Text>
-            </TouchableOpacity>
-          </View>
+                <TextInput
+                  placeholder="Senha"
+                  placeholderTextColor="#e0f2ff90"
+                  secureTextEntry
+                  style={styles.input}
+                  value={password}
+                  onChangeText={setPassword}
+                />
+                {formError && (
+                  <Text style={styles.error}>
+                    Os campos não podem estar vazios
+                  </Text>
+                )}
+                {error && (
+                  <Text style={styles.error}>
+                    Dados inválidos. Verifique os campos digitados e tente
+                    novamente.
+                  </Text>
+                )}
+                <TouchableOpacity onPress={handleLogin} style={styles.button}>
+                  <Text style={styles.buttonText}>Entrar</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </LinearGradient>
       )}
     </>

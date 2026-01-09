@@ -1,16 +1,15 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
-
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    justifyContent: "center",
   },
 
+  content: {
+    flexGrow: 1,
+    padding: 20,
+    justifyContent: "center",
+  },
   title: {
     color: "#e0f2ff",
     fontSize: 32,

@@ -3,13 +3,12 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: "center",
   },
 
   content: {
-    width: "100%",
-    marginTop: -20,
+    flexGrow: 1,
+    padding: 20,
+    justifyContent: "center",
   },
 
   title: {
@@ -64,21 +63,17 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
     fontFamily: "Inter_400Regular",
   },
+
   error: {
     color: "red",
     fontSize: 15,
     alignSelf: "center",
     marginBottom: 10,
   },
+
   pin: {
-    display: "flex",
-    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    textAlign: "center",
-    fontSize: 18,
-    letterSpacing: 10,
-    color: "#e0f2ff",
     marginBottom: 20,
     padding: 25,
     width: "100%",

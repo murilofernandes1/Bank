@@ -4,7 +4,11 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from "react-native";
+
 import { LinearGradient } from "expo-linear-gradient";
 import { MaskedTextInput } from "react-native-mask-text";
 import { useState } from "react";
@@ -12,6 +16,7 @@ import api from "services/api";
 import { styles } from "./styles";
 import { useAuth } from "../../../hooks/useAuth";
 import { PinInput } from "../../../components/PinInput";
+import AlternativeBackButton from "components/AlternativeBackButton";
 
 export default function RegisterScreen() {
   const { Login } = useAuth();
@@ -71,99 +76,111 @@ export default function RegisterScreen() {
           end={{ x: 1, y: 1 }}
           style={styles.container}
         >
-          <View style={styles.content}>
-            {!pinStage ? (
-              <>
-                <Text style={styles.title}>Criar conta</Text>
-                <Text style={styles.subtitle}>
-                  Abra sua conta em poucos minutos
-                </Text>
+          <AlternativeBackButton />
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <ScrollView
+              contentContainerStyle={{ flexGrow: 1 }}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.content}>
+                {!pinStage ? (
+                  <>
+                    <Text style={styles.title}>Criar conta</Text>
+                    <Text style={styles.subtitle}>
+                      Abra sua conta em poucos minutos
+                    </Text>
 
-                <TextInput
-                  style={styles.input}
-                  placeholder="Nome completo"
-                  placeholderTextColor="#e0f2ff90"
-                  value={name}
-                  onChangeText={setName}
-                />
-                <TextInput
-                  value={email}
-                  onChangeText={setEmail}
-                  style={styles.input}
-                  placeholder="E-mail"
-                  placeholderTextColor="#e0f2ff90"
-                />
-                <MaskedTextInput
-                  mask="999.999.999-99"
-                  placeholder="CPF"
-                  placeholderTextColor="#e0f2ff90"
-                  style={styles.input}
-                  value={cpf}
-                  onChangeText={setCpf}
-                />
-                <TextInput
-                  value={password}
-                  onChangeText={setPassword}
-                  style={styles.input}
-                  placeholder="Senha"
-                  secureTextEntry
-                  placeholderTextColor="#e0f2ff90"
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Confirmar senha"
-                  secureTextEntry
-                  placeholderTextColor="#e0f2ff90"
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                />
-                {formError && (
-                  <Text style={styles.error}>
-                    Os campos não podem estar vazios
-                  </Text>
-                )}
-                {error && (
-                  <Text style={styles.error}>
-                    Dados inválidos. Verifique os campos digitados e tente
-                    novamente.
-                  </Text>
-                )}
-                {passwordMismatch && (
-                  <Text style={styles.error}>As senhas não coincidem</Text>
-                )}
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Nome completo"
+                      placeholderTextColor="#e0f2ff90"
+                      value={name}
+                      onChangeText={setName}
+                    />
+                    <TextInput
+                      value={email}
+                      onChangeText={setEmail}
+                      style={styles.input}
+                      placeholder="E-mail"
+                      placeholderTextColor="#e0f2ff90"
+                    />
+                    <MaskedTextInput
+                      mask="999.999.999-99"
+                      placeholder="CPF"
+                      placeholderTextColor="#e0f2ff90"
+                      style={styles.input}
+                      value={cpf}
+                      onChangeText={setCpf}
+                    />
+                    <TextInput
+                      value={password}
+                      onChangeText={setPassword}
+                      style={styles.input}
+                      placeholder="Senha"
+                      secureTextEntry
+                      placeholderTextColor="#e0f2ff90"
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Confirmar senha"
+                      secureTextEntry
+                      placeholderTextColor="#e0f2ff90"
+                      value={confirmPassword}
+                      onChangeText={setConfirmPassword}
+                    />
+                    {formError && (
+                      <Text style={styles.error}>
+                        Os campos não podem estar vazios
+                      </Text>
+                    )}
+                    {error && (
+                      <Text style={styles.error}>
+                        Dados inválidos. Verifique os campos digitados e tente
+                        novamente.
+                      </Text>
+                    )}
+                    {passwordMismatch && (
+                      <Text style={styles.error}>As senhas não coincidem</Text>
+                    )}
 
-                <TouchableOpacity
-                  onPress={handleRegister}
-                  style={styles.button}
-                >
-                  <Text style={styles.buttonText}>Próximo</Text>
-                </TouchableOpacity>
-              </>
-            ) : (
-              <>
-                <View style={styles.pin}>
-                  <Text style={styles.title}>Crie seu PIN</Text>
-                  <Text style={styles.subtitle}>
-                    Crie um PIN de 4 digitos. O PIN será usado para entrar e
-                    autorizar as demais transações no aplicativo.
-                  </Text>
+                    <TouchableOpacity
+                      onPress={handleRegister}
+                      style={styles.button}
+                    >
+                      <Text style={styles.buttonText}>Próximo</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <>
+                    <View style={styles.pin}>
+                      <Text style={styles.title}>Crie seu PIN</Text>
+                      <Text style={styles.subtitle}>
+                        Crie um PIN de 4 digitos. O PIN será usado para entrar e
+                        autorizar as demais transações no aplicativo.
+                      </Text>
 
-                  <PinInput
-                    value={pin}
-                    error={error}
-                    onChange={(value) => {
-                      setPin(value);
-                      if (value.length === 4) {
-                        setTimeout(() => {
-                          handleCreateAccount();
-                        }, 300);
-                      }
-                    }}
-                  />
-                </View>
-              </>
-            )}
-          </View>
+                      <PinInput
+                        value={pin}
+                        error={error}
+                        onChange={(value) => {
+                          setPin(value);
+                          if (value.length === 4) {
+                            setTimeout(() => {
+                              handleCreateAccount();
+                            }, 300);
+                          }
+                        }}
+                      />
+                    </View>
+                  </>
+                )}
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </LinearGradient>
       )}
     </>

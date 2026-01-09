@@ -13,99 +13,123 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
+const AUTH_STORAGE_KEY = "@auth_token";
+
 export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProps | null>(null);
-  const [alreadyLogged, setAlreadyLogged] = useState(false);
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [card, setCard] = useState<CreditCardProps | null>(null);
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  const AUTH_STORAGE_KEY = "@auth_token";
+  const [authenticated, setAuthenticated] = useState(false);
+  const [alreadyLogged, setAlreadyLogged] = useState(false);
+
+  const [booting, setBooting] = useState(true);
+  const [loadingUser, setLoadingUser] = useState(false);
+
+  const loading = booting || loadingUser;
 
   async function Login(token: string) {
     await AsyncStorage.setItem(AUTH_STORAGE_KEY, token);
     setToken(token);
-    setAlreadyLogged(true);
     setAuthenticated(true);
+    setAlreadyLogged(false);
+  }
+
+  async function Logout() {
+    await AsyncStorage.removeItem(AUTH_STORAGE_KEY);
+
+    setToken(null);
+    setUser(null);
+    setCard(null);
+    setInvoice(null);
+
+    setAuthenticated(false);
+    setAlreadyLogged(false);
   }
 
   function confirmPin() {
     setAuthenticated(true);
   }
 
-  async function Logout() {
-    await AsyncStorage.removeItem(AUTH_STORAGE_KEY);
-    setToken(null);
-    setAlreadyLogged(false);
-    setAuthenticated(false);
-  }
-
-  async function checkStoredToken() {
-    const storedToken = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
-
-    if (storedToken) {
-      try {
-        const decoded: any = jwtDecode(storedToken);
-        const targetTime = decoded.exp * 1000;
-        const currentTime = Date.now();
-
-        if (currentTime > targetTime) {
-          console.log("Token expirado estaticamente");
-          await Logout();
-        } else {
-          setToken(storedToken);
-          setAlreadyLogged(true);
-        }
-      } catch (error) {
-        await Logout();
-      }
-    }
-
-    setLoading(false);
-  }
   async function loadUser() {
     try {
       const { data } = await api.get("/me");
+
       setUser(data);
+
       if (data.creditCard) {
         setCard(data.creditCard);
-        if (data.creditCard.invoices?.length > 0) {
-          setInvoice(data.creditCard.invoices[0]);
-        }
+        setInvoice(data.creditCard.invoices?.[0] ?? null);
+      } else {
+        setCard(null);
+        setInvoice(null);
       }
-    } catch (error) {
-      console.log("Não foi possivel carregar o usuário", error);
+    } catch {
+      await Logout();
     }
   }
-  useEffect(() => {
-    async function init() {
-      setLoading(true);
-      await checkStoredToken();
-      await loadUser();
 
-      setLoading(false);
+  useEffect(() => {
+    async function bootstrap() {
+      const storedToken = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
+
+      if (!storedToken) {
+        setBooting(false);
+        return;
+      }
+
+      try {
+        const decoded: any = jwtDecode(storedToken);
+        const expired = Date.now() > decoded.exp * 1000;
+
+        if (expired) {
+          await Logout();
+          setBooting(false);
+          return;
+        }
+
+        setToken(storedToken);
+        setAlreadyLogged(true);
+        setAuthenticated(false);
+      } catch {
+        await Logout();
+      }
+
+      setBooting(false);
     }
 
-    init();
+    bootstrap();
   }, []);
+
+  useEffect(() => {
+    if (!token || !authenticated) return;
+
+    async function fetchUser() {
+      setLoadingUser(true);
+      await loadUser();
+      setLoadingUser(false);
+    }
+
+    fetchUser();
+  }, [token, authenticated]);
 
   return (
     <AuthContext.Provider
       value={{
-        loadUser,
         token,
-        alreadyLogged,
+        user,
+        card,
+        invoice,
         authenticated,
-        setAuthenticated,
+        alreadyLogged,
+        booting,
         loading,
         Login,
         Logout,
         confirmPin,
-        user,
-        card,
-        invoice,
+        loadUser,
+        setAuthenticated,
       }}
     >
       {children}

@@ -28,9 +28,20 @@ export default function Home() {
   const [hideBalance, setHideBalance] = useState(true);
   const [showCard, setShowCard] = useState(false);
 
+  if (!user) {
+    return null;
+  }
+
+  const firstName = user.name?.split(" ")[0]?.slice(0, 12) || "Usuário";
+
   const scale = useRef(new Animated.Value(1)).current;
 
   function openCard() {
+    if (!card) {
+      navigation.navigate("CreateCreditCard");
+      return;
+    }
+
     setShowCard(true);
     scale.setValue(0.85);
     Animated.spring(scale, {
@@ -58,10 +69,7 @@ export default function Home() {
         <View style={styles.top}>
           <View style={styles.header}>
             <Text style={styles.greeting}>
-              Olá,{" "}
-              <Text style={styles.name}>
-                {user?.name?.split(" ")[0] ?? "Usuário"}!
-              </Text>
+              Olá, <Text style={styles.name}>{firstName}!</Text>
             </Text>
           </View>
 
@@ -72,8 +80,6 @@ export default function Home() {
 
         <LinearGradient
           colors={["#0d1b2a", "#1b263b", "#415a77"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
           style={styles.balance}
         >
           <View style={styles.balanceContainer}>
@@ -81,7 +87,7 @@ export default function Home() {
             <Text style={styles.number}>
               {hideBalance
                 ? "R$ ••••"
-                : user?.balance?.toLocaleString("pt-BR", {
+                : user.balance?.toLocaleString("pt-BR", {
                     style: "currency",
                     currency: "BRL",
                   })}
@@ -167,7 +173,7 @@ export default function Home() {
 
         <Text style={styles.section}>Cartão de crédito</Text>
 
-        {user?.creditCard ? (
+        {card ? (
           <TouchableOpacity onPress={() => navigation.navigate("CreditCard")}>
             <LinearGradient
               colors={["#0d1b2a", "#1b263b", "#415a77"]}
@@ -177,7 +183,7 @@ export default function Home() {
 
               <Text style={styles.cardValue}>
                 {invoice
-                  ? invoice?.totalAmount.toLocaleString("pt-BR", {
+                  ? invoice.totalAmount.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })
@@ -187,7 +193,7 @@ export default function Home() {
               {invoice ? (
                 <Text style={styles.exp}>
                   Vencimento em{" "}
-                  {new Date(card?.invoiceDueDate).toLocaleDateString("pt-BR", {
+                  {new Date(card.invoiceDueDate).toLocaleDateString("pt-BR", {
                     day: "2-digit",
                     month: "2-digit",
                   })}
@@ -216,7 +222,7 @@ export default function Home() {
         )}
       </ScrollView>
 
-      {showCard && (
+      {showCard && card && (
         <View style={styles.modalOverlay}>
           <Pressable style={styles.modalOutside} onPress={closeCard} />
           <Animated.View style={{ transform: [{ scale }] }}>

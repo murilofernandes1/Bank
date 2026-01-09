@@ -8,7 +8,6 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-
 import { LinearGradient } from "expo-linear-gradient";
 import { MaskedTextInput } from "react-native-mask-text";
 import { useState } from "react";
@@ -17,6 +16,7 @@ import { styles } from "./styles";
 import { useAuth } from "../../../hooks/useAuth";
 import { PinInput } from "../../../components/PinInput";
 import AlternativeBackButton from "components/AlternativeBackButton";
+import LoadingScreen from "components/LoadingScreen";
 
 export default function RegisterScreen() {
   const { Login } = useAuth();
@@ -68,7 +68,7 @@ export default function RegisterScreen() {
   return (
     <>
       {loading ? (
-        <ActivityIndicator />
+        <LoadingScreen />
       ) : (
         <LinearGradient
           colors={["#0d1b2a", "#1b263b", "#415a77"]}

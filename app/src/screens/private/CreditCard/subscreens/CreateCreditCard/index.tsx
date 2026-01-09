@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "components/BackButton";
 import { styles } from "./styles";
+import LoadingScreen from "components/LoadingScreen";
 
 const days = ["1", "4", "7", "10", "13", "16", "19", "22", "25", "28"];
 
@@ -16,6 +17,7 @@ export default function CreateCreditCard() {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState(false);
   const [day, setDay] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const { user, loadUser } = useAuth();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -24,28 +26,37 @@ export default function CreateCreditCard() {
     if (!day || sending) return;
 
     setSending(true);
+    setLoading(true);
     setError(false);
     setMessage(false);
 
     try {
+      setMessage(true);
+
       await api.post("/card/create", {
         invoiceClosingDay: Number(day),
       });
 
-      setMessage(true);
       await loadUser();
+
       setTimeout(() => {
         setSending(false);
+        setLoading(false);
         navigation.navigate("Home");
       }, 2500);
-    } catch (err) {
+    } catch {
       setError(true);
 
       setTimeout(() => {
         setSending(false);
+        setLoading(false);
         navigation.navigate("Home");
       }, 2500);
     }
+  }
+
+  if (loading) {
+    return <LoadingScreen />;
   }
 
   return (

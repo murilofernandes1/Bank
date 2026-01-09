@@ -5,11 +5,9 @@ import { useAuth } from "../hooks/useAuth";
 import LoadingScreen from "components/LoadingScreen";
 
 export default function Routes() {
-  const { token, alreadyLogged, authenticated, loading } = useAuth();
+  const { token, user, alreadyLogged, authenticated, loading } = useAuth();
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  if (loading) return <LoadingScreen />;
 
   if (!token) {
     return <PublicNavigator />;
@@ -17,6 +15,10 @@ export default function Routes() {
 
   if (alreadyLogged && !authenticated) {
     return <WelcomeBack />;
+  }
+
+  if (!user) {
+    return <LoadingScreen />;
   }
 
   return <PrivateNavigator />;

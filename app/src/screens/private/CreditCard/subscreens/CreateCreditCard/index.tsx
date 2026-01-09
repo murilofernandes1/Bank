@@ -1,11 +1,5 @@
-import {
-  View,
-  ScrollView,
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { useState, useEffect } from "react";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { useState } from "react";
 import { useAuth } from "../../../../../hooks/useAuth";
 import api from "services/api";
 import LoadingAction from "components/LoadingAction";
@@ -15,65 +9,43 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "components/BackButton";
 import { styles } from "./styles";
 
-type UserProps = {
-  id: string;
-  name: string;
-};
-
 const days = ["1", "4", "7", "10", "13", "16", "19", "22", "25", "28"];
 
 export default function CreateCreditCard() {
-  const [user, setUser] = useState<UserProps | null>(null);
-  const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState(false);
   const [day, setDay] = useState<string | null>(null);
 
-  const { token } = useAuth();
+  const { user, loadUser } = useAuth();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  useEffect(() => {
-    if (!token) return;
-
-    async function loadUser() {
-      try {
-        const response = await api.get("/me");
-        setUser(response.data);
-      } catch {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadUser();
-  }, [token]);
-
   async function createCreditCard() {
-    if (!day) return;
-    const formatedDay = Number(day);
+    if (!day || sending) return;
+
+    setSending(true);
+    setError(false);
+    setMessage(false);
+
     try {
-      setSending(true);
-      await api.post("/card/create", { invoiceClosingDay: formatedDay });
-      setSending(false);
+      await api.post("/card/create", {
+        invoiceClosingDay: Number(day),
+      });
+
       setMessage(true);
-      setTimeout(() => navigation.navigate("Home"), 2500);
-    } catch (error) {
-      console.log(error);
-      setError(true);
+      await loadUser();
       setTimeout(() => {
-        setLoading(false);
+        setSending(false);
+        navigation.navigate("Home");
+      }, 2500);
+    } catch (err) {
+      setError(true);
+
+      setTimeout(() => {
+        setSending(false);
         navigation.navigate("Home");
       }, 2500);
     }
-  }
-  if (loading && !sending) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#0d1b2a" />
-      </View>
-    );
   }
 
   return (
@@ -163,10 +135,10 @@ export default function CreateCreditCard() {
 
       {sending && (
         <LoadingAction
-          loading={loading}
+          loading
           message={message}
-          actionMessage="Deu tudo certo! Seu cartão já está disponível"
           error={error}
+          actionMessage="Deu tudo certo! Seu cartão já está disponível"
         />
       )}
     </>

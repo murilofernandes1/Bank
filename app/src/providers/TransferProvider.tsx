@@ -51,7 +51,7 @@ export function TransferProvider({ children }: TransferProviderProps) {
       setAmount(null);
       setMethod(null);
 
-      loadUser();
+      await loadUser();
     } finally {
       setLoading(false);
     }
@@ -64,7 +64,7 @@ export function TransferProvider({ children }: TransferProviderProps) {
     try {
       setLoading(true);
       await api.put(`/card/invoice`, { amount: value });
-      loadUser();
+      await loadUser();
     } finally {
       setLoading(false);
     }

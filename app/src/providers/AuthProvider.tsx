@@ -81,6 +81,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
   useEffect(() => {
     async function init() {
+      setLoading(true);
       await checkStoredToken();
       await loadUser();
 

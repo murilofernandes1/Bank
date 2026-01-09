@@ -50,7 +50,7 @@ interface AuthContextProps {
   Login: (token: string) => void;
   confirmPin: () => void;
   Logout: () => void;
-  loadUser: () => void;
+  loadUser: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(

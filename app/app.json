@@ -6,31 +6,36 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+
     "icon": "./src/assets/logo/orbit-logo.png",
+
     "splash": {
       "image": "./src/assets/logo/orbit-logo_background.png",
       "resizeMode": "cover",
       "backgroundColor": "#B1C3D9"
     },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.murilo11.app",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
+
+    "androidStatusBar": {
+      "hidden": true
     },
+
     "android": {
+      "package": "com.murilo11.app",
+      "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/logo/orbit-logo_foreground.png",
         "backgroundImage": "./src/assets/logo/orbit-logo_background.png",
         "monochromeImage": "./src/assets/logo/orbit-logo_monochrome.png"
-      },
-      "edgeToEdgeEnabled": true,
-      "package": "com.murilo11.app"
+      }
     },
-    "plugins": [
-      "expo-font"
-    ],
+
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.murilo11.app"
+    },
+
+    "plugins": ["expo-font"],
+
     "extra": {
       "eas": {
         "projectId": "8c84ae92-7dd8-410f-9a57-086e75da1c2d"

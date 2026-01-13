@@ -30,7 +30,7 @@ A aplicação utiliza uma arquitetura **monorepo**, com separação clara de res
 - Controle de operações financeiras
 ---
 ## **Status do Projeto**
-Em estágio final de desenvolvimento, finalizando os ícones, documentação e hospedagem do backend.
+Corrigindo erros de build 
 ---
 ## **Objetivo do Projeto**
 Demonstrar domínio em desenvolvimento mobile com React Native, integração com backend, boas práticas de código, UX aplicada a sistemas financeiros e estruturação de aplicações escaláveis.

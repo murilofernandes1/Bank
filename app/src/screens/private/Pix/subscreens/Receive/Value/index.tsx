@@ -34,6 +34,7 @@ export default function ReceiveValue() {
           precision={2}
           style={styles.valueInput}
           placeholder="R$ 0,00"
+          placeholderTextColor={"#0f172a"}
           keyboardType="numeric"
         />
 

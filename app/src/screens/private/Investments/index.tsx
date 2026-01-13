@@ -7,6 +7,8 @@ import {
   Modal,
   Pressable,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useState, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -225,36 +227,40 @@ export default function Investments() {
           style={styles.modalOverlay}
           onPress={() => setCreateModalVisible(false)}
         />
-        <View style={styles.modalContainer}>
-          <View style={styles.modalHandle} />
-          <Text style={styles.modalTitle2}>Novo porquinho</Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHandle} />
+            <Text style={styles.modalTitle2}>Novo porquinho</Text>
 
-          <TextInput
-            value={goalName}
-            onChangeText={setGoalName}
-            placeholder="Nome do objetivo"
-            placeholderTextColor="#94a3b8"
-            style={styles.input}
-          />
+            <TextInput
+              value={goalName}
+              onChangeText={setGoalName}
+              placeholder="Nome do objetivo"
+              placeholderTextColor="#94a3b8"
+              style={styles.input}
+            />
 
-          <CurrencyInput
-            value={targetAmount}
-            onChangeValue={setTargetAmount}
-            prefix="R$ "
-            delimiter="."
-            separator=","
-            precision={2}
-            placeholder="Meta desejada"
-            placeholderTextColor="#94a3b8"
-            style={styles.input}
-          />
+            <CurrencyInput
+              value={targetAmount}
+              onChangeValue={setTargetAmount}
+              prefix="R$ "
+              delimiter="."
+              separator=","
+              precision={2}
+              placeholder="Meta desejada"
+              placeholderTextColor="#94a3b8"
+              style={styles.input}
+            />
 
-          <GlobalButton
-            title="Criar porquinho"
-            onPress={handleCreatePiggy}
-            disabled={!goalName || !targetAmount || targetAmount <= 0}
-          />
-        </View>
+            <GlobalButton
+              title="Criar porquinho"
+              onPress={handleCreatePiggy}
+              disabled={!goalName || !targetAmount || targetAmount <= 0}
+            />
+          </View>
+        </KeyboardAvoidingView>
       </Modal>
 
       <Modal visible={detailsModalVisible} transparent animationType="fade">
@@ -263,121 +269,125 @@ export default function Investments() {
           onPress={() => setDetailsModalVisible(false)}
         />
 
-        <View style={styles.modalContainer}>
-          <View style={styles.modalHandle} />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHandle} />
 
-          {selectedPiggy &&
-            (() => {
-              const percentage = Math.min(
-                (selectedPiggy.currentAmount / selectedPiggy.targetAmount) *
-                  100,
-                100
-              );
+            {selectedPiggy &&
+              (() => {
+                const percentage = Math.min(
+                  (selectedPiggy.currentAmount / selectedPiggy.targetAmount) *
+                    100,
+                  100
+                );
 
-              return (
-                <>
-                  <LinearGradient
-                    colors={["#0d1b2a", "#1b263b", "#415a77"]}
-                    style={styles.modalCircle}
-                  >
-                    <PiggyBankIcon size={38} color="#e5f0ff" />
-                  </LinearGradient>
+                return (
+                  <>
+                    <LinearGradient
+                      colors={["#0d1b2a", "#1b263b", "#415a77"]}
+                      style={styles.modalCircle}
+                    >
+                      <PiggyBankIcon size={38} color="#e5f0ff" />
+                    </LinearGradient>
 
-                  <Text style={styles.modalTitle}>
-                    {selectedPiggy.goalName}
-                  </Text>
+                    <Text style={styles.modalTitle}>
+                      {selectedPiggy.goalName}
+                    </Text>
 
-                  <Text style={styles.modalValueMain}>
-                    {selectedPiggy.currentAmount.toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
-                  </Text>
+                    <Text style={styles.modalValueMain}>
+                      {selectedPiggy.currentAmount.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </Text>
 
-                  <View style={styles.progressContainer}>
-                    <View style={styles.progressBackground}>
-                      <View
-                        style={[
-                          styles.progressFill,
-                          { width: `${percentage}%` },
-                        ]}
-                      />
+                    <View style={styles.progressContainer}>
+                      <View style={styles.progressBackground}>
+                        <View
+                          style={[
+                            styles.progressFill,
+                            { width: `${percentage}%` },
+                          ]}
+                        />
+                      </View>
+
+                      <Text style={styles.progressText}>
+                        {percentage.toFixed(0)}% da meta
+                      </Text>
                     </View>
 
-                    <Text style={styles.progressText}>
-                      {percentage.toFixed(0)}% da meta
-                    </Text>
-                  </View>
+                    <CurrencyInput
+                      value={targetAmount}
+                      onChangeValue={setTargetAmount}
+                      prefix="R$ "
+                      delimiter="."
+                      separator=","
+                      precision={2}
+                      placeholder="Quanto deseja guardar?"
+                      placeholderTextColor="#94a3b8"
+                      style={styles.input}
+                    />
 
-                  <CurrencyInput
-                    value={targetAmount}
-                    onChangeValue={setTargetAmount}
-                    prefix="R$ "
-                    delimiter="."
-                    separator=","
-                    precision={2}
-                    placeholder="Quanto deseja guardar?"
-                    placeholderTextColor="#94a3b8"
-                    style={styles.input}
-                  />
+                    <GlobalButton
+                      title={
+                        targetAmount > user.balance
+                          ? "Saldo insuficiente"
+                          : "Adicionar dinheiro"
+                      }
+                      disabled={
+                        !targetAmount ||
+                        targetAmount <= 0 ||
+                        targetAmount > user.balance
+                      }
+                      onPress={() => {
+                        setDetailsModalVisible(false);
+                        navigation.navigate("PiggyConfirm", {
+                          piggyId: selectedPiggy.id,
+                          amount: targetAmount,
+                          type: "DEPOSIT",
+                        });
+                      }}
+                    />
 
-                  <GlobalButton
-                    title={
-                      targetAmount > user.balance
-                        ? "Saldo insuficiente"
-                        : "Adicionar dinheiro"
-                    }
-                    disabled={
-                      !targetAmount ||
-                      targetAmount <= 0 ||
-                      targetAmount > user.balance
-                    }
-                    onPress={() => {
-                      setDetailsModalVisible(false);
-                      navigation.navigate("PiggyConfirm", {
-                        piggyId: selectedPiggy.id,
-                        amount: targetAmount,
-                        type: "DEPOSIT",
-                      });
-                    }}
-                  />
+                    <GlobalButton
+                      title={
+                        targetAmount <= 0
+                          ? "Resgatar dinheiro"
+                          : targetAmount > selectedPiggy.currentAmount
+                          ? "Saldo insuficiente no porquinho"
+                          : "Resgatar dinheiro"
+                      }
+                      disabled={
+                        !targetAmount ||
+                        targetAmount <= 0 ||
+                        targetAmount > selectedPiggy.currentAmount
+                      }
+                      onPress={() => {
+                        setDetailsModalVisible(false);
+                        navigation.navigate("PiggyConfirm", {
+                          piggyId: selectedPiggy.id,
+                          amount: targetAmount,
+                          type: "WITHDRAW",
+                        });
+                      }}
+                    />
 
-                  <GlobalButton
-                    title={
-                      targetAmount <= 0
-                        ? "Resgatar dinheiro"
-                        : targetAmount > selectedPiggy.currentAmount
-                        ? "Saldo insuficiente no porquinho"
-                        : "Resgatar dinheiro"
-                    }
-                    disabled={
-                      !targetAmount ||
-                      targetAmount <= 0 ||
-                      targetAmount > selectedPiggy.currentAmount
-                    }
-                    onPress={() => {
-                      setDetailsModalVisible(false);
-                      navigation.navigate("PiggyConfirm", {
-                        piggyId: selectedPiggy.id,
-                        amount: targetAmount,
-                        type: "WITHDRAW",
-                      });
-                    }}
-                  />
-
-                  <GlobalButton
-                    onPress={handleDeletePiggy}
-                    title={
-                      selectedPiggy.currentAmount > 0
-                        ? "Esvazie o porquinho antes de excluí-lo"
-                        : "Excluir porquinho"
-                    }
-                    disabled={selectedPiggy.currentAmount > 0}
-                  />
-                </>
-              );
-            })()}
-        </View>
+                    <GlobalButton
+                      onPress={handleDeletePiggy}
+                      title={
+                        selectedPiggy.currentAmount > 0
+                          ? "Esvazie o porquinho antes de excluí-lo"
+                          : "Excluir porquinho"
+                      }
+                      disabled={selectedPiggy.currentAmount > 0}
+                    />
+                  </>
+                );
+              })()}
+          </View>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );

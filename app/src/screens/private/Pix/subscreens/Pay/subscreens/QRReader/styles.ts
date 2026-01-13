@@ -42,9 +42,13 @@ export const styles = StyleSheet.create({
   },
   permissionContainer: {
     flex: 1,
-    justifyContent: "center",
-    padding: 24,
     backgroundColor: "#f0f7ff",
+  },
+  messageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24,
   },
   message: {
     textAlign: "center",
@@ -52,8 +56,5 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#0d1b2a",
     marginBottom: 24,
-  },
-  permissionButton: {
-    backgroundColor: "#e0f2ff",
   },
 });

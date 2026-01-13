@@ -4,6 +4,7 @@ import { Text, View, ActivityIndicator, Vibration } from "react-native";
 import { CornersOutIcon } from "phosphor-react-native";
 import BackButton from "components/BackButton";
 import GlobalButton from "components/GlobalButton";
+import AlternativeBackButton from "components/AlternativeBackButton";
 import { styles } from "./styles";
 import { useTransfer } from "hooks/useTransfer";
 import { useNavigation } from "@react-navigation/native";
@@ -29,7 +30,9 @@ export default function QRReader() {
 
     try {
       const parsedData: TransferDataProps = JSON.parse(data);
-      if (!parsedData.destinationId || !parsedData.amount) throw new Error();
+      if (!parsedData.destinationId || !parsedData.amount) {
+        throw new Error();
+      }
       setError(false);
       setDestinationId(parsedData.destinationId);
       setDestinationName(parsedData.name);
@@ -41,22 +44,28 @@ export default function QRReader() {
     }
   }
 
-  if (!permission) return <View />;
+  if (!permission) {
+    return <View style={styles.container} />;
+  }
+
   if (!permission.granted) {
     return (
       <View style={styles.permissionContainer}>
         <BackButton />
-        <Text style={styles.message}>
-          Precisamos do acesso à câmera para continuar.
-        </Text>
-        <GlobalButton title="Permitir acesso" onPress={requestPermission} />
+        <View style={styles.messageContainer}>
+          <Text style={styles.message}>
+            Precisamos do acesso à câmera para continuar.
+          </Text>
+          <GlobalButton title="Permitir acesso" onPress={requestPermission} />
+        </View>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <BackButton />
+      <AlternativeBackButton />
+
       <CameraView
         style={styles.camera}
         barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
@@ -64,6 +73,7 @@ export default function QRReader() {
           scanned ? undefined : ({ data }) => handleTransfer(data)
         }
       />
+
       <View style={styles.overlay} pointerEvents="none">
         <CornersOutIcon size={300} weight="thin" color="#e0f2ff" />
         <Text style={styles.helperText}>Aponte a câmera para o QR Code</Text>
@@ -73,6 +83,7 @@ export default function QRReader() {
           </Text>
         )}
       </View>
+
       {scanned && (
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#e0f2ff" />

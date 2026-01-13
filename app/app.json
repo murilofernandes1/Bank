@@ -12,7 +12,7 @@
     "splash": {
       "image": "./src/assets/logo/orbit-logo_background.png",
       "resizeMode": "cover",
-      "backgroundColor": "#B1C3D9"
+      "backgroundColor": "#0f172a"
     },
 
     "androidStatusBar": {
